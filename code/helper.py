@@ -272,13 +272,20 @@ def display_remaining_budget(message, bot):
 
 def display_remaining_overall_budget(message, bot):
     chat_id = message.chat.id
-    remaining_budget = calculateRemainingOverallBudget(chat_id)
+    budget, remaining_budget = calculateRemainingOverallBudget(chat_id)
     if remaining_budget >= 0:
-        msg = "\nRemaining Overall Budget is $" + str(remaining_budget)
+        msg = "The Overall Budget is ${}. \nRemaining Overall Budget is ${}".format(budget, remaining_budget)
     else:
         msg = (
-            "\nBudget Exceded!\nExpenditure exceeds the budget by $" + str(remaining_budget)[1:]
+            "The Overall Budget is ${}. \nBudget Exceded!\nExpenditure exceeds the budget by ${}".format(budget, str(remaining_budget)[1:])
         )
+    bot.send_message(chat_id, msg)
+
+    if remaining_budget/budget <= 0.1:
+        msg = "\nTotal spending has reached {:.2%} of the budget, exceeding the {}% limit. Please monitor your spending.".format(remaining_budget/budget, 90)
+    elif remaining_budget/budget <= 0.2:
+        msg = "\nTotal spending has reached {:.2%} of the budget, exceeding the {}% limit. Please monitor your spending.".format(remaining_budget/budget, 80)
+
     bot.send_message(chat_id, msg)
 
 def calculateRemainingOverallBudget(chat_id):
@@ -288,7 +295,7 @@ def calculateRemainingOverallBudget(chat_id):
     queryResult = [value for _, value in enumerate(history) if str(query) in value]
     if budget == None:
         return -calculate_total_spendings(queryResult)
-    return float(budget) - calculate_total_spendings(queryResult)
+    return float(budget), float(budget) - calculate_total_spendings(queryResult)
 
 def calculate_total_spendings(queryResult):
     total = 0

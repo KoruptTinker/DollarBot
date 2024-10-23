@@ -43,6 +43,7 @@ def run(message, bot):
     It takes 2 arguments for processing - message which is the message from the user,
     and bot which is the telegram bot object from the main code.py function.
     """
+    helper.display_remaining_budget(message, bot)
     helper.read_json()
     helper.read_category_json()
     chat_id = message.chat.id
