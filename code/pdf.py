@@ -73,7 +73,7 @@ def run(message, bot):
             )
             top -= 0.15
         plt.axis("off")
-        plt.savefig("expense_history.png")
+        #plt.savefig("expense_history.png")
         plt.close()
 
         if helper.isOverallBudgetAvailable(chat_id) and helper.isCategoryBudgetByCategoryNotZero(chat_id):
@@ -93,6 +93,7 @@ def run(message, bot):
                     category_spend[cat] = spend
             if category_spend != {}:
                 graphing.spend_wise_split(category_spend)
+                os.remove("spend_wise.png")
 
             if helper.isCategoryBudgetAvailable(chat_id):
                 category_spend_percent = {}
