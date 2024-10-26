@@ -50,6 +50,8 @@ import add_recurring
 from datetime import datetime
 from jproperties import Properties
 
+import insight
+
 
 configs = Properties()
 
@@ -296,6 +298,16 @@ def command_predict(message):
     analyze budget and spending trends and suggest a future budget. Commands to run this commands=["predict"]
     """
     predict.run(message, bot)
+
+# defines how the /insights command has to be handled/processed
+@bot.message_handler(commands=["insight"])
+def command_insight(message):
+    """
+    command_insight(message) Takes 1 argument message which contains the message from
+    the user along with the chat ID of the user chat. It then calls insight.py to run to execute
+    """
+    insight.run(message, bot)
+
 
 def main():
     """
