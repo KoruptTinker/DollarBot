@@ -18,28 +18,7 @@ spend_estimate_option = ["Next day", "Next month"]
 update_options = {"continue": "Continue", "exit": "Exit"}
 budget_options = {"update": "Add/Update", "view": "View", "delete": "Delete"}
 budget_types = {"overall": "Overall Budget", "category": "Category-Wise Budget"}
-# data_format = {"data": [], "budget": {"overall": None, "category": None}, "account": {"Checking": "True",  "Savings": "False"},}
-data_format = {
-    "account": {
-        "Checking": "True",
-        "Savings": "False"
-    },
-    "balance": {
-        "Checking": None,
-        "Savings": None
-    },
-    "data": [],
-    "balance_data": [],
-    "budget": {
-        "overall": None,
-        "category": None
-    },
-    "reminder": {
-        "type": None,
-        "time": None
-    }
-}
-account_categories = ["Checking", "Savings"]
+data_format = {"data": [], "budget": {"overall": None, "category": None}}
 
 analytics_options = {"overall": "Overall budget split", "spend": "Split of current spend", "remaining": "Remaining value", "history": "Time series graph of spend history"}
 
@@ -377,89 +356,23 @@ def getCurrencies():
         currencies = tf.read().split(',')
     return currencies
 
-# function to get balance in a particular category account.
-def get_account_balance(message, bot, cat):
-    if isBalanceAvailable(message.chat.id, cat):
-        return float(isBalanceAvailable(message.chat.id, cat))
-    else:
-        return 0
-
-# function to get the current active account for expenses.
-def get_account_type(message, bot):
-    data = getUserData(message.chat.id)
-    if 'account' not in data:
-        bot.send_message(message.chat.id, "Account not found, please initialize your account.")
-        return None
-
-    if data['account']['Checking'] == "True":
-        return 'Checking'
-    else:
-        return 'Savings'
-
-
-def set_account_type(message, account_type):
-    user_list = read_json()  # Load user data
-    chat_id = str(message.chat.id)
-    
-    if chat_id not in user_list:
-        user_list[chat_id] = createNewUserRecord()  # Initialize user if not found
-    
-    # Set the account type
-    user_list[chat_id]['account']['Checking'] = "True" if account_type == "Checking" else "False"
-    user_list[chat_id]['account']['Savings'] = "True" if account_type == "Savings" else "False"
-    
-    write_json(user_list)  # Save changes
 
 def migrate_users():
-    user_list = read_json()  # Load user data
+    user_list = read_json()  # Load existing user data
     
     for chat_id, user_data in user_list.items():
-        # Ensure 'account' key is present
-        if 'account' not in user_data:
-            user_data['account'] = {"Checking": "True", "Savings": "False"}
+        # Remove 'account', 'balance', 'balance_data', and 'reminder' keys if they exist
+        user_data.pop("account", None)
+        user_data.pop("balance", None)
+        user_data.pop("balance_data", None)
+        user_data.pop("reminder", None)
 
-        # Ensure 'balance' key is present
-        if 'balance' not in user_data:
-            user_data['balance'] = {"Checking": None, "Savings": None}
+        # Clean 'data' entries by removing records with "Checking Account" or "Saving Account"
+        if "data" in user_data:
+            user_data["data"] = [
+                record for record in user_data["data"]
+                if "Checking Account" not in record and "Saving Account" not in record
+            ]
 
-        # Ensure 'balance_data' key is present
-        if 'balance_data' not in user_data:
-            user_data['balance_data'] = []
+    write_json(user_list)  # Save the updated data
 
-        # Ensure 'budget' key has the updated structure
-        if 'budget' not in user_data or 'overall' not in user_data['budget'] or 'category' not in user_data['budget']:
-            user_data['budget'] = {"overall": None, "category": None}
-
-        # Ensure 'reminder' key is present
-        if 'reminder' not in user_data:
-            user_data['reminder'] = {"type": None, "time": None}
-
-    write_json(user_list)  # Save updated user data
-
-
-
-# function to check if there's balance in a particular account type
-def isBalanceAvailable(chat_id, cat):
-    data = getUserData(chat_id)
-    if data['balance'][cat] is None:
-        return False
-    else:
-        return data['balance'][cat]
-
-# function to get balance in a particular category account.
-def get_account_balance(message, bot, cat):
-    if isBalanceAvailable(message.chat.id, cat):
-        return float(isBalanceAvailable(message.chat.id, cat))
-    else:
-        return 0
-
-def getAccountCategories():
-    return account_categories 
-
-# function to display balance in a particular category account.
-def display_account_balance(message, bot, cat):
-    chat_id = message.chat.id
-    if get_account_balance(message, bot, cat) != 0:
-        print("Balance in {} account is: {}.".format(cat, float(get_account_balance(message, bot, cat))))
-    else:
-        print("This Account category has no existing balance")
