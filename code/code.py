@@ -19,6 +19,7 @@ from datetime import datetime
 from jproperties import Properties
 from telebot import types
 from helper import migrate_users
+from helper import migrate_data_entries
 import add_balance
 
 
@@ -260,7 +261,8 @@ def main():
     polling and actively listening for requests from telegram.
     """
     # Call this at the start of the script
-    migrate_users()
+    # migrate_users()
+    # migrate_data_entries()
     try:
         bot.polling(none_stop=True)
     except Exception as e:
