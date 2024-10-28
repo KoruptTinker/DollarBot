@@ -97,7 +97,6 @@ def test_run_no_history(mock_read_json, mock_get_history, mocker):
     message = mocker.MagicMock()
     message.chat.id = 12345
 
-    # Call the function
     new_monthly.run(message, bot)
 
     # Ensure send_message() was called with the correct message

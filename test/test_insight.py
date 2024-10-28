@@ -1,6 +1,6 @@
 import unittest
 from collections import defaultdict
-from code import insight  # Adjust import if needed
+from code import insight  
 
 # === Helper Functions for Test Data ===
 def prepare_monthly_spend():

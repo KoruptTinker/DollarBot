@@ -134,7 +134,7 @@ def test_viewBudget_no_data(mocker):
     category_budget = {"Food": 0.0, "Transport": 0.0}
     result = graphing.viewBudget(category_budget)
 
-    assert result is False  # No pie chart should be generated
+    assert result is False  
 
 
 @patch("code.graphing.plt")

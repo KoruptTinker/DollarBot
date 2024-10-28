@@ -1,7 +1,6 @@
-import unittest
-from unittest.mock import patch, MagicMock, mock_open
+from mock import patch, MagicMock, mock_open
 import pandas as pd
-from code import weekly  # Adjust the import based on your project structure
+from code import weekly  
 
 # === Dummy Data for Testing ===
 dummy_user_history = [
