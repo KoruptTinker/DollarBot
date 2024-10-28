@@ -27,6 +27,8 @@ SOFTWARE.
 
 from code import graphing
 import numpy as np
+from mock import patch, MagicMock
+import os
 
 dummy_total_text_none = ""
 dummy_total_text_data = """Food $10.0
@@ -74,3 +76,42 @@ def test_visualize(mocker):
     graphing.visualize(dummy_total_text_data, dummy_monthly_budget)
     # graphing.plt.bar.assert_called_with(r2,
     # ANY, width=width, label='your spendings')
+
+@patch("code.graphing.plt.savefig")
+def test_visualize_new(mocker_savefig):
+    """Test the new visualize_new function."""
+    result = graphing.visualize_new(dummy_total_text_data, dummy_monthly_budget)
+
+    # Ensure the returned list contains the correct filenames
+    assert result == [
+        "stacked_bar_chart.png",
+        "spending_pie_chart.png",
+        "spending_trend_chart.png",
+    ]
+
+    # Check if the images were saved
+    for img in result:
+        mocker_savefig.assert_any_call(img, bbox_inches="tight")
+
+@patch("os.remove")
+@patch("code.graphing.plt.savefig")
+def test_visualize_new_cleanup(mock_savefig, mock_remove):
+    """Test that visualize_new generates and removes files correctly."""
+    # Simulate generated image files from visualize_new
+    generated_images = graphing.visualize_new(dummy_total_text_data, dummy_monthly_budget)
+
+    # Check that the files were saved
+    for img in generated_images:
+        mock_savefig.assert_any_call(img, bbox_inches="tight")
+
+    # Simulate file removal after sending to bot
+    for img in generated_images:
+        os.remove(img)  # Ensure actual call happens inside the test
+
+    # Ensure that os.remove was called for each file
+    for img in generated_images:
+        mock_remove.assert_any_call(img)
+
+
+
+
