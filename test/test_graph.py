@@ -78,6 +78,12 @@ def test_visualize(mocker):
     # ANY, width=width, label='your spendings')
 
 @patch("code.graphing.plt.savefig")
+def test_visualize_success(mock_savefig):
+    """Test the original visualize function with valid data."""
+    graphing.visualize(dummy_total_text_data, dummy_monthly_budget)
+    mock_savefig.assert_called_once_with("expenditure.png", bbox_inches="tight")
+
+@patch("code.graphing.plt.savefig")
 def test_visualize_new(mocker_savefig):
     """Test the new visualize_new function."""
     result = graphing.visualize_new(dummy_total_text_data, dummy_monthly_budget)
@@ -112,6 +118,63 @@ def test_visualize_new_cleanup(mock_savefig, mock_remove):
     for img in generated_images:
         mock_remove.assert_any_call(img)
 
+def test_viewBudget_with_data(mocker):
+    """Test viewBudget function with valid data."""
+    mocker.patch.object(graphing, "plt")
+    category_budget = {"Food": 100.0, "Transport": 150.0}
+    result = graphing.viewBudget(category_budget)
+
+    assert result is True
+    graphing.plt.pie.assert_called_once()
+
+
+def test_viewBudget_no_data(mocker):
+    """Test viewBudget function with no budget data."""
+    mocker.patch.object(graphing, "plt")
+    category_budget = {"Food": 0.0, "Transport": 0.0}
+    result = graphing.viewBudget(category_budget)
+
+    assert result is False  # No pie chart should be generated
+
+
+@patch("code.graphing.plt")
+def test_time_series(mock_plt):
+    """Test the time_series function."""
+    cat_spend_dict = {"2024-10-01": 100.0, "2024-10-25": 150.0}
+    graphing.time_series(cat_spend_dict)
+    mock_plt.savefig.assert_called_once_with("time_series.png")
+
+
+def test_overall_split_empty():
+    """Test overall_split with empty data."""
+    try:
+        graphing.overall_split({})
+    except ValueError as e:
+        assert str(e) == "category_budget cannot be empty"
+
+
+def test_spend_wise_split_empty():
+    """Test spend_wise_split with empty data."""
+    try:
+        graphing.spend_wise_split({})
+    except ValueError as e:
+        assert str(e) == "category_spend cannot be empty"
+
+
+def test_remaining_empty_data():
+    """Test remaining function with empty data."""
+    try:
+        graphing.remaining({})
+    except ValueError as e:
+        assert str(e) == "category_spend_percent cannot be empty"
+
+
+def test_time_series_empty_data():
+    """Test time_series function with empty data."""
+    try:
+        graphing.time_series({})
+    except ValueError as e:
+        assert str(e) == "cat_spend_dict cannot be empty"
 
 
 
