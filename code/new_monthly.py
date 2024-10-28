@@ -97,6 +97,7 @@ def create_monthly_bar_chart(df, userid):
     fig = px.bar(grouped_data, x='Month', y='Cost', color='Year', barmode='group',
                  title='Monthly Expenses - Bar Chart')
     fig_name = f"data/{userid}_monthly_bar_chart.png"
+    print(f"Saving bar chart to: {fig_name}")
     pio.write_image(fig, fig_name)
     return fig_name
 
