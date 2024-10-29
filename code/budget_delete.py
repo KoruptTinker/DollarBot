@@ -45,5 +45,6 @@ def run(message, bot):
     if str(chat_id) in user_list:
         user_list[str(chat_id)]["budget"]["overall"] = str(0)
         user_list[str(chat_id)]["budget"]["category"] = {}
+        user_list[str(chat_id)]["budget"]["limit"] = str(0)
         helper.write_json(user_list)
     bot.send_message(chat_id, "Budget deleted!")
