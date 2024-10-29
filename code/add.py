@@ -132,7 +132,7 @@ def post_amount_input(message, bot, selected_category, selected_currency, date):
         helper.write_json(add_user_record(chat_id, f"{date_str},{category_str},{amount_str}"))
         bot.send_message(chat_id, f'The following expenditure has been recorded: You have spent ${amount_str} for {category_str} on {date_str}')
 
-        helper.display_remaining_budget(message, bot, selected_category)
+        helper.display_remaining_budget(message, bot)
     except Exception as e:
         logging.exception(str(e))
         bot.reply_to(message, 'Oh no. ' + str(e))
