@@ -1,6 +1,6 @@
 """
-File: budget_update.py
-Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+File: budget_limit.py
+Author: Xianting Lu, Xiang Lan, Xingyue Shi
 Date: October 01, 2023
 Description: File contains Telegram bot message handlers and their associated functions.
 
@@ -34,7 +34,7 @@ from telebot import types
 
 def run(message, bot):
     """
-    run(message, bot): This is the main function used to implement the budget add/update features.
+    run(message, bot): This is the main function used to implement the budget limit features.
     It takes 2 arguments for processing - message which is the message from the user, and bot which
     is the telegram bot object from the main code.py function.
     """
@@ -49,10 +49,10 @@ def run(message, bot):
 
 def post_limit_option_selection(message, bot):
     """
-    post_type_selection(message, bot): It takes 2 arguments for processing - message
+    post_limit_option_selection(message, bot): It takes 2 arguments for processing - message
     which is the message from the user, and bot which is the telegram bot object.
-    This function takes input from the user, making them choose which type of budget they
-    would like to create - category-wise or overall, and then calls the corresponding functions for further processing.
+    This function takes input from the user, making them choose which operation of budget limit they
+    would like to do - add/update, delete the budget limit or exit the operation, and then calls the corresponding functions for further processing.
     """
     try:
         chat_id = message.chat.id
@@ -76,10 +76,10 @@ def update_budget_limit(chat_id, bot):
     """
     update_budget_limit(message, bot): It takes 2 arguments for processing - message which is the
     message from the user, and bot which is the telegram bot object. This function is called when the
-    user wants to either create a new overall budget or update an existing one. It checks if there is an
-    existing budget through the helper module's isOverallBudgetAvailable function and if so, displays this
-    along with the prompt for the new (to be updated) budget, or just asks for the new budget. It passes control
-    to the post_overall_amount_input function in the same file.
+    user wants to either create a new budget limit alert or update an existing one. It checks if there is an
+    existing budget limit through the helper module's isBudgetLimitAvailable function and if so, displays this
+    along with the prompt for the new (to be updated) budget limit, or just asks for the new budget limit. It passes control
+    to the post_budget_limit_input function in the same file.
     """
     if helper.isBudgetLimitAvailable(chat_id):
         currentBudget = helper.getBudgetLimit(chat_id)
@@ -92,13 +92,10 @@ def update_budget_limit(chat_id, bot):
 
 def post_budget_limit_input(message, bot):
     """
-    post_overall_budget(message, bot): It takes 2 arguments for processing -
+    post_budget_limit_input(message, bot): It takes 2 arguments for processing -
     message which is the message from the user, and bot which is the telegram bot object.
-    This function is called when the user wants to either create a new overall budget or
-    update an existing one. It checks if there is an existing budget through the helper module's
-    isOverallBudgetAvailable function and if so, displays this along with the prompt for the new
-    (to be updated) budget, or just asks for the new budget. It passes control to the post_overall_amount_input
-    function in the same file.
+    This function is called when the user has entered the new budget limit alert value and write 
+    it into the json file.
     """
     try:
         chat_id = message.chat.id
