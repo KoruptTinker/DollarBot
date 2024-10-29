@@ -1,7 +1,7 @@
 """
-File: budget_update.py
-Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
-Date: October 01, 2023
+File: budget_limit.py
+Author: Xianting Lu, Xiang Lan, Xingyue Shi
+Date: October 24, 2024
 Description: File contains Telegram bot message handlers and their associated functions.
 
 Copyright (c) 2023
@@ -122,7 +122,6 @@ def post_overall_amount_input(message, bot):
         helper.write_json(user_list)
         bot.send_message(chat_id, "Budget Updated!")
         budget_view.display_overall_budget(message, bot)
-        print(user_list)
         return user_list
     except Exception as e:
         helper.throw_exception(e, message, bot, logging)

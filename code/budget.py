@@ -29,6 +29,7 @@ import helper
 import budget_view
 import budget_update
 import budget_delete
+import budget_limit
 import logging
 from telebot import types
 
@@ -72,5 +73,9 @@ def post_operation_selection(message, bot):
             budget_view.run(message, bot)
         elif op == options["delete"]:
             budget_delete.run(message, bot)
+        elif op == options["limit"]:
+            budget_limit.run(message, bot)
+        elif op == options["exit"]:
+            return
     except Exception as e:
         helper.throw_exception(e, message, bot, logging)
