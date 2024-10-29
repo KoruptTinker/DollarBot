@@ -38,7 +38,7 @@ update_options = {"continue": "Continue", "exit": "Exit"}
 budget_options = {"update": "Add/Update", "view": "View", "delete": "Delete", "limit": "Budget Limit", "exit": "Exit"}
 budget_types = {"overall": "Overall Budget", "category": "Category-Wise Budget"}
 budget_limit_options = {"updatelim": "Set/Update Limit", "dellim": "Delete Limit", "exit": "Exit"}
-data_format = {"data": [], "budget": {"overall": "0", "category": None}}
+data_format = {"data": [], "budget": {"overall": "0", "category": None, "limit": None}}
 analytics_options = {"overall": "Overall budget split by Category", "spend": "Split of current month expenditure", "remaining": "Remaining value", "history": "Time series graph of spend history"}
 
 # set of implemented commands and their description
@@ -287,24 +287,33 @@ def display_remaining_budget(message, bot):
 def display_remaining_overall_budget(message, bot):
     chat_id = message.chat.id
     budget, remaining_budget = calculateRemainingOverallBudget(chat_id)
-    budget_limit = float(getBudgetLimit(chat_id))
-    if remaining_budget > (1-budget_limit/100)*budget:
-        msg = "The Overall Budget is ${}. \nRemaining Overall Budget is ${}".format(budget, remaining_budget)
-    elif remaining_budget/budget <= 1-budget_limit/100 and budget_limit != 0:
-        msg = "\nTotal spending has reached {:.2%} of the budget, exceeding the {}% limit. Please monitor your spending.".format(1-remaining_budget/budget, budget_limit)
+    if budget == None or budget == 0:
+        msg = "No budget set. Please set a budget if it is needed."
     else:
-        msg = (
-            "The Overall Budget is ${}. \nBudget Exceded!\nExpenditure exceeds the budget by ${}".format(budget, str(remaining_budget)[1:])
-        )
+        budget_limit = getBudgetLimit(chat_id)
+        if budget_limit == None  or budget == "0":
+            msg = "No budget limit set. Please set a budget limit if it is needed."
+        else:
+            budget_limit = float(budget_limit)
+            if remaining_budget/budget > 1-budget_limit/100:
+                msg = "The Overall Budget is ${}. \nRemaining Overall Budget is ${}".format(budget, remaining_budget)
+            elif (remaining_budget/budget <= 1-budget_limit/100) and budget_limit != 0:
+                msg = "\nTotal spending has reached {:.2%} of the budget, exceeding the {}% limit. Please monitor your spending.".format(1-remaining_budget/budget, budget_limit)
+            else:
+                msg = (
+                    "The Overall Budget is ${}. \nBudget Exceded!\nExpenditure exceeds the budget by ${}".format(budget, str(remaining_budget)[1:])
+                )
     bot.send_message(chat_id, msg)
 
 def calculateRemainingOverallBudget(chat_id):
     budget = getOverallBudget(chat_id)
     history = getUserHistory(chat_id)
+    if history == None:
+        return None, None
     query = datetime.now().today().strftime(getMonthFormat())
     queryResult = [value for _, value in enumerate(history) if str(query) in value]
     if budget == None:
-        return -calculate_total_spendings(queryResult)
+        return None, -calculate_total_spendings(queryResult)
     return float(budget), float(budget) - calculate_total_spendings(queryResult)
 
 def calculate_total_spendings(queryResult):
