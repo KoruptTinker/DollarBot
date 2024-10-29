@@ -1,31 +1,3 @@
-"""
-File: code.py
-Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
-Date: October 01, 2023
-Description: File contains Telegram bot message handlers and their associated functions.
-
-Copyright (c) 2023
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS," WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
-
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import logging
@@ -39,16 +11,16 @@ import display
 import estimate
 import delete
 import add
+import add_currencies
 import budget
 import analytics
 import predict
-import updateCategory
-import weekly
-import monthly
-import sendEmail
-import add_recurring
 from datetime import datetime
 from jproperties import Properties
+from telebot import types
+from helper import migrate_users
+from helper import migrate_data_entries
+import add_balance
 
 
 configs = Properties()
@@ -63,7 +35,6 @@ bot = telebot.TeleBot(api_token)
 telebot.logger.setLevel(logging.INFO)
 
 option = {}
-user_list = {}
 
 # === Documentation of code.py ===
 
@@ -92,6 +63,7 @@ def listener(user_requests):
 
     try:
         helper.read_json()
+        global user_list
         chat_id = user_requests[0].chat.id
 
         if user_requests[0].text[0] != "/":
@@ -102,9 +74,10 @@ def listener(user_requests):
 bot.set_update_listener(listener)
 
 @bot.message_handler(commands=["help"])
-def show_help(m):
+def help(m):
 
     helper.read_json()
+    global user_list
     chat_id = m.chat.id
 
     message = "Here are the commands you can use: \n"
@@ -118,6 +91,7 @@ def show_help(m):
 def faq(m):
 
     helper.read_json()
+    global user_list
     chat_id = m.chat.id
 
     faq_message = (
@@ -143,6 +117,7 @@ def start_and_menu_command(m):
     Commands used to run this: commands=['start', 'menu']
     """
     helper.read_json()
+    global user_list
     chat_id = m.chat.id
 
     text_intro = (
@@ -169,30 +144,17 @@ def command_add(message):
     """
     add.run(message, bot)
 
-# defines how the /weekly command has to be handled/processed
-@bot.message_handler(commands=["weekly"])
-def command_weekly(message):
-    """
-    command_weekly(message) Takes 1 argument message which contains the message from
-    the user along with the chat ID of the user chat. It then calls weekly.py to run to execute
-    the weekly analysis functionality. Commands used to run this: commands=['weekly']
-    """
-    weekly.run(message, bot)
+# defines how the /add command has to be handled/processed
+@bot.message_handler(commands=["add_currencies"])
+def command_add_currencies(message):
 
-# defines how the /monthly command has to be handled/processed
-@bot.message_handler(commands=["monthly"])
-def command_monthly(message):
-    """
-    command_monthly(message) Takes 1 argument message which contains the message from
-    the user along with the chat ID of the user chat. It then calls monthly.py to run to execute
-    the monthly analysis functionality. Commands used to run this: commands=['monthly']
-    """
-    monthly.run(message, bot)
+    add_currencies.run(message, bot)
 
-#handles add_recurring command
-@bot.message_handler(commands=['add_recurring'])
-def command_add_recurring(message):
-    add_recurring.run(message, bot)
+# defines how the /add command has to be handled/processed
+@bot.message_handler(commands=["add_balance"])
+def command_add_balance(message):
+
+    add_balance.run(message, bot)
 
 # handles pdf command
 @bot.message_handler(commands=["pdf"])
@@ -204,16 +166,6 @@ def command_pdf(message):
     """
     pdf.run(message, bot)
 
-#handles updateCategory command
-@bot.message_handler(commands=["updateCategory"])
-def command_updateCategory(message):
-    """
-    command_updateCategory(message): Takes 1 argument message which contains the message from
-    the user along with the chat ID of the user chat. It then calls updateCategory.py to run to execute
-    the updateCategory functionality. Commands used to run this: commands=['updateCategory']
-    """
-    updateCategory.run(message, bot)
-
 # function to fetch expenditure history of the user
 @bot.message_handler(commands=["history"])
 def command_history(message):
@@ -223,16 +175,6 @@ def command_history(message):
     the add functionality. Commands used to run this: commands=['history']
     """
     history.run(message, bot)
-
-# function to fetch expenditure history of the user
-@bot.message_handler(commands=["sendEmail"])
-def command_sendEmail(message):
-    """
-    command_history(message): Takes 1 argument message which contains the message from
-    the user along with the chat ID of the user chat. It then calls sendEmail.py to run to execute
-    the sending an email of the expense history. Commands used to run this: commands=['sendEmail']
-    """
-    sendEmail.run(message, bot)
 
 # function to edit date, category or cost of a transaction
 @bot.message_handler(commands=["edit"])
@@ -257,11 +199,6 @@ def command_display(message):
 # function to estimate future expenditure
 @bot.message_handler(commands=["estimate"])
 def command_estimate(message):
-    """
-    command_estimate(message): Takes 1 argument message which contains the message from the user
-    along with the chat ID of the user chat. It then calls delete.py to run to execute the add functionality.
-    Commands used to run this: commands=['estimate']
-    """
     estimate.run(message, bot)
 
 # handles "/delete" command
@@ -297,11 +234,35 @@ def command_predict(message):
     """
     predict.run(message, bot)
 
+@bot.message_handler(commands=['set_account'])
+def handle_set_account(message):
+    markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
+    markup.row_width = 2
+    markup.add('Checking', 'Savings')
+    msg = bot.reply_to(message, "Choose your account type:", reply_markup=markup)
+    bot.register_next_step_handler(msg, process_account_choice)
+
+def process_account_choice(message):
+    account_type = message.text
+    helper.set_account_type(message, account_type)  # Call the helper function
+    bot.send_message(message.chat.id, f"Account type set to {account_type}")
+
+
+def addUserHistory(chat_id, user_record):
+    global user_list
+    if not (str(chat_id) in user_list):
+        user_list[str(chat_id)] = []
+    user_list[str(chat_id)].append(user_record)
+    return user_list
+
 def main():
     """
     main() The entire bot's execution begins here. It ensure the bot variable begins
     polling and actively listening for requests from telegram.
     """
+    # Call this at the start of the script
+    # migrate_users()
+    # migrate_data_entries()
     try:
         bot.polling(none_stop=True)
     except Exception as e:
