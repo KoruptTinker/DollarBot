@@ -35,6 +35,10 @@ matplotlib.use("Agg")
 
 def viewBudget(data):
 
+    def func(pct, allvals):
+        absolute = int(round(pct / 100. * sum(allvals)))  # Calculate the actual value
+        return f'${absolute} ({pct:.1f}%)'
+
     sorted_data = {k: v for k, v in sorted(data.items(), key=lambda item: item[1])}
     values = [float(v) for v in sorted_data.values()]  # Convert values to float
     labels = list(sorted_data.keys())
@@ -45,11 +49,12 @@ def viewBudget(data):
         if int(value) != 0:
             check = True
             break
-    
+    print(values)
     if check:
-        plt.pie(values, labels=labels, counterclock=False, shadow=True)
+        plt.pie(values, labels=labels, counterclock=False, shadow=True, 
+                autopct=lambda pct: func(pct, values))
         plt.title("Category Wise Budget")
-        plt.legend(labels, loc="center")
+        plt.legend(labels, loc="best", bbox_to_anchor=(1, 0.5))
         plt.savefig("budget.png", bbox_inches="tight")
         plt.close()
         return True
