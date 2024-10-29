@@ -32,6 +32,7 @@ import graphing
 import logging
 from telebot import types
 from datetime import datetime
+import os
 
 # === Documentation of display.py ===
 
@@ -117,8 +118,12 @@ def display_total(message, bot):
             spend_total_str="<pre>"+ tabulate(table, headers='firstrow')+"</pre>"
             bot.send_message(chat_id, spending_text)
             bot.send_message(chat_id, spend_total_str, parse_mode="HTML")
-            graphing.visualize(total_text, monthly_budget)
-            bot.send_photo(chat_id, photo=open("expenditure.png", "rb"))
+            photo_paths = graphing.visualize_new(total_text, monthly_budget)
+            #bot.send_photo(chat_id, photo=open("expenditure.png", "rb"))
+            for photo_path in photo_paths:
+                with open(photo_path, "rb") as photo:
+                    bot.send_photo(chat_id, photo)
+                os.remove(photo_path)
     except Exception as e:
         logging.exception(str(e))
         bot.reply_to(message, str(e))

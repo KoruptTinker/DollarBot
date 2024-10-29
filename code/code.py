@@ -15,12 +15,19 @@ import add_currencies
 import budget
 import analytics
 import predict
+import updateCategory
+import weekly,new_weekly
+import monthly, new_monthly
+import sendEmail
+import add_recurring
 from datetime import datetime
 from jproperties import Properties
 from telebot import types
 from helper import migrate_users
 from helper import migrate_data_entries
 import add_balance
+
+import insight
 
 
 configs = Properties()
@@ -144,6 +151,26 @@ def command_add(message):
     """
     add.run(message, bot)
 
+# defines how the /weekly command has to be handled/processed
+@bot.message_handler(commands=["weekly"])
+def command_weekly(message):
+    """
+    command_weekly(message) Takes 1 argument message which contains the message from
+    the user along with the chat ID of the user chat. It then calls weekly.py to run to execute
+    the weekly analysis functionality. Commands used to run this: commands=['weekly']
+    """
+    new_weekly.run(message, bot)
+
+# defines how the /monthly command has to be handled/processed
+@bot.message_handler(commands=["monthly"])
+def command_monthly(message):
+    """
+    command_monthly(message) Takes 1 argument message which contains the message from
+    the user along with the chat ID of the user chat. It then calls monthly.py to run to execute
+    the monthly analysis functionality. Commands used to run this: commands=['monthly']
+    """
+    new_monthly.run(message, bot)
+
 # defines how the /add command has to be handled/processed
 @bot.message_handler(commands=["add_currencies"])
 def command_add_currencies(message):
@@ -233,6 +260,15 @@ def command_predict(message):
     analyze budget and spending trends and suggest a future budget. Commands to run this commands=["predict"]
     """
     predict.run(message, bot)
+
+# defines how the /insights command has to be handled/processed
+@bot.message_handler(commands=["insight"])
+def command_insight(message):
+    """
+    command_insight(message) Takes 1 argument message which contains the message from
+    the user along with the chat ID of the user chat. It then calls insight.py to run to execute
+    """
+    insight.run(message, bot)
 
 @bot.message_handler(commands=['set_account'])
 def handle_set_account(message):

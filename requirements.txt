@@ -10,3 +10,5 @@ pytest
 python-telegram-bot-calendar
 mock
 tabulate
+plotly
+kaleido

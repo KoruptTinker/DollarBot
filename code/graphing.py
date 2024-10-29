@@ -193,3 +193,64 @@ def time_series(cat_spend_dict):
     img_name = "time_series.png"
     plt.savefig(img_name)
     plt.close()
+
+
+def visualize_new(total_text, monthly_budget):
+    """
+    Visualize spending and budget comparison with enhanced Matplotlib graphs.
+    Saves the graphs as PNG files.
+    """
+    # Prepare data
+    categ_val = {line.split(" ")[0]: float(line.split(" ")[1].replace("$", ""))
+                 for line in total_text.split("\n") if line.strip()}
+    
+    monthly_budget_categ_val = {key: float(value) for key, value in monthly_budget.items()}
+
+    # Plot 1: Stacked Bar Chart (Budget vs. Spending)
+    plt.figure(figsize=(12, 6))
+    categories = list(monthly_budget_categ_val.keys())
+    spend_values = [categ_val.get(cat, 0) for cat in categories]
+    budget_values = list(monthly_budget_categ_val.values())
+
+    bar_width = 0.4
+    r = np.arange(len(categories))
+
+    plt.bar(r, budget_values, color='lightgray', width=bar_width, label='Budget')
+    plt.bar(r, spend_values, color='cornflowerblue', width=bar_width, label='Spending')
+
+    plt.xticks(r, categories, rotation=45)
+    plt.xlabel("Categories")
+    plt.ylabel("Amount ($)")
+    plt.legend()
+    plt.title("Spending vs. Budget (Stacked Bar Chart)")
+    plt.tight_layout()
+    plt.savefig("stacked_bar_chart.png", bbox_inches="tight")
+    plt.close()
+
+    # Plot 2: Pie Chart (Spending by Category)
+    plt.figure(figsize=(8, 8))
+    labels = list(categ_val.keys())
+    sizes = list(categ_val.values())
+
+    plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=140, colors=plt.cm.Paired.colors)
+    plt.title("Spending by Category (Pie Chart)")
+    plt.tight_layout()
+    plt.savefig("spending_pie_chart.png", bbox_inches="tight")
+    plt.close()
+
+    # Plot 3: Line Chart (Spending Trend)
+    plt.figure(figsize=(10, 5))
+    categories = list(categ_val.keys())
+    amounts = list(categ_val.values())
+
+    plt.plot(categories, amounts, marker='o', linestyle='-', color='green', label='Spending Trend')
+    plt.xticks(rotation=45)
+    plt.xlabel("Categories")
+    plt.ylabel("Amount ($)")
+    plt.title("Spending Trend by Category")
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig("spending_trend_chart.png", bbox_inches="tight")
+    plt.close()
+
+    return ["stacked_bar_chart.png", "spending_pie_chart.png", "spending_trend_chart.png"]
