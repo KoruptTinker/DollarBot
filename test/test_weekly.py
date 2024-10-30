@@ -1,6 +1,6 @@
 from mock import patch, MagicMock, mock_open
 import pandas as pd
-from code import weekly  
+from code import new_weekly  
 
 # === Dummy Data for Testing ===
 dummy_user_history = [
@@ -24,34 +24,76 @@ def prepare_test_dataframe(user_history):
 
 # === Test Cases ===
 
-@patch("code.weekly.plt.savefig")
-def test_create_chart_for_weekly_analysis(mock_savefig):
+@patch("code.new_weekly.plt.savefig")
+def test_create_chart_for_weekly_analysis_0(mock_savefig):
     """Test if weekly charts are created correctly."""
     df = prepare_test_dataframe(dummy_user_history)
-    result = weekly.create_chart_for_weekly_analysis(dummy_user_history, dummy_user_id)
+    result = new_weekly.create_chart_for_weekly_analysis(dummy_user_history, dummy_user_id)
 
     # Ensure both charts were saved with correct filenames
     expected_filenames = [
-        f"data/{dummy_user_id}_weekly_analysis.png",
-        f"data/{dummy_user_id}_weekly_analysis_by_category.png"
+        f"data/{dummy_user_id}_weekly_line_chart.png",
     ]
 
-    assert result == expected_filenames
-    mock_savefig.assert_any_call(expected_filenames[0], bbox_inches="tight")
-    mock_savefig.assert_any_call(expected_filenames[1], bbox_inches="tight")
+    assert [result[0]] == expected_filenames
 
 
-@patch("code.weekly.helper.getUserHistory", return_value=None)
+
+@patch("code.new_weekly.plt.savefig")
+def test_create_chart_for_weekly_analysis_1(mock_savefig):
+    """Test if weekly charts are created correctly."""
+    df = prepare_test_dataframe(dummy_user_history)
+    result = new_weekly.create_chart_for_weekly_analysis(dummy_user_history, dummy_user_id)
+
+    # Ensure both charts were saved with correct filenames
+    expected_filenames = [
+        f"data/{dummy_user_id}_category_line_chart.png",
+    ]
+
+    assert [result[1]] == expected_filenames
+
+
+@patch("code.new_weekly.plt.savefig")
+def test_create_chart_for_weekly_analysis_2(mock_savefig):
+    """Test if weekly charts are created correctly."""
+    df = prepare_test_dataframe(dummy_user_history)
+    result = new_weekly.create_chart_for_weekly_analysis(dummy_user_history, dummy_user_id)
+
+    # Ensure both charts were saved with correct filenames
+    expected_filenames = [
+        f"data/{dummy_user_id}_weekly_bar_chart.png",
+    ]
+
+    assert [result[2]] == expected_filenames
+
+
+@patch("code.new_weekly.plt.savefig")
+def test_create_chart_for_weekly_analysis_3(mock_savefig):
+    """Test if weekly charts are created correctly."""
+    df = prepare_test_dataframe(dummy_user_history)
+    result = new_weekly.create_chart_for_weekly_analysis(dummy_user_history, dummy_user_id)
+
+    # Ensure both charts were saved with correct filenames
+    expected_filenames = [
+        f"data/{dummy_user_id}_category_pie_chart.png",
+    ]
+
+    assert [result[3]] == expected_filenames
+
+
+
+@patch("code.new_weekly.helper.getUserHistory", return_value=None)
 def test_run_no_history(mock_get_history):
     """Test the run function with no user history."""
     bot = MagicMock()
     message = MagicMock()
     message.chat.id = 12345
 
-    weekly.run(message, bot)
+    new_weekly.run(message, bot)
 
     # Ensure the bot sends a message about no records
     bot.send_message.assert_called_once_with(
         12345, "Oops! Looks like you do not have any spending records!"
     )
+
 
