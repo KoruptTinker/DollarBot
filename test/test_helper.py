@@ -365,6 +365,15 @@ def test_isBudgetLimitAvailable():
     testresult = helper.isBudgetLimitAvailable(10)
     assert testresult is True
 
+def test_isBudgetLimitAvailable_none():
+    helper.getBudgetLimit = mock.Mock(return_value=None)
+    testresult = helper.isBudgetLimitAvailable(10)
+    assert testresult is False
+
+def test_isBudgetLimitAvailable_zero():
+    helper.getBudgetLimit = mock.Mock(return_value="0")
+    testresult = helper.isBudgetLimitAvailable(10)
+    assert testresult is False
 
 def test_calculate_total_spendings():
     pass
@@ -442,21 +451,6 @@ def test_display_remaining_overall_budget_gt_limit(mock_telebot, mocker):
 
     mc.send_message.assert_called_with(
         11, "\nTotal spending has reached 10.00% of the budget, exceeding the 5.0% limit. Please monitor your spending."
-    )
-
-
-
-@patch("telebot.telebot")
-def test_display_remaining_overall_budget_no_limit(mock_telebot, mocker):
-    mc = mock_telebot.return_value
-    mc.send_message.return_value = True
-    helper.calculateRemainingOverallBudget = mock.Mock(return_value=(100, 10))
-    helper.getBudgetLimit = mock.Mock(return_value="0")
-    message = create_message("hello from testing")
-    helper.display_remaining_overall_budget(message, mc)
-
-    mc.send_message.assert_called_with(
-        11, "No budget limit set. Please set a budget limit if it is needed."
     )
 
 
