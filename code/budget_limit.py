@@ -30,7 +30,7 @@ import logging
 import budget_view
 from telebot import types
 
-# === Documentation of budget_update.py ===
+# === Documentation of budget_limit.py ===
 
 def run(message, bot):
     """
@@ -38,7 +38,7 @@ def run(message, bot):
     It takes 2 arguments for processing - message which is the message from the user, and bot which
     is the telegram bot object from the main code.py function.
     """
-    helper.read_category_json()
+    helper.read_json()
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
     options = helper.getBudgetLimitOptions()
     markup.row_width = 2
@@ -66,7 +66,7 @@ def post_limit_option_selection(message, bot):
         if op == options["updatelim"]:
             update_budget_limit(chat_id, bot)
         elif op == options["dellim"]:
-            delete_budget_limit(chat_id, bot)
+            delete_budget_limit(message, bot)
         elif op == options["exit"]:
             return
     except Exception as e:
@@ -113,12 +113,15 @@ def post_budget_limit_input(message, bot):
     except Exception as e:
         helper.throw_exception(e, message, bot, logging)
 
-def delete_budget_limit(chat_id, bot):
+def delete_budget_limit(message, bot):
+    chat_id = message.chat.id
     user_list = helper.read_json()
-    print(user_list)
+    print("user_list", user_list)
     if str(chat_id) in user_list:
         user_list[str(chat_id)]["budget"]["limit"] = str(0)
         helper.write_json(user_list)
-    bot.send_message(chat_id, "Budget Limit deleted!")
-    return
+        msg = "Budget Limit deleted!"
+    else:
+        msg = "Chat ID not found in user list!"
+    bot.send_message(chat_id, msg)
 

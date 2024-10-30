@@ -67,6 +67,8 @@ def test_post_operation_selection_update_case(mock_telebot, mocker):
         "update": "Add/Update",
         "view": "View",
         "delete": "Delete",
+        "limit": "Budget Limit",
+        "exit": "Exit",
     }
 
     message = create_message("Add/Update")
@@ -87,6 +89,8 @@ def test_post_operation_selection_view_case(mock_telebot, mocker):
         "update": "Add/Update",
         "view": "View",
         "delete": "Delete",
+        "limit": "Budget Limit",
+        "exit": "Exit",
     }
 
     message = create_message("View")
@@ -107,11 +111,63 @@ def test_post_operation_selection_delete_case(mock_telebot, mocker):
         "update": "Add/Update",
         "view": "View",
         "delete": "Delete",
+        "limit": "Budget Limit",
+        "exit": "Exit",
     }
 
     message = create_message("Delete")
     budget.post_operation_selection(message, mc)
     assert budget.budget_delete.run.called
+
+
+@patch("telebot.telebot")
+def test_post_operation_selection_limit_case(mock_telebot, mocker):
+    mc = mock_telebot.return_value
+    mc.send_message.return_value = True
+
+    mocker.patch.object(budget, "budget_limit")
+    budget.budget_delete.run.return_value = True
+
+    mocker.patch.object(budget, "helper")
+    budget.helper.getBudgetOptions.return_value = {
+        "update": "Add/Update",
+        "view": "View",
+        "delete": "Delete",
+        "limit": "Budget Limit",
+        "exit": "Exit",
+    }
+
+    message = create_message("Budget Limit")
+    budget.post_operation_selection(message, mc)
+    assert budget.budget_limit.run.called
+
+
+@patch("telebot.telebot")
+def test_post_operation_selection_exit_case(mock_telebot, mocker):
+    mc = mock_telebot.return_value
+    mc.send_message.return_value = True
+
+    mocker.patch.object(budget, "budget_update")
+    mocker.patch.object(budget, "budget_view")
+    mocker.patch.object(budget, "budget_delete")
+    mocker.patch.object(budget, "budget_limit")
+    budget.budget_delete.run.return_value = True
+
+    mocker.patch.object(budget, "helper")
+    budget.helper.getBudgetOptions.return_value = {
+        "update": "Add/Update",
+        "view": "View",
+        "delete": "Delete",
+        "limit": "Budget Limit",
+        "exit": "Exit",
+    }
+
+    message = create_message("Exit")
+    budget.post_operation_selection(message, mc)
+    assert not budget.budget_update.run.called
+    assert not budget.budget_view.run.called
+    assert not budget.budget_delete.run.called
+    assert not budget.budget_limit.run.called
 
 
 def create_message(text):

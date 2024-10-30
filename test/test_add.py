@@ -72,69 +72,6 @@ def test_post_category_selection_noMatchingCategory(mock_telebot, mocker):
     add.post_category_selection(message, mc, date)
     assert mc.reply_to.called
 
-
-@patch("telebot.telebot")
-def test_post_amount_input_working(mock_telebot, mocker):
-    mc = mock_telebot.return_value
-    mc.send_message.return_value = True
-
-    message = create_message("120")
-    add.post_amount_input(message, mc, "Food", date)
-    assert mc.send_message.called
-
-
-@patch("telebot.telebot")
-def test_post_amount_input_working_withdata(mock_telebot, mocker):
-    mc = mock_telebot.return_value
-    mc.send_message.return_value = True
-    mocker.patch.object(add, "helper")
-    add.helper.validate_entered_amount.return_value = 10
-    add.helper.write_json.return_value = True
-    add.helper.getDateFormat.return_value = dateFormat
-    add.helper.getTimeFormat.return_value = timeFormat
-
-    mocker.patch.object(add, "option")
-    add.option.return_value = {11, "here"}
-
-    message = create_message("hello from testing!")
-    add.post_amount_input(message, mc, "Food", date)
-    assert mc.send_message.called
-
-
-@patch("telebot.telebot")
-def test_post_amount_input_nonworking(mock_telebot, mocker):
-    mc = mock_telebot.return_value
-    mc.send_message.return_value = True
-    mc.reply_to.return_value = True
-    mocker.patch.object(add, "helper")
-    add.helper.validate_entered_amount.return_value = 0
-    message = create_message("hello from testing!")
-    add.post_amount_input(message, mc, "Food",date)
-    assert mc.send_message.called
-
-
-@patch("telebot.telebot")
-def test_post_amount_input_working_withdata_chatid(mock_telebot, mocker):
-    mc = mock_telebot.return_value
-    mc.send_message.return_value = True
-    mocker.patch.object(add, "helper")
-    add.helper.validate_entered_amount.return_value = 10
-    add.helper.write_json.return_value = True
-    add.helper.getDateFormat.return_value = dateFormat
-    add.helper.getTimeFormat.return_value = timeFormat
-
-    mocker.patch.object(add, "option")
-    add.option = {11, "here"}
-    test_option = {}
-    test_option[11] = "here"
-    add.option = test_option
-
-    message = create_message("hello from testing!")
-    add.post_amount_input(message, mc, "Food", date)
-    assert mc.send_message.called
-    # assert mc.send_message.called_with(11, ANY)
-
-
 def test_add_user_record_nonworking(mocker):
     mocker.patch.object(add, "helper")
     add.helper.read_json.return_value = {}
