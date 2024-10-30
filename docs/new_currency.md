@@ -29,3 +29,4 @@ Updates the user’s account balance after recording an expense.
 Adds a new expense record to the user's data.
 
 # How to run this feature?
+Once the project is running(please follow the instructions given in the main README.md for this), please type /add into the telegram bot, after you select the date, you will be asked to select the currency you want to add, select the currency, it will automatically transfered to US dollars.
