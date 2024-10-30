@@ -1,4 +1,4 @@
-# About MyDollarBot's new Spending Insights Feature
+# About DollarBot's new Spending Insights Feature
 The Spending Insights feature provides users with personalized insights and trends based on their transaction history. It helps users better understand their spending patterns through comparisons, averages, and breakdowns by time and category. 
 
 # Location of Code for this Feature
