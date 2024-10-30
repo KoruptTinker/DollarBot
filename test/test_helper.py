@@ -426,7 +426,7 @@ def test_display_remaining_overall_budget_cost_lt_limit(mock_telebot, mocker):
     helper.display_remaining_overall_budget(message, mc)
 
     mc.send_message.assert_called_with(
-        11, "The Overall Budget is $100. \nRemaining Overall Budget is $90"
+        11, "The Overall Monthly Budget is $100.00. \nRemaining Overall Monthly Budget is $90.00"
     )
 
 
@@ -440,7 +440,7 @@ def test_display_remaining_overall_budget_cost_eq_limit(mock_telebot, mocker):
     helper.display_remaining_overall_budget(message, mc)
 
     mc.send_message.assert_called_with(
-        11, "\nTotal spending has reached 10.00% of the budget, exceeding the 10.0% limit. Please monitor your spending."
+        11, "The Overall Monthly Budget is $100.00. \nTotal spending has reached 10.00% of the budget, exceeding the 10.00% limit. Please monitor your spending."
     )
 
 
@@ -454,13 +454,13 @@ def test_display_remaining_overall_budget_gt_limit(mock_telebot, mocker):
     helper.display_remaining_overall_budget(message, mc)
 
     mc.send_message.assert_called_with(
-        11, "\nTotal spending has reached 10.00% of the budget, exceeding the 5.0% limit. Please monitor your spending."
+        11, "The Overall Monthly Budget is $100.00. \nTotal spending has reached 10.00% of the budget, exceeding the 5.00% limit. Please monitor your spending."
     )
 
 
 def test_getBudgetTypes():
     testresult = helper.getBudgetTypes()
-    localBudgetTypes = {"overall": "Overall Budget", "category": "Category-Wise Budget"}
+    localBudgetTypes = {"overall": "Overall Budget", "category": "Category-Wise Budget", "exit": "Exit"}
     assert sorted(testresult) == sorted(localBudgetTypes)
 
 
