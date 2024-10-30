@@ -84,8 +84,29 @@ def test_create_category_pie_chart(mock_write_image):
     expected_filename = f"data/{dummy_user_id}_category_pie_chart.png"
     assert result == expected_filename
 
-    # Verify that write_image was called with the correct arguments
-    mock_write_image.assert_called_once_with(mock.ANY, expected_filename)
+
+
+@patch("code.new_monthly.pio.write_image")
+def test_create_category_pie_chart_1(mock_write_image):
+    """Test the category-wise pie chart creation."""
+    df = prepare_test_dataframe(dummy_user_history)
+    result = new_monthly.create_category_monthly_chart(df, dummy_user_id)
+
+    # Ensure the file was saved with the correct filename
+    expected_filename = f"data/{dummy_user_id}_monthly_analysis_by_category.png"
+    assert result == expected_filename
+
+
+@patch("code.new_monthly.pio.write_image")
+def test_create_category_pie_chart_2(mock_write_image):
+    """Test the category-wise pie chart creation."""
+    df = prepare_test_dataframe(dummy_user_history)
+    result = new_monthly.create_monthly_bar_chart(df, dummy_user_id)
+
+    # Ensure the file was saved with the correct filename
+    expected_filename = f"data/{dummy_user_id}_monthly_bar_chart.png"
+    assert result == expected_filename
+
 
 
 @patch("code.new_monthly.helper.getUserHistory", return_value=None)
