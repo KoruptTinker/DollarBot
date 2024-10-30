@@ -291,7 +291,7 @@ def display_remaining_overall_budget(message, bot):
         msg = "No budget set. Please set a budget if it is needed."
     else:
         budget_limit = getBudgetLimit(chat_id)
-        if budget_limit == None  or budget == "0":
+        if budget_limit == None or budget_limit == "0":
             msg = "No budget limit set. Please set a budget limit if it is needed."
         else:
             budget_limit = float(budget_limit)

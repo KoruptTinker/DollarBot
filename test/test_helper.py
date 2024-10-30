@@ -321,6 +321,21 @@ def test_canAddBudget():
     testresult = helper.canAddBudget(10)
     assert testresult
 
+def test_canAddBudget():
+    helper.getOverallBudget = mock.Mock(return_value=None)
+    helper.getCategoryBudget = mock.Mock(return_value=None)
+    testresult = helper.canAddBudget(10)
+    assert testresult
+
+def test_getBudgetLimit_no_data():
+    helper.getUserData = mock.Mock(return_value={"budget": {"limit": None}})
+    budget_limit = helper.getBudgetLimit(11)
+    assert budget_limit is None
+
+def test_getBudgetLimit():
+    helper.getUserData = mock.Mock(return_value={"budget": {"limit": "10"}})
+    budget_limit = helper.getBudgetLimit(11)
+    assert budget_limit is "10"
 
 def test_isOverallBudgetAvailable():
     helper.getOverallBudget = mock.Mock(return_value=True)
@@ -345,6 +360,11 @@ def test_isCategoryBudgetByCategoryAvailable_none_case():
     testresult = isCategoryBudgetByCategoryAvailable(10, "Food")
     assert testresult is False
 
+def test_isBudgetLimitAvailable():
+    helper.getBudgetLimit = mock.Mock(return_value=10)
+    testresult = helper.isBudgetLimitAvailable(10)
+    assert testresult is True
+
 
 def test_calculate_total_spendings():
     pass
@@ -359,27 +379,86 @@ def test_calculateRemainingOverallBudget():
 
 
 @patch("telebot.telebot")
-def test_display_remaining_overall_budget(mock_telebot, mocker):
+def test_display_remaining_overall_budget_not_set(mock_telebot, mocker):
     mc = mock_telebot.return_value
     mc.send_message.return_value = True
-    helper.calculateRemainingOverallBudget = mock.Mock(return_value=100)
+    helper.calculateRemainingOverallBudget = mock.Mock(return_value=(0, 0))
     message = create_message("hello from testing")
     helper.display_remaining_overall_budget(message, mc)
-
-    mc.send_message.assert_called_with(11, "\nRemaining Overall Budget is $100")
+    
+    mc.send_message.assert_called_with(11, "No budget set. Please set a budget if it is needed.")
 
 
 @patch("telebot.telebot")
-def test_display_remaining_overall_budget_exceeding_case(mock_telebot, mocker):
+def test_display_remaining_overall_budget_no_limit(mock_telebot, mocker):
     mc = mock_telebot.return_value
     mc.send_message.return_value = True
-    helper.calculateRemainingOverallBudget = mock.Mock(return_value=-10)
+    helper.calculateRemainingOverallBudget = mock.Mock(return_value=(100, 10))
+    helper.getBudgetLimit = mock.Mock(return_value="0")
     message = create_message("hello from testing")
     helper.display_remaining_overall_budget(message, mc)
 
     mc.send_message.assert_called_with(
-        11, "\nBudget Exceded!\nExpenditure exceeds the budget by $10"
+        11, "No budget limit set. Please set a budget limit if it is needed."
     )
+
+
+@patch("telebot.telebot")
+def test_display_remaining_overall_budget_cost_lt_limit(mock_telebot, mocker):
+    mc = mock_telebot.return_value
+    mc.send_message.return_value = True
+    helper.calculateRemainingOverallBudget = mock.Mock(return_value=(100, 90))
+    helper.getBudgetLimit = mock.Mock(return_value="20")
+    message = create_message("hello from testing")
+    helper.display_remaining_overall_budget(message, mc)
+
+    mc.send_message.assert_called_with(
+        11, "The Overall Budget is $100. \nRemaining Overall Budget is $90"
+    )
+
+
+@patch("telebot.telebot")
+def test_display_remaining_overall_budget_cost_eq_limit(mock_telebot, mocker):
+    mc = mock_telebot.return_value
+    mc.send_message.return_value = True
+    helper.calculateRemainingOverallBudget = mock.Mock(return_value=(100, 90))
+    helper.getBudgetLimit = mock.Mock(return_value="10")
+    message = create_message("hello from testing")
+    helper.display_remaining_overall_budget(message, mc)
+
+    mc.send_message.assert_called_with(
+        11, "\nTotal spending has reached 10.00% of the budget, exceeding the 10.0% limit. Please monitor your spending."
+    )
+
+
+@patch("telebot.telebot")
+def test_display_remaining_overall_budget_gt_limit(mock_telebot, mocker):
+    mc = mock_telebot.return_value
+    mc.send_message.return_value = True
+    helper.calculateRemainingOverallBudget = mock.Mock(return_value=(100, 90))
+    helper.getBudgetLimit = mock.Mock(return_value="5")
+    message = create_message("hello from testing")
+    helper.display_remaining_overall_budget(message, mc)
+
+    mc.send_message.assert_called_with(
+        11, "\nTotal spending has reached 10.00% of the budget, exceeding the 5.0% limit. Please monitor your spending."
+    )
+
+
+
+@patch("telebot.telebot")
+def test_display_remaining_overall_budget_no_limit(mock_telebot, mocker):
+    mc = mock_telebot.return_value
+    mc.send_message.return_value = True
+    helper.calculateRemainingOverallBudget = mock.Mock(return_value=(100, 10))
+    helper.getBudgetLimit = mock.Mock(return_value="0")
+    message = create_message("hello from testing")
+    helper.display_remaining_overall_budget(message, mc)
+
+    mc.send_message.assert_called_with(
+        11, "No budget limit set. Please set a budget limit if it is needed."
+    )
+
 
 def test_getBudgetTypes():
     testresult = helper.getBudgetTypes()
