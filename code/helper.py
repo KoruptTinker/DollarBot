@@ -36,7 +36,7 @@ spend_display_option = ["Day", "Month"]
 spend_estimate_option = ["Next day", "Next month"]
 update_options = {"continue": "Continue", "exit": "Exit"}
 budget_options = {"update": "Add/Update", "view": "View", "delete": "Delete", "limit": "Budget Limit", "exit": "Exit"}
-budget_types = {"overall": "Overall Budget", "category": "Category-Wise Budget"}
+budget_types = {"overall": "Overall Budget", "category": "Category-Wise Budget", 'exit': "Exit"}
 budget_limit_options = {"updatelim": "Set/Update Limit", "dellim": "Delete Limit", "exit": "Exit"}
 data_format = {"data": [], "budget": {"overall": "0", "category": None, "limit": None}}
 analytics_options = {"overall": "Overall budget split by Category", "spend": "Split of current month expenditure", "remaining": "Remaining value", "history": "Time series graph of spend history"}
@@ -297,12 +297,12 @@ def display_remaining_overall_budget(message, bot):
         else:
             budget_limit = float(budget_limit)
             if remaining_budget/budget > 1-budget_limit/100:
-                msg = "The Overall Budget is ${}. \nRemaining Overall Budget is ${}".format(budget, remaining_budget)
+                msg = "The Overall Monthly Budget is ${:.2f}. \nRemaining Overall Monthly Budget is ${:.2f}".format(budget, remaining_budget)
             elif (remaining_budget/budget <= 1-budget_limit/100) and budget_limit != 0:
-                msg = "\nTotal spending has reached {:.2%} of the budget, exceeding the {}% limit. Please monitor your spending.".format(1-remaining_budget/budget, budget_limit)
+                msg = "The Overall Monthly Budget is ${:.2f}. \nTotal spending has reached {:.2%} of the budget, exceeding the {:.2%} limit. Please monitor your spending.".format(budget, 1-remaining_budget/budget, budget_limit/100)
             else:
                 msg = (
-                    "The Overall Budget is ${}. \nBudget Exceded!\nExpenditure exceeds the budget by ${}".format(budget, str(remaining_budget)[1:])
+                    "The Overall Monthly Budget is ${}. \nBudget Exceded!\nExpenditure exceeds the budget by ${}".format(budget, str(remaining_budget)[1:])
                 )
     bot.send_message(chat_id, msg)
 

@@ -45,10 +45,15 @@ def run(message, bot):
     """
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
     options = helper.getBudgetOptions()
+    budget, remaining_budget = helper.calculateRemainingOverallBudget(message.chat.id)
     markup.row_width = 2
     for c in options.values():
         markup.add(c)
-    msg = bot.reply_to(message, "Select Operation", reply_markup=markup)
+    if budget == None or budget == 0:
+        msg_before = "No budget set. Please set a budget if it is needed.\nSelect Operation."
+    else:
+        msg_before = "The Overall Monthly Budget is ${:.2f}.\nSelect Operation.".format(budget, remaining_budget)
+    msg = bot.reply_to(message, msg_before, reply_markup=markup)
     bot.register_next_step_handler(msg, post_operation_selection, bot)
 
 def post_operation_selection(message, bot):

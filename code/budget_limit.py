@@ -86,7 +86,7 @@ def update_budget_limit(chat_id, bot):
         msg_string = "Current Budget Limit Alert is {}% \n\nHow much is your new monthly budget limit alert? \n(Enter numeric values only)"
         message = bot.send_message(chat_id, msg_string.format(currentBudget))
     else:
-        msg_string = "How much is your new monthly budget limit alert? \n(Enter numeric values only)"
+        msg_string = "No budget limit set. How much is your new monthly budget limit alert? \n(Enter numeric values only)"
         message = bot.send_message(chat_id, msg_string)
     bot.register_next_step_handler(message, post_budget_limit_input, bot)
 
