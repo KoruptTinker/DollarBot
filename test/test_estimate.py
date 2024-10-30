@@ -89,7 +89,7 @@ def test_valid_format_day(mock_telebot, mocker):
 @patch("telebot.telebot")
 def test_spending_estimate_working(mock_telebot, mocker):
 
-    MOCK_USER_DATA = test_read_json()
+    MOCK_USER_DATA = read_json()
     mocker.patch.object(estimate, "helper")
     estimate.helper.getUserHistory.return_value = MOCK_USER_DATA["894127939"]
     estimate.helper.getSpendEstimateOptions.return_value = ["Next day", "Next month"]
@@ -106,7 +106,7 @@ def test_spending_estimate_working(mock_telebot, mocker):
 @patch("telebot.telebot")
 def test_spending_estimate_month(mock_telebot, mocker):
 
-    MOCK_USER_DATA = test_read_json()
+    MOCK_USER_DATA = read_json()
     mocker.patch.object(estimate, "helper")
     estimate.helper.getUserHistory.return_value = MOCK_USER_DATA["894127939"]
     estimate.helper.getSpendEstimateOptions.return_value = ["Next day", "Next month"]
@@ -131,6 +131,24 @@ def test_read_json():
         if not os.path.exists("./test/dummy_expense_record.json"):
             with open("./test/dummy_expense_record.json", "w") as json_file:
                 json_file.write("{}")
+            with open("./test/dummy_expense_record.json") as json_file:
+                content = json_file.read()
+            assert content == "{}", "Expected file to contain an empty JSON object"
+        elif os.stat("./test/dummy_expense_record.json").st_size != 0:
+            with open("./test/dummy_expense_record.json") as expense_record:
+                expense_record_data = json.load(expense_record)
+            assert isinstance(expense_record_data, dict)
+
+    except FileNotFoundError:
+        print("---------NO RECORDS FOUND---------")
+
+
+
+def read_json():
+    try:
+        if not os.path.exists("./test/dummy_expense_record.json"):
+            with open("./test/dummy_expense_record.json", "w") as json_file:
+                json_file.write("{}")
             return json.dumps("{}")
         elif os.stat("./test/dummy_expense_record.json").st_size != 0:
             with open("./test/dummy_expense_record.json") as expense_record:
@@ -139,3 +157,4 @@ def test_read_json():
 
     except FileNotFoundError:
         print("---------NO RECORDS FOUND---------")
+

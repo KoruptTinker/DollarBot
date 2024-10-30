@@ -38,11 +38,11 @@ def test_read_json():
         if not os.path.exists("./test/dummy_expense_record.json"):
             with open("./test/dummy_expense_record.json", "w") as json_file:
                 json_file.write("{}")
-            return json.dumps("{}")
+            # return json.dumps("{}")
         elif os.stat("./test/dummy_expense_record.json").st_size != 0:
             with open("./test/dummy_expense_record.json") as expense_record:
                 expense_record_data = json.load(expense_record)
-            return expense_record_data
+            # return expense_record_data
 
     except FileNotFoundError:
         print("---------NO RECORDS FOUND---------")
@@ -172,8 +172,8 @@ def test_handle_confirmation_yes(mock_telebot, mocker):
 
     expected_user_list = {"sample_chat_id": {"data": [], "budget": {"overall": "100", "category": {"food": "50"}}}}
         # Debugging: Print the values for investigation
-    print("delete.user_list:", delete.user_list)
-    print("expected_user_list:", expected_user_list)
+    # print("delete.user_list:", delete.user_list)
+    # print("expected_user_list:", expected_user_list)
 
     # Assert that delete.helper.write_json was called with the correct arguments
     mock_write_json.assert_called_with(delete.user_list)
@@ -182,7 +182,7 @@ def test_handle_confirmation_yes(mock_telebot, mocker):
     delete.user_list = mock_read_json()
 
     # Debugging: Print the values after reloading
-    print("delete.user_list (after reload):", delete.user_list)
+    # print("delete.user_list (after reload):", delete.user_list)
 
     # Assert that delete.user_list is updated
 

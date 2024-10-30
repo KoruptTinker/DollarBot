@@ -37,6 +37,23 @@ def test_read_json():
         if not os.path.exists("./test/dummy_expense_record.json"):
             with open("./test/dummy_expense_record.json", "w") as json_file:
                 json_file.write("{}")
+            with open("./test/dummy_expense_record.json") as json_file:
+                content = json_file.read()
+            assert content == "{}", "Expected file to contain an empty JSON object"
+        elif os.stat("./test/dummy_expense_record.json").st_size != 0:
+            with open("./test/dummy_expense_record.json") as expense_record:
+                expense_record_data = json.load(expense_record)
+            assert isinstance(expense_record_data, dict)
+
+    except FileNotFoundError:
+        print("---------NO RECORDS FOUND---------")
+
+
+def read_json():
+    try:
+        if not os.path.exists("./test/dummy_expense_record.json"):
+            with open("./test/dummy_expense_record.json", "w") as json_file:
+                json_file.write("{}")
             return json.dumps("{}")
         elif os.stat("./test/dummy_expense_record.json").st_size != 0:
             with open("./test/dummy_expense_record.json") as expense_record:
@@ -55,7 +72,7 @@ def create_message(text):
 
 @patch("telebot.telebot")
 def test_run_with_data(mock_telebot, mocker):
-    MOCK_USER_DATA = test_read_json()
+    MOCK_USER_DATA = read_json()
     mocker.patch.object(history, "helper")
     history.helper.getUserHistory.return_value = MOCK_USER_DATA["2614394724848"]
     MOCK_Message_data = create_message("Hello")
@@ -67,7 +84,7 @@ def test_run_with_data(mock_telebot, mocker):
 
 @patch("telebot.telebot")
 def test_run_without_data(mock_telebot, mocker):
-    MOCK_USER_DATA = test_read_json()
+    MOCK_USER_DATA = read_json()
     mocker.patch.object(history, "helper")
     history.helper.getUserHistory.return_value = MOCK_USER_DATA["1574038305"]
     MOCK_Message_data = create_message("Hello")

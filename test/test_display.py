@@ -89,7 +89,7 @@ def test_valid_format_day(mock_telebot, mocker):
 @patch("telebot.telebot")
 def test_spending_run_working(mock_telebot, mocker):
 
-    MOCK_USER_DATA = test_read_json()
+    MOCK_USER_DATA = read_json()
     mocker.patch.object(display, "helper")
     display.helper.getUserHistory.return_value = MOCK_USER_DATA["894127939"]
     display.helper.getSpendDisplayOptions.return_value = ["Day", "Month"]
@@ -106,7 +106,7 @@ def test_spending_run_working(mock_telebot, mocker):
 @patch("telebot.telebot")
 def test_spending_display_working(mock_telebot, mocker):
 
-    MOCK_USER_DATA = test_read_json()
+    MOCK_USER_DATA = read_json()
     mocker.patch.object(display, "helper")
     display.helper.getUserHistory.return_value = MOCK_USER_DATA["894127939"]
     display.helper.getSpendDisplayOptions.return_value = ["Day", "Month"]
@@ -123,7 +123,7 @@ def test_spending_display_working(mock_telebot, mocker):
 @patch("telebot.telebot")
 def test_spending_display_month(mock_telebot, mocker):
 
-    MOCK_USER_DATA = test_read_json()
+    MOCK_USER_DATA = read_json()
     mocker.patch.object(display, "helper")
     display.helper.getUserHistory.return_value = MOCK_USER_DATA["894127939"]
     display.helper.getSpendDisplayOptions.return_value = ["Day", "Month"]
@@ -144,6 +144,30 @@ def create_message(text):
 
 
 def test_read_json():
+    try:
+        # Ensure the file exists and is not empty
+        if not os.path.exists("./test/dummy_expense_record.json"):
+            with open("./test/dummy_expense_record.json", "w") as json_file:
+                json_file.write("{}")
+            # Assert that the file is now created and has content "{}"
+            with open("./test/dummy_expense_record.json") as json_file:
+                content = json_file.read()
+            assert content == "{}", "Expected file to contain an empty JSON object"
+
+        elif os.stat("./test/dummy_expense_record.json").st_size != 0:
+            # Load the file content and assert it loads as a JSON object
+            with open("./test/dummy_expense_record.json") as expense_record:
+                expense_record_data = json.load(expense_record)
+            assert isinstance(expense_record_data, dict), "Expected data to be a dictionary"
+
+    except FileNotFoundError:
+        assert False, "File should have been created but was not found"
+
+    except json.JSONDecodeError:
+        assert False, "Expected JSON format but could not decode file content"
+        
+
+def read_json():
     try:
         if not os.path.exists("./test/dummy_expense_record.json"):
             with open("./test/dummy_expense_record.json", "w") as json_file:

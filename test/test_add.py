@@ -97,13 +97,25 @@ def test_read_json():
                 json.dump({}, json_file)  # Write an empty dictionary instead of "{}"
         with open("./test/dummy_expense_record.json") as expense_record:
             expense_record_data = json.load(expense_record)
-        return expense_record_data  # Ensure it always returns a dictionary
+        assert isinstance(expense_record_data, dict), "Expected a dictionary"
+        # return expense_record_data  # Ensure it always returns a dictionary
     except FileNotFoundError:
         print("---------NO RECORDS FOUND---------")
-        return {}  # Return an empty dictionary if file not found
+        assert expense_record_data == {}  # Return an empty dictionary if file not found
 
 def test_add_user_record_working(mocker):
-    MOCK_USER_DATA = test_read_json()  # Will now always return a dictionary
+    try:
+        if not os.path.exists("./test/dummy_expense_record.json"):
+            with open("./test/dummy_expense_record.json", "w") as json_file:
+                json.dump({}, json_file)  # Write an empty dictionary instead of "{}"
+        with open("./test/dummy_expense_record.json") as expense_record:
+            expense_record_data = json.load(expense_record)
+        assert isinstance(expense_record_data, dict), "Expected a dictionary"
+        MOCK_USER_DATA = expense_record_data  # Ensure it always returns a dictionary
+    except FileNotFoundError:
+        print("---------NO RECORDS FOUND---------")
+        MOCK_USER_DATA = {}
+    # MOCK_USER_DATA = test_read_json()  # Will now always return a dictionary
     mocker.patch.object(add, "helper")
     add.helper.read_json.return_value = MOCK_USER_DATA
     addeduserrecord = add.add_user_record(1, "record : test")
