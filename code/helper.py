@@ -74,6 +74,7 @@ commands = {
         \n 3. The Edit Category option is to edit an existing category. ",
     "weekly": "This option is to get the weekly analysis report of the expenditure",
     "monthly": "This option is to get the monthly analysis report of the expenditure",
+    "insight": "This option is to get the insights of the expenditure",
     "sendEmail": "Send an email with an attachment showing your history",
 }
 
