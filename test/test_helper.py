@@ -522,3 +522,4 @@ def test_edge_case_currency_conversion(from_currency, to_currency, amount, expec
     """ Test conversion with boundary and high-precision cases """
     result = convert_currency(from_currency, to_currency, amount)
     assert round(result, 2) == round(expected, 2)
+    
