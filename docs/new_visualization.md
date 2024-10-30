@@ -1,4 +1,4 @@
-# About DollarBot's new adding Visualization Feature
+# About DollarBot's new Visualization Feature
 Improve the basic graphing features by adding more types of charts (like bar charts or pie charts) and allowing users to filter data by category or time.
 
 # Location of Code for this Feature
