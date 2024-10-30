@@ -1,4 +1,4 @@
-# About MyDollarBot's /add new Currency Feature 
+# About DollarBot's /add new Currency Feature 
 Track expenses in multiple currencies, with automatic conversion to primary currency(US dollars) for unified reporting.
 
 # Location of Code for this Feature
