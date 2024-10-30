@@ -501,6 +501,7 @@ def convert_currency(from_currency, to_currency, amount):
     """
     if amount <= 0:
         return None
+    
     import requests
     api_url = f"https://api.exchangerate-api.com/v4/latest/{from_currency}"
     try:
