@@ -499,6 +499,8 @@ def convert_currency(from_currency, to_currency, amount):
     """
     Convert amount from one currency to another using a currency conversion API.
     """
+    if amount <= 0:
+        return None
     import requests
     api_url = f"https://api.exchangerate-api.com/v4/latest/{from_currency}"
     try:
@@ -506,7 +508,7 @@ def convert_currency(from_currency, to_currency, amount):
         response.raise_for_status()
         rates = response.json().get("rates")
         rate = rates.get(to_currency)
-        return amount * rate if rate else None
+        return round(amount * rate,2) if rate else None
     except requests.RequestException as e:
         print(f"Error fetching exchange rate: {e}")
         return None

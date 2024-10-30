@@ -32,6 +32,10 @@ from telebot import types
 from mock.mock import patch
 import logging
 import mock
+import pytest
+from code.helper import convert_currency, getCurrencies, validate_entered_amount
+
+
 
 MOCK_CHAT_ID = 894127939
 MOCK_USER_DATA = {
@@ -391,3 +395,57 @@ def create_message(text):
     params = {"messagebody": text}
     chat = types.User(11, False, "test")
     return types.Message(1, None, None, chat, "text", params, "")
+
+
+# Mocked conversion data for tests
+CURRENCY_TO_USD_DATA = [
+    ("USD", "USD", 100, 100),       # Convert 100 USD to USD (should be the same)
+    ("CNY", "USD", 100, 14.0),      # Example conversion of 100 CNY to USD
+    ("GBP", "USD", 100, 130),       # Example conversion of 100 GBP to USD
+    ("EUR", "USD", 100, 108),       # Example conversion of 100 EUR to USD
+    ("CAD", "USD", 100, 71.9),        # Example conversion of 100 CAD to USD
+    ("JPY", "USD", 1000, 6.52),      # Example conversion of 1000 JPY to USD
+]
+
+@pytest.mark.parametrize("from_currency, to_currency, amount, expected", CURRENCY_TO_USD_DATA)
+def test_convert_currency_to_usd(from_currency, to_currency, amount, expected):
+    """ Test conversion from specified currencies to USD. """
+    result = convert_currency(from_currency, to_currency, amount)
+    assert round(result, 2) == round(expected, 2)
+
+def test_getCurrencies():
+    """ Test that getCurrencies returns a list of available currencies including all specified ones. """
+    currencies = getCurrencies()
+    assert set(["USD", "CNY", "GBP", "EUR", "CAD", "JPY"]).issubset(currencies)
+
+@pytest.mark.parametrize("amount, currency, expected", [("100", "USD", "100.0"), ("200", "CNY", "200.0"), ("50", "GBP", "50.0")])
+def test_valid_multi_currency_amount(amount, currency, expected):
+    """ Test various valid currency amounts with expected decimal formatting """
+    assert validate_entered_amount(amount) == expected
+
+def test_valid_multi_currency_amount_values():
+    assert helper.convert_currency("USD", "USD", 100) == 100
+    assert helper.convert_currency("CNY", "USD", 200) == 28
+
+def test_invalid_currency_conversion():
+    """ Test conversion when invalid currency is provided """
+    result = convert_currency("INVALID", "USD", 100)
+    assert result is None
+
+@pytest.mark.parametrize("from_currency, to_currency, amount", [
+    ("USD", "USD", -50),  # Negative amount
+    ("EUR", "USD", 0),    # Zero amount
+])
+def test_convert_currency_invalid_amounts(from_currency, to_currency, amount):
+    """ Test currency conversion with zero and negative amounts """
+    assert convert_currency(from_currency, to_currency, amount) is None
+
+@pytest.mark.parametrize("from_currency, to_currency, amount, expected", [
+    ("CNY", "USD", 0.01, 0.00157),    # Tiny CNY amount to USD
+    ("JPY", "USD", 500000, 3260.0),      # Large JPY amount to USD
+    ("GBP", "USD", 10000.76, 13000.99) # Large GBP with decimal
+])
+def test_edge_case_currency_conversion(from_currency, to_currency, amount, expected):
+    """ Test conversion with boundary and high-precision cases """
+    result = convert_currency(from_currency, to_currency, amount)
+    assert round(result, 2) == round(expected, 2)
