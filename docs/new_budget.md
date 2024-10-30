@@ -1,4 +1,4 @@
-# About MyDollarBot's new budget limit Feature
+# About DollarBot's new budget limit Feature
 This feature enables users to set custom budget limits and receive alerts when they reach specific percentages (80%, 90%, or 100%) of their budget to avoid overspending.
 
 # Location of Code for this Feature
