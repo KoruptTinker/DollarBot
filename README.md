@@ -1,7 +1,7 @@
 ![MIT license](https://img.shields.io/badge/License-MIT-green.svg)
 ![GitHub](https://img.shields.io/github/languages/top/vegechick510/DollarBot?color=red&label=Python&logo=Python&logoColor=yellow)
 ![GitHub](https://img.shields.io/badge/Language-Python-blue.svg)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10146708.svg)](https://doi.org/10.5281/zenodo.10146708)
+[![DOI](https://zenodo.org/badge/875854476.svg)](https://doi.org/10.5281/zenodo.14018911)
 ![GitHub contributors](https://img.shields.io/github/contributors/vegechick510/DollarBot)
 [![Platform](https://img.shields.io/badge/Platform-Telegram-blue)](https://desktop.telegram.org/)
 [![codecov](https://codecov.io/gh/vegechick510/DollarBot/graph/badge.svg?token=uFIfOR9FTm)](https://codecov.io/gh/vegechick510/DollarBot)
