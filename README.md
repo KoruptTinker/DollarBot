@@ -152,25 +152,26 @@ Here's a quick overview of how each of the commands work. Simply enter /<command
 ### Menu
 View all the commands Dollarbot offers to manage your expenses
 
-<p align="center"><img width="700" src="./docs/workflows/menu_command.gif"></p>
+[Click here to view the menu command GIF](https://github.com/vegechick510/DollarBot/blob/main/docs/workflows/menu_command.gif)
+
 It can be invoked by using `/menu` command.
 
 ### Help
 Display the list of commands.
 
-<p align="center"><img width="700" src="./docs/workflows/help_command.gif"></p>
+[Click here to view the help command GIF](https://github.com/vegechick510/DollarBot/blob/main/docs/workflows/help_command.gif)
 It can be invoked by using `/help` command.
 
 ### Pdf
 Save history as PDF.
 
-<p align="center"><img width="700" src="./docs/workflows/pdf_command.gif"></p>
+
 It can be invoked by using `/pdf` command.
 
 ### Add
 This option is for adding your expenses.
 
-<p align="center"><img width="700" src="./docs/workflows/add_command.gif"></p>
+
 1. It will give you the list of categories to choose from. <br> 
 2. You will be prompted to enter the amount corresponding to your spending <br>      
 3. The message will be prompted to notify the addition of your expense with the amount,date, time and category <br> 
@@ -179,32 +180,32 @@ This option is for adding your expenses.
 ### Analytics
 This option gives user a graphical representation of their expenditures.
 
-<p align="center"><img width="700" src="./docs/workflows/analytics.gif"></p>
+
 1. You will get an option to choose the type of data you want to see. <br> 
 2. It can be invoked by using `/analytics` command.
 
 ### Predict
 This option analyzes your recorded spendings and gives you a budget that will accommodate for them.
 
-<p align="center"><img width="700" src="./docs/workflows/predict_command.gif"></p>
+
 It can be invoked by using `/predict` command.
 
 ### History
 This option is to give you the detailed summary of your expenditure with Date, time ,category and amount. A quick lookup into your spendings.
 
-<p align="center"><img width="700" src="./docs/workflows/history.gif"></p>
+
 It can be invoked by using `/history` command.
 
 ### Delete
 This option is to Clear/Erase all your records
 
-<p align="center"><img width="700" src="./docs/workflows/delete.gif"></p>
+
 It can be invoked by using `/delete` command.
 
 ### Edit
 This option helps you to go back and correct/update the missing details    
 
-<p align="center"><img width="700" src="./docs/workflows/edit_command.gif"></p>
+
 1. It will give you the list of your expenses you wish to edit <br> 
 2. It will let you change the specific field based on your requirements like amount/date/category <br> 
 3. It can be invoked by using `/edit` command.
@@ -212,7 +213,7 @@ This option helps you to go back and correct/update the missing details
 ### Budget
 This option is to set/update/delete the budget.     
 
-<p align="center"><img width="700" src="./docs/workflows/budget_command.gif"></p>
+
 1. The Add/update category is to set the new budget or update the existing budget <br>      
 2. The view category gives the detail if budget is exceeding or in limit with the difference amount  <br>        
 3. The delete category allows to delete the budget and start afresh! <br> 
@@ -221,19 +222,19 @@ This option is to set/update/delete the budget.
 ### SendEmail
 This option is to send you a email with you expenditures
 
-<p align="center"><img width="700" src="./docs/workflows/send_mail.gif"></p>
+
 It can be invoked by using `/sendEmail` command.
 
 ### Add Recurring
 This option is to add a recurring expense for future months.
 
-<p align="center"><img width="700" src="./docs/workflows/add_recurring.gif"></p>
+
 It can be invoked by using `/add_recurring` command.
 
 ### Update Category
 This option is to add/delete/edit the categories.         
 
-<p align="center"><img width="700" src="./docs/workflows/update_category.gif"></p>
+
 1. The Add Category option is to add a new category which dosen't already exist  <br>       
 2. The Delete Category option is to delete an existing category  <br> 
 3. The Edit Category option is to edit an existing category. <br> 
@@ -242,13 +243,13 @@ This option is to add/delete/edit the categories.
 ### Weekly
 This option is to get the weekly analysis report of the expenditure
 
-<p align="center"><img width="700" src="./docs/workflows/weekly.gif"></p>
+
 It can be invoked by using `/weekly` command.
 
 ### Monthly
 This option is to get the monthly analysis report of the expenditure
 
-<p align="center"><img width="700" src="./docs/workflows/monthly.gif"></p>
+
 It can be invoked by using `/monthly` command.
 
 # :construction: What's Next
