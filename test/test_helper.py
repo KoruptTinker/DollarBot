@@ -339,7 +339,7 @@ def test_getBudgetLimit_no_data():
 def test_getBudgetLimit():
     helper.getUserData = mock.Mock(return_value={"budget": {"limit": "10"}})
     budget_limit = helper.getBudgetLimit(11)
-    assert budget_limit is "10"
+    assert budget_limit == "10"
 
 def test_isOverallBudgetAvailable():
     helper.getOverallBudget = mock.Mock(return_value=True)
