@@ -1,12 +1,12 @@
 # Customizable Budget Tracking and Alerts
 
-## Feature Overview
+## Overview
 
 The customizable budget tracking and alerts feature allows users to set specific budgets and receive alerts tailored to their spending patterns. Users can set overall and category-specific budgets, track spending progress, and receive notifications as they approach budget limits. This functionality is designed to help users maintain financial control by receiving real-time feedback on their expenses relative to set budgets.
 
 ---
 
-## Goals
+## Features
 
 - **Customized Budgets:** Allow users to define budgets at various levels, including overall and category-specific (e.g., groceries, utilities).
 - **Real-Time Alerts:** Notify users when they approach critical thresholds (80%, 90%, and 100%) of their budgets.
