@@ -6,10 +6,8 @@
 [![Autopep8](https://github.com/vegechick510/DollarBot/actions/workflows/autopep8.yml/badge.svg)](https://github.com/vegechick510/DollarBot/actions/workflows/autopep8.yml)
 [![Platform](https://img.shields.io/badge/Platform-Telegram-blue)](https://desktop.telegram.org/)
 [![codecov](https://codecov.io/gh/vegechick510/DollarBot/graph/badge.svg?token=uFIfOR9FTm)](https://codecov.io/gh/vegechick510/DollarBot)
-![Lines of code](https://tokei.rs/b1/github/vegechick510/DollarBot)
-![Version](https://img.shields.io/github/v/release/vegechick510/DollarBot?color=ff69b4&label=Version)
-![GitHub issues](https://img.shields.io/github/issues-raw/vegechick510/DollarBot)
-![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/vegechick510/DollarBot)
+[![GitHub issues](https://img.shields.io/github/issues-raw/vegechick510/DollarBot)](https://github.com/vegechick510/DollarBot/issues)
+[![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/vegechick510/DollarBot)](https://github.com/vegechick510/DollarBot/issues?q=is%3Aissue+is%3Aclosed)
 
 # 💰 Dollar Bot 💰
 
