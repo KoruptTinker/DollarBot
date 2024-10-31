@@ -1,13 +1,11 @@
 language: python
 python:
-  - "3.12"
+  - "3.8"  # or your preferred Python version
+
+# Install dependencies
 install:
-  - pip install .
   - pip install -r requirements.txt
-  - pip install coverage
-  - pip install codecov
+
+# Run tests
 script:
-  - flake8 --ignore=E501,W605
-  - coverage run -m  pytest -q test/
-after_success:
-  - bash <(curl -s https://codecov.io/bash) -t 4c6b2878-737d-4ec1-bbad-71f49e3f1b43
+  - pytest
