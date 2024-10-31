@@ -3,7 +3,7 @@
 ![GitHub](https://img.shields.io/badge/Language-Python-blue.svg)
 [![DOI](https://zenodo.org/badge/875854476.svg)](https://doi.org/10.5281/zenodo.14018911)
 [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/vegechick510/DollarBot/actions/workflows/black.yml)
-[![Autopep8](https://img.shields.io/badge/code%20style-autopep8-000000.svg)](https://github.com/vegechick510/DollarBot/actions/workflows/autopep8.yml)
+[![Autopep8](https://github.com/vegechick510/DollarBot/actions/workflows/autopep8.yml/badge.svg)](https://github.com/vegechick510/DollarBot/actions/workflows/autopep8.yml)
 ![GitHub contributors](https://img.shields.io/github/contributors/vegechick510/DollarBot)
 [![Platform](https://img.shields.io/badge/Platform-Telegram-blue)](https://desktop.telegram.org/)
 [![codecov](https://codecov.io/gh/vegechick510/DollarBot/graph/badge.svg?token=uFIfOR9FTm)](https://codecov.io/gh/vegechick510/DollarBot)
