@@ -4,7 +4,6 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10146708.svg)](https://doi.org/10.5281/zenodo.10146708)
 ![GitHub contributors](https://img.shields.io/github/contributors/vegechick510/DollarBot)
 [![Platform](https://img.shields.io/badge/Platform-Telegram-blue)](https://desktop.telegram.org/)
-[![codecov](https://codecov.io/gh/vegechick510/DollarBot/graph/badge.svg?token=23RW1XPB3P)](https://codecov.io/gh/vegechick510/DollarBot)
 [![codecov](https://codecov.io/gh/vegechick510/DollarBot/graph/badge.svg?token=uFIfOR9FTm)](https://codecov.io/gh/vegechick510/DollarBot)
 ![Lines of code](https://tokei.rs/b1/github/vegechick510/DollarBot)
 ![Version](https://img.shields.io/github/v/release/vegechick510/DollarBot?color=ff69b4&label=Version)
