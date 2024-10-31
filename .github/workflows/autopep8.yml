@@ -1,4 +1,4 @@
-name: Code Formatting Check
+name: Autopep8
 
 on: [push, pull_request]
 
