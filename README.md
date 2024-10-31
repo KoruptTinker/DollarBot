@@ -165,13 +165,13 @@ It can be invoked by using `/help` command.
 ### Pdf
 Save history as PDF.
 
-
+[Click here to view the pdf command GIF](https://github.com/vegechick510/DollarBot/blob/main/docs/workflows/pdf_command.gif)
 It can be invoked by using `/pdf` command.
 
 ### Add
 This option is for adding your expenses.
 
-
+[Click here to view the add command GIF](https://github.com/vegechick510/DollarBot/blob/main/docs/workflows/add_command.gif)
 1. It will give you the list of categories to choose from. <br> 
 2. You will be prompted to enter the amount corresponding to your spending <br>      
 3. The message will be prompted to notify the addition of your expense with the amount,date, time and category <br> 
@@ -180,25 +180,24 @@ This option is for adding your expenses.
 ### Analytics
 This option gives user a graphical representation of their expenditures.
 
-
+[Click here to view the Analytics command GIF](https://github.com/vegechick510/DollarBot/blob/main/docs/workflows/analytics.gif)
 1. You will get an option to choose the type of data you want to see. <br> 
 2. It can be invoked by using `/analytics` command.
 
 ### Predict
 This option analyzes your recorded spendings and gives you a budget that will accommodate for them.
 
-
+[Click here to view the Predict command GIF](https://github.com/vegechick510/DollarBot/blob/main/docs/workflows/predict_command.gif)
 It can be invoked by using `/predict` command.
 
 ### History
 This option is to give you the detailed summary of your expenditure with Date, time ,category and amount. A quick lookup into your spendings.
-
+[Click here to view the History command GIF](https://github.com/vegechick510/DollarBot/blob/main/docs/workflows/history.gif)
 
 It can be invoked by using `/history` command.
 
 ### Delete
 This option is to Clear/Erase all your records
-
 
 It can be invoked by using `/delete` command.
 
