@@ -1,39 +1,52 @@
 # Multi-Currency Support
 
 ## Overview
-The Multi-Currency Support feature in DollarBot allows users to log expenses in various currencies and automatically converts each expense to a primary currency, USD by default. This enables users to consolidate expenses from different currencies without needing to perform manual conversions, making DollarBot effective for users who travel or frequently transact in foreign currencies.
+The Multi-Currency Support feature allows users to record expenses in multiple currencies, which are automatically converted to a primary currency (USD). This functionality is useful for users who spend in different currencies and want a unified view of their spending in a single currency.
 
 ## Feature Details
-### Supported Currencies
-- Users can log expenses in the following currencies: **USD, CNY, GBP, EUR, CAD, and JPY**. These supported currencies are listed in `currencies.txt`, which makes it easy to add more currencies by adding additional currency codes to this file.
-
-### Automatic Conversion
-- DollarBot fetches real-time exchange rates through an external API, ensuring that each transaction reflects the most current market rates.
-- Conversion to USD occurs at the time an expense is logged, making it seamless for the user while maintaining accurate tracking.
-- The converted USD amount is saved along with the expense record, providing a single-currency view of spending across all transactions.
-
-### User Interface Changes
-- When logging an expense, users can now select the currency for that specific transaction.
-- After selecting a currency and entering an amount, DollarBot handles the conversion in the background, showing the final transaction in USD to the user.
-
-## Implementation
-### Data Handling
-- **helper.py**: This file contains key functions, such as `convert_currency()`, which validates currency input and performs the conversion to USD using the API’s exchange rates.
-- **add.py**: Handles user interactions, prompting users to select a currency and amount. It then calls `convert_currency()` from `helper.py` to process the transaction and save it in USD.
-
-### Currency Rates File
-- **currencies.txt**: Lists all supported currencies (USD, CNY, GBP, EUR, CAD, and JPY). This file ensures valid currency entries, enabling the bot to recognize and process only supported currencies.
-
-## Usage Example
-1. The user selects an expense amount and currency, such as **50 GBP**.
-2. DollarBot uses `convert_currency()` to retrieve the latest exchange rate for GBP to USD.
-3. The transaction is converted and stored in USD, with a confirmation displaying both the original and converted amounts for transparency.
+- **Currency Selection**: Users can choose a currency (e.g., CNY, GBP, EUR, CAD, JPY, USD) when adding an expense.
+- **Automatic Conversion**: Each transaction amount is converted to USD, providing a unified spending view.
+- **API Integration**: Real-time exchange rates are fetched from an exchange rate API, ensuring up-to-date currency conversion.
 
 ## Benefits
-- **Simplified Tracking**: Users can manage multi-currency expenses without manual conversion, consolidating all expenses into a primary currency.
-- **Real-Time Accuracy**: The use of live exchange rates ensures that all expenses are recorded accurately, reflecting currency market fluctuations.
-- **User-Friendly**: DollarBot automatically converts expenses and provides a unified USD view, sparing users from managing complex conversions.
+- **Accurate Spending Overview**: Users get a consolidated view of their expenses in USD, regardless of the original currency.
+- **Convenient for International Spending**: Ideal for users who travel or shop internationally, simplifying budget tracking across currencies.
+- **Automatic Updates**: Exchange rates are refreshed with each transaction, offering precise conversions based on current rates.
+
+## Usage Examples
+To use Multi-Currency Support in the bot, users can enter commands as follows:
+
+### Adding an Expense in a Specific Currency
+Users can add expenses in any supported currency, and they’ll automatically convert to USD.
+
+#### Example: `/add 100 CNY food` `/add 50 GBP travel` `/add 20 EUR groceries` `/add 100 JPY entertainment` 
+
+Each command records the amount in the specified currency and stores the converted amount in USD.
+
+## Implementation
+The Multi-Currency Support feature is implemented in `helper.py` and `add.py`. 
+
+### Key Components and Functions
+
+- **Currency Conversion Logic**: The `convert_currency(from_currency, to_currency, amount)` function in `helper.py` interacts with an exchange rate API to convert amounts from any supported currency to USD.
+  
+- **Expense Entry**: In `add.py`, the `run(message, bot)` and `post_currency_selection()` functions are modified to prompt users for a currency choice and convert the entered amount to USD before saving.
+
+- **Currencies List**: A list of supported currencies is defined in `currencies.txt`, ensuring that the bot only accepts valid currencies.
+
+### Workflow and Logic
+
+1. **Selecting a Currency**:
+   - When users add an expense, they’re prompted to choose a currency from the supported list (USD, CNY, GBP, EUR, CAD, JPY).
+   
+2. **Converting and Recording**:
+   - The amount is converted to USD using the real-time rate fetched from the exchange rate API and then saved in USD for unified tracking.
+
+3. **Viewing Converted Amounts**:
+   - All expenses are recorded in USD, allowing users to view their spending in a consistent currency format.
 
 ## Future Enhancements
-- Additional currencies can easily be added to `currencies.txt`.
-- Providing a configurable primary currency option so users can choose a currency other than USD as their default for expense tracking.
+- **Customizable Primary Currency**: Allow users to set a primary currency other than USD.
+- **Historical Exchange Rates**: Use historical rates for transactions added retroactively, offering a more accurate representation of past spending.
+- **Multi-Currency Budgeting**: Enable users to set budgets in different currencies and view conversion-adjusted spending limits.
+
