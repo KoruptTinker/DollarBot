@@ -1,32 +1,39 @@
-# About DollarBot's /add new Currency Feature 
-Track expenses in multiple currencies, with automatic conversion to primary currency(US dollars) for unified reporting.
+# Multi-Currency Support
 
-# Location of Code for this Feature
-The code that implements this feature can be found [here](https://github.com/vegechick510/DollarBot/blob/main/code/add_currencies.py)
+## Overview
+The Multi-Currency Support feature in DollarBot allows users to log expenses in various currencies and automatically converts each expense to a primary currency, USD by default. This enables users to consolidate expenses from different currencies without needing to perform manual conversions, making DollarBot effective for users who travel or frequently transact in foreign currencies.
 
-# Code Description
-## Functions
-1. run(message, bot):
-This function initiates the expense tracking process by prompting the user to select a category.
+## Feature Details
+### Supported Currencies
+- Users can log expenses in the following currencies: **USD, CNY, GBP, EUR, CAD, and JPY**. These supported currencies are listed in `currencies.txt`, which makes it easy to add more currencies by adding additional currency codes to this file.
 
-2. post_category_selection(message, bot):
-This function handles category selection by the user and prompts them to select a currency.
+### Automatic Conversion
+- DollarBot fetches real-time exchange rates through an external API, ensuring that each transaction reflects the most current market rates.
+- Conversion to USD occurs at the time an expense is logged, making it seamless for the user while maintaining accurate tracking.
+- The converted USD amount is saved along with the expense record, providing a single-currency view of spending across all transactions.
 
-3. post_currency_selection(message, bot, selected_category):
-This function processes the currency selection and asks the user to enter the amount spent.
+### User Interface Changes
+- When logging an expense, users can now select the currency for that specific transaction.
+- After selecting a currency and entering an amount, DollarBot handles the conversion in the background, showing the final transaction in USD to the user.
 
+## Implementation
+### Data Handling
+- **helper.py**: This file contains key functions, such as `convert_currency()`, which validates currency input and performs the conversion to USD using the API’s exchange rates.
+- **add.py**: Handles user interactions, prompting users to select a currency and amount. It then calls `convert_currency()` from `helper.py` to process the transaction and save it in USD.
 
-4. post_amount_input(message, bot, selected_category, selected_currency):
-Handles the amount input and performs currency conversion.
+### Currency Rates File
+- **currencies.txt**: Lists all supported currencies (USD, CNY, GBP, EUR, CAD, and JPY). This file ensures valid currency entries, enabling the bot to recognize and process only supported currencies.
 
-5. update_balance(message, amount, bot):
-Converts an amount from one currency to another using the ExchangeRate API.
+## Usage Example
+1. The user selects an expense amount and currency, such as **50 GBP**.
+2. DollarBot uses `convert_currency()` to retrieve the latest exchange rate for GBP to USD.
+3. The transaction is converted and stored in USD, with a confirmation displaying both the original and converted amounts for transparency.
 
-6. add_user_record(chat_id, record_to_be_added):
-Updates the user’s account balance after recording an expense.
+## Benefits
+- **Simplified Tracking**: Users can manage multi-currency expenses without manual conversion, consolidating all expenses into a primary currency.
+- **Real-Time Accuracy**: The use of live exchange rates ensures that all expenses are recorded accurately, reflecting currency market fluctuations.
+- **User-Friendly**: DollarBot automatically converts expenses and provides a unified USD view, sparing users from managing complex conversions.
 
-7. add_user_balance_record(chat_id, record_to_be_added):
-Adds a new expense record to the user's data.
-
-# How to run this feature?
-Once the project is running(please follow the instructions given in the main README.md for this), please type /add into the telegram bot, after you select the date, you will be asked to select the currency you want to add, select the currency, it will automatically transfered to US dollars.
+## Future Enhancements
+- Additional currencies can easily be added to `currencies.txt`.
+- Providing a configurable primary currency option so users can choose a currency other than USD as their default for expense tracking.
