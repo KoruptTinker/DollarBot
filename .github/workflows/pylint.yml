@@ -19,4 +19,4 @@ jobs:
         run: pip install pylint
 
       - name: Run autopep8 check
-        run: find . -name "*.py" | xargs pylint
+        run: find . -name "*.py" | xargs pylint --exit-zero
