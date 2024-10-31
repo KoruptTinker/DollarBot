@@ -1,0 +1,22 @@
+name: Code Formatting Check
+
+on: [push, pull_request]
+
+jobs:
+  autopep8:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install autopep8
+        run: pip install autopep8
+
+      - name: Run autopep8 check
+        run: autopep8 --diff --exit-code .
