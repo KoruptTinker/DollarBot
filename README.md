@@ -249,16 +249,49 @@ This option is to add/delete/edit the categories.
 This option is to get the weekly analysis report of the expenditure.
 [Click here to view the Weekly command GIF](https://github.com/vegechick510/DollarBot/blob/main/docs/workflows/weekly.gif)
 
-
-
 It can be invoked by using `/weekly` command.
+
 
 ### Monthly
 This option is to get the monthly analysis report of the expenditure
 [Click here to view the Monthly command GIF](https://github.com/vegechick510/DollarBot/blob/main/docs/workflows/monthly.gif)
 
-
 It can be invoked by using `/monthly` command.
+
+
+### Insight
+This option is to spending insights feature for users.         
+<p align="center"><img width="700" src="./docs/workflows/insight.gif"></p>
+
+It can be invoked by using `/insight` command.
+
+
+### New Virtualization  
+This option is to enhanced data visualization feature.         
+<p align="center"><img width="700" src="./docs/workflows/monthly.gif"></p>
+
+It can be invoked by using `/weekly` or `/monthly` command.
+
+
+### Budget Limit
+This option is to set/update/delete the budget limit for alert.     
+<p align="center"><img width="700" src="./docs/workflows/budget_limit_add_upadte.gif"></p>
+<p align="center"><img width="700" src="./docs/workflows/budget_limit_delete.gif"></p>
+
+1. The Add/update category is to set the new budget limit or update the existing budget limit<br>      
+2. The delete category allows to delete the budget limit! <br> 
+3. It can be invoked by using `/budget` command.
+
+
+
+
+### Currency
+This option is to record expenses in multiple currencies, which are automatically converted to a primary currency (USD).         
+<p align="center"><img width="700" src="./docs/workflows/currency.gif"></p>
+
+It can be invoked by using `/add` command.
+
+
 
 # :construction: What's Next
 
