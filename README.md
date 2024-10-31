@@ -254,6 +254,13 @@ It can be invoked by using `/monthly` command.
 # :construction: What's Next
 
 Some possible future enhancements are as follows:
+1.	**Auto-Save to Google Drive:** Seamlessly back up your expenditure records to Google Drive. This feature lets you link your Google Drive account to DollarBot and automatically saves expense record
+2.	**Smart Savings Goals:** Set personalized savings goals within DollarBot. As you record expenses, DollarBot will calculate your progress toward these goals, sending you reminders or encouraging messages to stay on track. Perfect for users saving for specific items, trips, or future plans.
+3.	**Spending Challenges and Rewards:** Participate in spending challenges like “No-Spend Weekends” or “Save $50 a Week.” DollarBot tracks your progress, provides motivational updates, and rewards you with badges or points when you meet your goals. Great for those who need an extra push to stay financially disciplined!
+4.	**Bill Reminder and Tracking:** Avoid late fees by setting up reminders for upcoming bills. DollarBot will remind you when due dates are near and can even record recurring bills for easy tracking.
+5.	**Cash Flow Analysis:** Gain insight into your cash flow by categorizing income and expenses. DollarBot helps you identify trends in your spending and income, giving you a monthly or weekly overview of your cash flow status. 
+6.	**Year-End Financial Summary:** Receive a detailed financial summary at the end of each year, which includes total income, expenses by category, savings achieved, and insights on how spending changed over the months.
+
 
 
 
