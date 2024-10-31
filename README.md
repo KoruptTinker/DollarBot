@@ -197,12 +197,14 @@ This option is to give you the detailed summary of your expenditure with Date, t
 It can be invoked by using `/history` command.
 
 ### Delete
-This option is to Clear/Erase all your records
+This option is to Clear/Erase all your records.
+[Click here to view the Delete command GIF](https://github.com/vegechick510/DollarBot/blob/main/docs/workflows/delete.gif)
 
 It can be invoked by using `/delete` command.
 
 ### Edit
 This option helps you to go back and correct/update the missing details    
+[Click here to view the Edit command GIF](https://github.com/vegechick510/DollarBot/blob/main/docs/workflows/edit_command.gif)
 
 
 1. It will give you the list of your expenses you wish to edit <br> 
@@ -211,6 +213,7 @@ This option helps you to go back and correct/update the missing details
 
 ### Budget
 This option is to set/update/delete the budget.     
+[Click here to view the Budget command GIF](https://github.com/vegechick510/DollarBot/blob/main/docs/workflows/budget_command.gif)
 
 
 1. The Add/update category is to set the new budget or update the existing budget <br>      
@@ -219,19 +222,22 @@ This option is to set/update/delete the budget.
 4. It can be invoked by using `/budget` command.
 
 ### SendEmail
-This option is to send you a email with you expenditures
+This option is to send you a email with you expenditures.
+[Click here to view the SendEmail command GIF](https://github.com/vegechick510/DollarBot/blob/main/docs/workflows/send_mail.gif)
 
 
 It can be invoked by using `/sendEmail` command.
 
 ### Add Recurring
 This option is to add a recurring expense for future months.
+[Click here to view the Add Recurring command GIF](https://github.com/vegechick510/DollarBot/blob/main/docs/workflows/add_recurring.gif)
 
 
 It can be invoked by using `/add_recurring` command.
 
 ### Update Category
 This option is to add/delete/edit the categories.         
+[Click here to view the Update Category command GIF](https://github.com/vegechick510/DollarBot/blob/main/docs/workflows/update_category.gif)
 
 
 1. The Add Category option is to add a new category which dosen't already exist  <br>       
@@ -240,13 +246,16 @@ This option is to add/delete/edit the categories.
 4. It can be invoked by using `/updateCategory` command.
 
 ### Weekly
-This option is to get the weekly analysis report of the expenditure
+This option is to get the weekly analysis report of the expenditure.
+[Click here to view the Weekly command GIF](https://github.com/vegechick510/DollarBot/blob/main/docs/workflows/weekly.gif)
+
 
 
 It can be invoked by using `/weekly` command.
 
 ### Monthly
 This option is to get the monthly analysis report of the expenditure
+[Click here to view the Monthly command GIF](https://github.com/vegechick510/DollarBot/blob/main/docs/workflows/monthly.gif)
 
 
 It can be invoked by using `/monthly` command.
