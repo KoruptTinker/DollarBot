@@ -271,14 +271,9 @@ We would like to thank Dr. Timothy Menzies for helping us understand the process
 This project is licensed under the terms of the MIT license. Please check [LICENSE](https://github.com/vegechick510/DollarBot/blob/main/LICENSE.md) for more details.
 
 ## Contributors
-<table>
-  <tr>
-    <td align="center"><sub><b>Xianting Lu</b></sub></a></td>
-    <td align="center"><sub><b>Xiang Lan</b></sub></a></td>
-    <td align="center"><sub><b>Xingyue Shi</b></sub></a></td>
-  </tr>
-</table>
-
+- [@Xianting Lu](https://github.com/xiantinglu)
+- [@Xiang Lan](https://github.com/xianglan010)
+- [@Xingyue Shi](https://github.com/AMShek)
 # :calling: Support
 
 For any support, email us at `xlan4@ncsu.edu`
