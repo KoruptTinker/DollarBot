@@ -143,7 +143,6 @@ def test_read_json():
         print("---------NO RECORDS FOUND---------")
 
 
-
 def read_json():
     try:
         if not os.path.exists("./test/dummy_expense_record.json"):
@@ -157,4 +156,3 @@ def read_json():
 
     except FileNotFoundError:
         print("---------NO RECORDS FOUND---------")
-

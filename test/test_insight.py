@@ -1,14 +1,16 @@
 import unittest
 from collections import defaultdict
-from code import insight  
+from code import insight
+
 
 # === Helper Functions for Test Data ===
 def prepare_monthly_spend():
     """Prepares dummy monthly spend data for testing."""
     return {
         "Oct-2024": {"Food": 10.5, "Transport": 15.2, "Groceries": 35.0},
-        "Nov-2024": {"Utilities": 60.0, "Food": 20.0, "Transport": 30.0}
+        "Nov-2024": {"Utilities": 60.0, "Food": 20.0, "Transport": 30.0},
     }
+
 
 def prepare_day_spend():
     """Prepares dummy day-wise spend data for testing."""
@@ -19,19 +21,19 @@ def prepare_day_spend():
         3: 15.2,  # Thursday (Transport)
         4: 0.0,  # Friday
         5: 20.0,  # Saturday (Food)
-        6: 30.0   # Sunday (Transport)
+        6: 30.0,  # Sunday (Transport)
     }
+
 
 def prepare_single_day_spend():
     """Prepares data for a single-day transaction."""
     return {"Oct-2024": {"Food": 100.0}}
 
+
 def prepare_spending_spike():
     """Prepares data with a spending spike in one month."""
-    return {
-        "Oct-2024": {"Food": 50.0},
-        "Nov-2024": {"Food": 200.0, "Groceries": 100.0}
-    }
+    return {"Oct-2024": {"Food": 50.0}, "Nov-2024": {"Food": 200.0, "Groceries": 100.0}}
+
 
 def prepare_no_weekend_spending():
     """Prepares data with no weekend spending."""
@@ -41,22 +43,24 @@ def prepare_no_weekend_spending():
         2: 15.0,  # Wednesday
         3: 30.0,  # Thursday
         4: 25.0,  # Friday
-        5: 0.0,   # Saturday
-        6: 0.0    # Sunday
+        5: 0.0,  # Saturday
+        6: 0.0,  # Sunday
     }
+
 
 def prepare_missing_category_data():
     """Prepares data with a missing category in one month."""
     return {
         "Oct-2024": {"Food": 50.0, "Transport": 100.0},
-        "Nov-2024": {"Groceries": 200.0}
+        "Nov-2024": {"Groceries": 200.0},
     }
+
 
 def prepare_large_spending():
     """Prepares data with large spending values."""
     return {
         "Oct-2024": {"Food": 1_000_000.0, "Transport": 500_000.0},
-        "Nov-2024": {"Utilities": 2_000_000.0}
+        "Nov-2024": {"Utilities": 2_000_000.0},
     }
 
 
@@ -69,15 +73,17 @@ def prepare_sample_day_spend():
         3: 10.0,  # Thursday
         4: 5.0,  # Friday
         5: 0.0,  # Saturday
-        6: 0.0   # Sunday
+        6: 0.0,  # Sunday
     }
+
 
 def prepare_sample_monthly_spend():
     """Prepares minimal sample monthly spending data for testing."""
     return {
         "Oct-2024": {"Food": 50.0, "Transport": 20.0},
-        "Nov-2024": {"Food": 70.0, "Transport": 10.0}
+        "Nov-2024": {"Food": 70.0, "Transport": 10.0},
     }
+
 
 # === Test Suite ===
 class TestInsights(unittest.TestCase):
@@ -136,9 +142,7 @@ class TestInsights(unittest.TestCase):
 
     def test_insufficient_data(self):
         """Test behavior with insufficient data for insights."""
-        monthly_spend = {
-        "Oct-2024": {"Food": 10.5},
-        "Nov-2024": {"Transport": 20.0}}
+        monthly_spend = {"Oct-2024": {"Food": 10.5}, "Nov-2024": {"Transport": 20.0}}
         day_spend = prepare_day_spend()
         insights = insight.generate_insights(monthly_spend, day_spend)
         self.assertIn("Comparison between Nov-2024 and Oct-2024", insights)
@@ -162,7 +166,6 @@ class TestInsights(unittest.TestCase):
 
         self.assertIn("You spend more on weekdays", insights)
 
-
     def test_percentage_change_in_spending(self):
         """Test correct percentage change calculation between months."""
         monthly_spend = prepare_sample_monthly_spend()
@@ -175,10 +178,7 @@ class TestInsights(unittest.TestCase):
 
     def test_handle_missing_category_in_month_comparison(self):
         """Test month-over-month comparison with missing category."""
-        monthly_spend = {
-            "Oct-2024": {"Food": 50.0},
-            "Nov-2024": {"Transport": 30.0}
-        }
+        monthly_spend = {"Oct-2024": {"Food": 50.0}, "Nov-2024": {"Transport": 30.0}}
         day_spend = defaultdict(float)  # No day spend needed for this test
 
         insights = insight.generate_insights(monthly_spend, day_spend)
@@ -191,11 +191,11 @@ class TestInsights(unittest.TestCase):
         day_spend = {
             0: 30.0,  # Monday
             1: 20.0,  # Tuesday
-            2: 15.0,  
-            3: 10.0,  
-            4: 5.0,   
-            5: 0.0,  
-            6: 0.0    
+            2: 15.0,
+            3: 10.0,
+            4: 5.0,
+            5: 0.0,
+            6: 0.0,
         }
         monthly_spend = prepare_sample_monthly_spend()
 
@@ -211,6 +211,7 @@ class TestInsights(unittest.TestCase):
         insights = insight.generate_insights(monthly_spend, day_spend)
 
         self.assertIn("Your average monthly spending is $75.00", insights)
+
 
 # === Run Tests ===
 if __name__ == "__main__":

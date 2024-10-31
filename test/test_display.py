@@ -158,14 +158,16 @@ def test_read_json():
             # Load the file content and assert it loads as a JSON object
             with open("./test/dummy_expense_record.json") as expense_record:
                 expense_record_data = json.load(expense_record)
-            assert isinstance(expense_record_data, dict), "Expected data to be a dictionary"
+            assert isinstance(
+                expense_record_data, dict
+            ), "Expected data to be a dictionary"
 
     except FileNotFoundError:
         assert False, "File should have been created but was not found"
 
     except json.JSONDecodeError:
         assert False, "Expected JSON format but could not decode file content"
-        
+
 
 def read_json():
     try:
@@ -180,4 +182,3 @@ def read_json():
 
     except FileNotFoundError:
         print("---------NO RECORDS FOUND---------")
-

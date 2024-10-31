@@ -33,17 +33,18 @@ matplotlib.use("Agg")
 
 # === Documentation of graphing.py ===
 
+
 def viewBudget(data):
 
     def func(pct, allvals):
-        absolute = int(round(pct / 100. * sum(allvals)))  # Calculate the actual value
-        return f'${absolute} ({pct:.1f}%)'
+        absolute = int(round(pct / 100.0 * sum(allvals)))  # Calculate the actual value
+        return f"${absolute} ({pct:.1f}%)"
 
     sorted_data = {k: v for k, v in sorted(data.items(), key=lambda item: item[1])}
     values = [float(v) for v in sorted_data.values()]  # Convert values to float
     labels = list(sorted_data.keys())
-    print(values,"values")
-    print(labels,"labels")
+    print(values, "values")
+    print(labels, "labels")
     check = False
     for value in values:
         if int(value) != 0:
@@ -51,8 +52,13 @@ def viewBudget(data):
             break
     print(values)
     if check:
-        plt.pie(values, labels=labels, counterclock=False, shadow=True, 
-                autopct=lambda pct: func(pct, values))
+        plt.pie(
+            values,
+            labels=labels,
+            counterclock=False,
+            shadow=True,
+            autopct=lambda pct: func(pct, values),
+        )
         plt.title("Category Wise Budget")
         plt.legend(labels, loc="best", bbox_to_anchor=(1, 0.5))
         plt.savefig("budget.png", bbox_inches="tight")
@@ -61,6 +67,7 @@ def viewBudget(data):
     else:
         return False
 
+
 def addlabels(x, y):
     """
     addlabels(x, y): This function is used to add the labels to the graph.
@@ -68,6 +75,7 @@ def addlabels(x, y):
     """
     for i in range(len(x)):
         plt.text(i, y[i] // 2, y[i], ha="center")
+
 
 def visualize(total_text, monthly_budget):
     """
@@ -117,13 +125,15 @@ def visualize(total_text, monthly_budget):
     plt.savefig("expenditure.png", bbox_inches="tight")
     plt.close()
 
+
 def overall_split(category_budget):
     _, ax = plt.subplots()
-    ax.pie(category_budget.values(), labels=category_budget.keys(), autopct='%1.1f%%')
+    ax.pie(category_budget.values(), labels=category_budget.keys(), autopct="%1.1f%%")
     ax.set_title("Budget split")
     img_name = "overall_split.png"
     plt.savefig(img_name)
     plt.close()
+
 
 def spend_wise_split(category_spend):
     """
@@ -136,11 +146,12 @@ def spend_wise_split(category_spend):
     across different spending categories and saves the chart as an image file.
     """
     _, ax = plt.subplots()
-    ax.pie(category_spend.values(), labels=category_spend.keys(), autopct='%1.1f%%')
+    ax.pie(category_spend.values(), labels=category_spend.keys(), autopct="%1.1f%%")
     ax.set_title("Category-wise spend")
     img_name = "spend_wise.png"
     plt.savefig(img_name)
     plt.close()
+
 
 def remaining(category_spend_percent):
     """
@@ -176,6 +187,7 @@ def remaining(category_spend_percent):
     plt.savefig(img_name)
     plt.close()
 
+
 def time_series(cat_spend_dict):
     """
     Generates a time-series plot representing the user's spending history.
@@ -186,7 +198,7 @@ def time_series(cat_spend_dict):
     This function creates a time-series plot using Matplotlib to visualize the user's spending history
     over time and saves the plot as an image file.
     """
-    plt.plot(cat_spend_dict.keys(), cat_spend_dict.values(), marker='o')
+    plt.plot(cat_spend_dict.keys(), cat_spend_dict.values(), marker="o")
     plt.title("Time-series of expenses")
     plt.xlabel("Time")
     plt.ylabel("Expense")
@@ -201,10 +213,15 @@ def visualize_new(total_text, monthly_budget):
     Saves the graphs as PNG files.
     """
     # Prepare data
-    categ_val = {line.split(" ")[0]: float(line.split(" ")[1].replace("$", ""))
-                 for line in total_text.split("\n") if line.strip()}
-    
-    monthly_budget_categ_val = {key: float(value) for key, value in monthly_budget.items()}
+    categ_val = {
+        line.split(" ")[0]: float(line.split(" ")[1].replace("$", ""))
+        for line in total_text.split("\n")
+        if line.strip()
+    }
+
+    monthly_budget_categ_val = {
+        key: float(value) for key, value in monthly_budget.items()
+    }
 
     # Plot 1: Stacked Bar Chart (Budget vs. Spending)
     plt.figure(figsize=(12, 6))
@@ -215,8 +232,8 @@ def visualize_new(total_text, monthly_budget):
     bar_width = 0.4
     r = np.arange(len(categories))
 
-    plt.bar(r, budget_values, color='lightgray', width=bar_width, label='Budget')
-    plt.bar(r, spend_values, color='cornflowerblue', width=bar_width, label='Spending')
+    plt.bar(r, budget_values, color="lightgray", width=bar_width, label="Budget")
+    plt.bar(r, spend_values, color="cornflowerblue", width=bar_width, label="Spending")
 
     plt.xticks(r, categories, rotation=45)
     plt.xlabel("Categories")
@@ -232,7 +249,13 @@ def visualize_new(total_text, monthly_budget):
     labels = list(categ_val.keys())
     sizes = list(categ_val.values())
 
-    plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=140, colors=plt.cm.Paired.colors)
+    plt.pie(
+        sizes,
+        labels=labels,
+        autopct="%1.1f%%",
+        startangle=140,
+        colors=plt.cm.Paired.colors,
+    )
     plt.title("Spending by Category (Pie Chart)")
     plt.tight_layout()
     plt.savefig("spending_pie_chart.png", bbox_inches="tight")
@@ -243,7 +266,14 @@ def visualize_new(total_text, monthly_budget):
     categories = list(categ_val.keys())
     amounts = list(categ_val.values())
 
-    plt.plot(categories, amounts, marker='o', linestyle='-', color='green', label='Spending Trend')
+    plt.plot(
+        categories,
+        amounts,
+        marker="o",
+        linestyle="-",
+        color="green",
+        label="Spending Trend",
+    )
     plt.xticks(rotation=45)
     plt.xlabel("Categories")
     plt.ylabel("Amount ($)")
@@ -253,4 +283,8 @@ def visualize_new(total_text, monthly_budget):
     plt.savefig("spending_trend_chart.png", bbox_inches="tight")
     plt.close()
 
-    return ["stacked_bar_chart.png", "spending_pie_chart.png", "spending_trend_chart.png"]
+    return [
+        "stacked_bar_chart.png",
+        "spending_pie_chart.png",
+        "spending_trend_chart.png",
+    ]

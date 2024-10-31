@@ -16,7 +16,7 @@ import budget
 import analytics
 import predict
 import updateCategory
-import weekly,new_weekly
+import weekly, new_weekly
 import monthly, new_monthly
 import sendEmail
 import add_recurring
@@ -45,6 +45,7 @@ option = {}
 
 # === Documentation of code.py ===
 
+
 # Define listener for requests by user
 def listener(user_requests):
     """
@@ -63,9 +64,9 @@ def listener(user_requests):
             )
 
     message = (
-        ("Sorry, I can't understand messages yet :/\n"
-         "I can only understand commands that start with /. \n\n"
-         "Type /faq or /help if you are stuck.")
+        "Sorry, I can't understand messages yet :/\n"
+        "I can only understand commands that start with /. \n\n"
+        "Type /faq or /help if you are stuck."
     )
 
     try:
@@ -78,7 +79,9 @@ def listener(user_requests):
     except Exception:
         pass
 
+
 bot.set_update_listener(listener)
+
 
 @bot.message_handler(commands=["help"])
 def help(m):
@@ -94,6 +97,7 @@ def help(m):
     message += "\nUse /menu for detailed instructions about these commands."
     bot.send_message(chat_id, message)
 
+
 @bot.message_handler(commands=["faq"])
 def faq(m):
 
@@ -102,18 +106,19 @@ def faq(m):
     chat_id = m.chat.id
 
     faq_message = (
-        ('"What does this bot do?"\n'
-         ">> DollarBot lets you manage your expenses so you can always stay on top of them! \n\n"
-         '"How can I add an epxense?" \n'
-         ">> Type /add, then select a category to type the expense. \n\n"
-         '"Can I see history of my expenses?" \n'
-         ">> Yes! Use /analytics to get a graphical display, or /history to view detailed summary.\n\n"
-         '"I added an incorrect expense. How can I edit it?"\n'
-         ">> Use /edit command. \n\n"
-         '"Can I check if my expenses have exceeded budget?"\n'
-         ">> Yes! Use /budget and then select the view category. \n\n")
+        '"What does this bot do?"\n'
+        ">> DollarBot lets you manage your expenses so you can always stay on top of them! \n\n"
+        '"How can I add an epxense?" \n'
+        ">> Type /add, then select a category to type the expense. \n\n"
+        '"Can I see history of my expenses?" \n'
+        ">> Yes! Use /analytics to get a graphical display, or /history to view detailed summary.\n\n"
+        '"I added an incorrect expense. How can I edit it?"\n'
+        ">> Use /edit command. \n\n"
+        '"Can I check if my expenses have exceeded budget?"\n'
+        ">> Yes! Use /budget and then select the view category. \n\n"
     )
     bot.send_message(chat_id, faq_message)
+
 
 # defines how the /start and /help commands have to be handled/processed
 @bot.message_handler(commands=["start", "menu"])
@@ -128,18 +133,19 @@ def start_and_menu_command(m):
     chat_id = m.chat.id
 
     text_intro = (
-        ("Welcome to the Dollar Bot! \n"
-         "DollarBot can track all your expenses with simple and easy to use commands :) \n"
-         "Here is the complete menu. \n\n")
+        "Welcome to the Dollar Bot! \n"
+        "DollarBot can track all your expenses with simple and easy to use commands :) \n"
+        "Here is the complete menu. \n\n"
     )
 
     commands = helper.getCommands()
-    for c in commands:  
+    for c in commands:
         # generate help text out of the commands dictionary defined at the top
         text_intro += "/" + c + ": "
         text_intro += commands[c] + "\n\n"
     bot.send_message(chat_id, text_intro)
     return True
+
 
 # defines how the /add command has to be handled/processed
 @bot.message_handler(commands=["add"])
@@ -151,6 +157,7 @@ def command_add(message):
     """
     add.run(message, bot)
 
+
 # defines how the /weekly command has to be handled/processed
 @bot.message_handler(commands=["weekly"])
 def command_weekly(message):
@@ -160,6 +167,7 @@ def command_weekly(message):
     the weekly analysis functionality. Commands used to run this: commands=['weekly']
     """
     new_weekly.run(message, bot)
+
 
 # defines how the /monthly command has to be handled/processed
 @bot.message_handler(commands=["monthly"])
@@ -171,17 +179,20 @@ def command_monthly(message):
     """
     new_monthly.run(message, bot)
 
+
 # defines how the /add command has to be handled/processed
 @bot.message_handler(commands=["add_currencies"])
 def command_add_currencies(message):
 
     add_currencies.run(message, bot)
 
+
 # defines how the /add command has to be handled/processed
 @bot.message_handler(commands=["add_balance"])
 def command_add_balance(message):
 
     add_balance.run(message, bot)
+
 
 # handles pdf command
 @bot.message_handler(commands=["pdf"])
@@ -193,6 +204,7 @@ def command_pdf(message):
     """
     pdf.run(message, bot)
 
+
 # function to fetch expenditure history of the user
 @bot.message_handler(commands=["history"])
 def command_history(message):
@@ -202,6 +214,7 @@ def command_history(message):
     the add functionality. Commands used to run this: commands=['history']
     """
     history.run(message, bot)
+
 
 # function to edit date, category or cost of a transaction
 @bot.message_handler(commands=["edit"])
@@ -213,6 +226,7 @@ def command_edit(message):
     """
     edit.run(message, bot)
 
+
 # function to display total expenditure
 @bot.message_handler(commands=["display"])
 def command_display(message):
@@ -223,10 +237,12 @@ def command_display(message):
     """
     display.run(message, bot)
 
+
 # function to estimate future expenditure
 @bot.message_handler(commands=["estimate"])
 def command_estimate(message):
     estimate.run(message, bot)
+
 
 # handles "/delete" command
 @bot.message_handler(commands=["delete"])
@@ -238,28 +254,32 @@ def command_delete(message):
     """
     delete.run(message, bot)
 
+
 # handles budget command
 @bot.message_handler(commands=["budget"])
 def command_budget(message):
     budget.run(message, bot)
 
+
 # handles analytics command
 @bot.message_handler(commands=["analytics"])
 def command_analytics(message):
     """
-    command_analytics(message): Take an argument message with content and chat ID. Calls analytics to 
+    command_analytics(message): Take an argument message with content and chat ID. Calls analytics to
     run analytics. Commands to run this commands=["analytics"]
     """
     analytics.run(message, bot)
+
 
 # handles predict command
 @bot.message_handler(commands=["predict"])
 def command_predict(message):
     """
-    command_predict(message): Take an argument message with content and chat ID. Calls predict to 
+    command_predict(message): Take an argument message with content and chat ID. Calls predict to
     analyze budget and spending trends and suggest a future budget. Commands to run this commands=["predict"]
     """
     predict.run(message, bot)
+
 
 # defines how the /insights command has to be handled/processed
 @bot.message_handler(commands=["insight"])
@@ -270,13 +290,15 @@ def command_insight(message):
     """
     insight.run(message, bot)
 
-@bot.message_handler(commands=['set_account'])
+
+@bot.message_handler(commands=["set_account"])
 def handle_set_account(message):
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
     markup.row_width = 2
-    markup.add('Checking', 'Savings')
+    markup.add("Checking", "Savings")
     msg = bot.reply_to(message, "Choose your account type:", reply_markup=markup)
     bot.register_next_step_handler(msg, process_account_choice)
+
 
 def process_account_choice(message):
     account_type = message.text
@@ -290,6 +312,7 @@ def addUserHistory(chat_id, user_record):
         user_list[str(chat_id)] = []
     user_list[str(chat_id)].append(user_record)
     return user_list
+
 
 def main():
     """
@@ -305,6 +328,7 @@ def main():
         logging.exception(str(e))
         time.sleep(3)
         print("Connection Timeout")
+
 
 if __name__ == "__main__":
     main()

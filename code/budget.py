@@ -35,6 +35,7 @@ from telebot import types
 
 # === Documentation of budget.py ===
 
+
 def run(message, bot):
     """
     run(message, bot): This is the main function used to implement the budget feature.
@@ -50,11 +51,16 @@ def run(message, bot):
     for c in options.values():
         markup.add(c)
     if budget == None or budget == 0:
-        msg_before = "No budget set. Please set a budget if it is needed.\nSelect Operation."
+        msg_before = (
+            "No budget set. Please set a budget if it is needed.\nSelect Operation."
+        )
     else:
-        msg_before = "The Overall Monthly Budget is ${:.2f}.\nSelect Operation.".format(budget, remaining_budget)
+        msg_before = "The Overall Monthly Budget is ${:.2f}.\nSelect Operation.".format(
+            budget, remaining_budget
+        )
     msg = bot.reply_to(message, msg_before, reply_markup=markup)
     bot.register_next_step_handler(msg, post_operation_selection, bot)
+
 
 def post_operation_selection(message, bot):
     """

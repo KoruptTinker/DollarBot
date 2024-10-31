@@ -36,6 +36,7 @@ import os
 
 # === Documentation of display.py ===
 
+
 def run(message, bot):
     """
     run(message, bot): This is the main function used to implement the delete feature.
@@ -60,6 +61,7 @@ def run(message, bot):
             reply_markup=markup,
         )
         bot.register_next_step_handler(msg, display_total, bot)
+
 
 def display_total(message, bot):
     """
@@ -112,14 +114,16 @@ def display_total(message, bot):
             bot.send_message(chat_id, spending_text)
         else:
             table = [["Category", "Amount"]]
-            spending_text = "Here are your total spendings {}".format(DayWeekMonth.lower())
+            spending_text = "Here are your total spendings {}".format(
+                DayWeekMonth.lower()
+            )
             for category, amount in total_dict.items():
                 table.append([str(category), "$ " + str(amount)])
-            spend_total_str="<pre>"+ tabulate(table, headers='firstrow')+"</pre>"
+            spend_total_str = "<pre>" + tabulate(table, headers="firstrow") + "</pre>"
             bot.send_message(chat_id, spending_text)
             bot.send_message(chat_id, spend_total_str, parse_mode="HTML")
             photo_paths = graphing.visualize_new(total_text, monthly_budget)
-            #bot.send_photo(chat_id, photo=open("expenditure.png", "rb"))
+            # bot.send_photo(chat_id, photo=open("expenditure.png", "rb"))
             for photo_path in photo_paths:
                 with open(photo_path, "rb") as photo:
                     bot.send_photo(chat_id, photo)
@@ -127,6 +131,7 @@ def display_total(message, bot):
     except Exception as e:
         logging.exception(str(e))
         bot.reply_to(message, str(e))
+
 
 def calculate_spendings(queryResult):
     """

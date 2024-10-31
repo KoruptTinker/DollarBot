@@ -32,6 +32,7 @@ from datetime import datetime
 
 # === Documentation of history.py ===
 
+
 def run(message, bot):
     """
     run(message, bot): This is the main function used to implement the delete feature.
@@ -51,16 +52,16 @@ def run(message, bot):
             raise Exception("Sorry! No spending records found!")
         else:
             for rec in user_history:
-                values = rec.split(',')
+                values = rec.split(",")
                 # Store each value in separate variables
                 date, category, amount = values
 
-                date_time = datetime.strptime(date, '%d-%b-%Y')
+                date_time = datetime.strptime(date, "%d-%b-%Y")
                 current_date = datetime.now()
 
-                if(date_time <= current_date):
+                if date_time <= current_date:
                     table.append([date, category, "$ " + amount])
-            spend_total_str="<pre>"+ tabulate(table, headers='firstrow')+"</pre>"
+            spend_total_str = "<pre>" + tabulate(table, headers="firstrow") + "</pre>"
             bot.send_message(chat_id, spend_total_str, parse_mode="HTML")
     except Exception as e:
         logging.exception(str(e))

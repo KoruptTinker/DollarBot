@@ -32,6 +32,7 @@ from telebot import types
 
 # === Documentation of budget_limit.py ===
 
+
 def run(message, bot):
     """
     run(message, bot): This is the main function used to implement the budget limit features.
@@ -46,6 +47,7 @@ def run(message, bot):
         markup.add(c)
     msg = bot.reply_to(message, "Set Budget Limit Alert", reply_markup=markup)
     bot.register_next_step_handler(msg, post_limit_option_selection, bot)
+
 
 def post_limit_option_selection(message, bot):
     """
@@ -72,6 +74,7 @@ def post_limit_option_selection(message, bot):
     except Exception as e:
         helper.throw_exception(e, message, bot, logging)
 
+
 def update_budget_limit(chat_id, bot):
     """
     update_budget_limit(message, bot): It takes 2 arguments for processing - message which is the
@@ -89,11 +92,12 @@ def update_budget_limit(chat_id, bot):
         message = bot.send_message(chat_id, msg_string)
     bot.register_next_step_handler(message, post_budget_limit_input, bot)
 
+
 def post_budget_limit_input(message, bot):
     """
     post_budget_limit_input(message, bot): It takes 2 arguments for processing -
     message which is the message from the user, and bot which is the telegram bot object.
-    This function is called when the user has entered the new budget limit alert value and write 
+    This function is called when the user has entered the new budget limit alert value and write
     it into the json file.
     """
     try:
@@ -112,11 +116,12 @@ def post_budget_limit_input(message, bot):
     except Exception as e:
         helper.throw_exception(e, message, bot, logging)
 
+
 def delete_budget_limit(message, bot):
     """
-    delete_budget_limit(message, bot): It takes 2 arguments for processing - 
-    message which is the message from the user, and bot which is the telegram bot object. 
-    It gets the user's chat ID from the message object, and reads all user data through 
+    delete_budget_limit(message, bot): It takes 2 arguments for processing -
+    message which is the message from the user, and bot which is the telegram bot object.
+    It gets the user's chat ID from the message object, and reads all user data through
     the read_json method from the helper module. It then proceeds to empty the budget limit
     data for the particular user based on the user ID provided from the UI.
     It returns a simple message indicating that this operation has been done to the UI.
@@ -131,4 +136,3 @@ def delete_budget_limit(message, bot):
     else:
         msg = "Chat ID not found in user list!"
     bot.send_message(chat_id, msg)
-

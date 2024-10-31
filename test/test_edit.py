@@ -110,6 +110,7 @@ def test_enter_updated_data(mock_telebot, mocker):
     edit.enter_updated_data(message, mc, selected_data, updated)
     assert not mc.reply_to.called
 
+
 @patch("telebot.telebot")
 def test_edit_category(mock_telebot, mocker):
     mc = mock_telebot.return_value
@@ -122,7 +123,7 @@ def test_edit_category(mock_telebot, mocker):
     message = create_message("hello from testing!")
     message.chat.id = MOCK_CHAT_ID
     selected_data = list(MOCK_USER_DATA[str(MOCK_CHAT_ID)]["data"][0])
-    updated = ["","",""]
+    updated = ["", "", ""]
     edit.edit_cat(message, mc, selected_data, updated)
     assert mc.reply_to.called
 
@@ -140,7 +141,7 @@ def test_edit_cost(mock_telebot, mocker):
     message = create_message("hello from testing!")
     message.chat.id = MOCK_CHAT_ID
     selected_data = list(MOCK_USER_DATA[str(MOCK_CHAT_ID)]["data"][0])
-    updated = ["","",""]
+    updated = ["", "", ""]
     edit.edit_cost(message, mc, selected_data, updated)
     assert mc.reply_to.called
 

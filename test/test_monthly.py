@@ -20,21 +20,22 @@ invalid_user_history = [
 
 dummy_user_id = "test_user"
 
+
 # === Helper Function ===
 def prepare_test_dataframe(user_history):
     """Helper function to prepare a DataFrame for testing."""
     user_history_split = [item.split(",") for item in user_history]
     df = pd.DataFrame(user_history_split, columns=["Date", "Category", "Cost"])
-    df['Cost'] = pd.to_numeric(df['Cost'], errors='coerce')
-    df['Date'] = pd.to_datetime(df['Date'])
-    df.dropna(subset=['Cost'], inplace=True)
-    df['Month'] = df['Date'].dt.month_name()
-    df['Year'] = df['Date'].dt.year
+    df["Cost"] = pd.to_numeric(df["Cost"], errors="coerce")
+    df["Date"] = pd.to_datetime(df["Date"])
+    df.dropna(subset=["Cost"], inplace=True)
+    df["Month"] = df["Date"].dt.month_name()
+    df["Year"] = df["Date"].dt.year
     return df
 
 
-
 # === Test Cases ===
+
 
 @patch("code.new_monthly.plt.savefig")
 def test_create_original_monthly_chart(mock_savefig):
@@ -47,6 +48,7 @@ def test_create_original_monthly_chart(mock_savefig):
     assert result == expected_filename
     mock_savefig.assert_called_once_with(expected_filename, bbox_inches="tight")
 
+
 @patch("code.new_monthly.plt.savefig")
 def test_create_category_monthly_chart(mock_savefig):
     """Test the category-wise monthly chart creation."""
@@ -57,6 +59,7 @@ def test_create_category_monthly_chart(mock_savefig):
     expected_filename = f"data/{dummy_user_id}_monthly_analysis_by_category.png"
     assert result == expected_filename
     mock_savefig.assert_called_once_with(expected_filename, bbox_inches="tight")
+
 
 @patch("code.new_monthly.pio.write_image")
 def test_create_monthly_bar_chart(mock_write_image):
@@ -74,6 +77,7 @@ def test_create_monthly_bar_chart(mock_write_image):
     # Verify that write_image was called with the correct arguments
     mock_write_image.assert_called_once_with(mock.ANY, expected_filename)
 
+
 @patch("code.new_monthly.pio.write_image")
 def test_create_category_pie_chart(mock_write_image):
     """Test the category-wise pie chart creation."""
@@ -83,7 +87,6 @@ def test_create_category_pie_chart(mock_write_image):
     # Ensure the file was saved with the correct filename
     expected_filename = f"data/{dummy_user_id}_category_pie_chart.png"
     assert result == expected_filename
-
 
 
 @patch("code.new_monthly.pio.write_image")
@@ -106,7 +109,6 @@ def test_create_category_pie_chart_2(mock_write_image):
     # Ensure the file was saved with the correct filename
     expected_filename = f"data/{dummy_user_id}_monthly_bar_chart.png"
     assert result == expected_filename
-
 
 
 @patch("code.new_monthly.helper.getUserHistory", return_value=None)
@@ -177,7 +179,7 @@ def test_cleanup_after_file_send(mock_remove, mock_open):
     bot = MagicMock()
     charts = [
         f"data/{dummy_user_id}_monthly_analysis.png",
-        f"data/{dummy_user_id}_monthly_analysis_by_category.png"
+        f"data/{dummy_user_id}_monthly_analysis_by_category.png",
     ]
 
     for chart in charts:
@@ -205,14 +207,13 @@ def test_run_with_file_open_exception(mock_get_history, mock_open, mocker):
         message, "Oops! Could not create monthly analysis chart"
     )
 
+
 @patch("code.new_monthly.pio.write_image")
 def test_non_existent_category(mock_write_image):
     """Test handling of a non-existent category."""
-    df = pd.DataFrame({
-        "Date": ["2024-10-01"],
-        "Category": ["NonExistentCategory"],
-        "Cost": [100.0]
-    })
+    df = pd.DataFrame(
+        {"Date": ["2024-10-01"], "Category": ["NonExistentCategory"], "Cost": [100.0]}
+    )
     result = new_monthly.create_category_pie_chart(df, dummy_user_id)
 
     expected_filename = f"data/{dummy_user_id}_category_pie_chart.png"
@@ -220,4 +221,3 @@ def test_non_existent_category(mock_write_image):
 
     # Verify that the pie chart was created
     mock_write_image.assert_called_once_with(mock.ANY, expected_filename)
-

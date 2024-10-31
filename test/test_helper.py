@@ -36,7 +36,6 @@ import pytest
 from code.helper import convert_currency, getCurrencies, validate_entered_amount
 
 
-
 MOCK_CHAT_ID = 894127939
 MOCK_USER_DATA = {
     str(MOCK_CHAT_ID): {
@@ -203,7 +202,7 @@ def test_getSpendCategories(mocker):
     mocker.patch.object(helper, "read_category_json")
     helper.read_category_json.return_value = MOCK_CATEGORY_DATA
     result = helper.getSpendCategories()
-    if result == MOCK_CATEGORY_DATA["categories"].split(','):
+    if result == MOCK_CATEGORY_DATA["categories"].split(","):
         assert True
     else:
         assert False, "expected spend categories are not returned"
@@ -325,21 +324,25 @@ def test_canAddBudget():
     testresult = helper.canAddBudget(10)
     assert testresult
 
+
 def test_canAddBudget():
     helper.getOverallBudget = mock.Mock(return_value=None)
     helper.getCategoryBudget = mock.Mock(return_value=None)
     testresult = helper.canAddBudget(10)
     assert testresult
 
+
 def test_getBudgetLimit_no_data():
     helper.getUserData = mock.Mock(return_value={"budget": {"limit": None}})
     budget_limit = helper.getBudgetLimit(11)
     assert budget_limit is None
 
+
 def test_getBudgetLimit():
     helper.getUserData = mock.Mock(return_value={"budget": {"limit": "10"}})
     budget_limit = helper.getBudgetLimit(11)
     assert budget_limit == "10"
+
 
 def test_isOverallBudgetAvailable():
     helper.getOverallBudget = mock.Mock(return_value=True)
@@ -364,20 +367,24 @@ def test_isCategoryBudgetByCategoryAvailable_none_case():
     testresult = isCategoryBudgetByCategoryAvailable(10, "Food")
     assert testresult is False
 
+
 def test_isBudgetLimitAvailable():
     helper.getBudgetLimit = mock.Mock(return_value=10)
     testresult = helper.isBudgetLimitAvailable(10)
     assert testresult is True
+
 
 def test_isBudgetLimitAvailable_none():
     helper.getBudgetLimit = mock.Mock(return_value=None)
     testresult = helper.isBudgetLimitAvailable(10)
     assert testresult is False
 
+
 def test_isBudgetLimitAvailable_zero():
     helper.getBudgetLimit = mock.Mock(return_value="0")
     testresult = helper.isBudgetLimitAvailable(10)
     assert testresult is False
+
 
 def test_calculate_total_spendings():
     pass
@@ -398,8 +405,10 @@ def test_display_remaining_overall_budget_not_set(mock_telebot, mocker):
     helper.calculateRemainingOverallBudget = mock.Mock(return_value=(0, 0))
     message = create_message("hello from testing")
     helper.display_remaining_overall_budget(message, mc)
-    
-    mc.send_message.assert_called_with(11, "No budget set. Please set a budget if it is needed.")
+
+    mc.send_message.assert_called_with(
+        11, "No budget set. Please set a budget if it is needed."
+    )
 
 
 @patch("telebot.telebot")
@@ -426,7 +435,8 @@ def test_display_remaining_overall_budget_cost_lt_limit(mock_telebot, mocker):
     helper.display_remaining_overall_budget(message, mc)
 
     mc.send_message.assert_called_with(
-        11, "The Overall Monthly Budget is $100.00. \nRemaining Overall Monthly Budget is $90.00"
+        11,
+        "The Overall Monthly Budget is $100.00. \nRemaining Overall Monthly Budget is $90.00",
     )
 
 
@@ -440,7 +450,8 @@ def test_display_remaining_overall_budget_cost_eq_limit(mock_telebot, mocker):
     helper.display_remaining_overall_budget(message, mc)
 
     mc.send_message.assert_called_with(
-        11, "The Overall Monthly Budget is $100.00. \nTotal spending has reached 10.00% of the budget, exceeding the 10.00% limit. Please monitor your spending."
+        11,
+        "The Overall Monthly Budget is $100.00. \nTotal spending has reached 10.00% of the budget, exceeding the 10.00% limit. Please monitor your spending.",
     )
 
 
@@ -454,13 +465,18 @@ def test_display_remaining_overall_budget_gt_limit(mock_telebot, mocker):
     helper.display_remaining_overall_budget(message, mc)
 
     mc.send_message.assert_called_with(
-        11, "The Overall Monthly Budget is $100.00. \nTotal spending has reached 10.00% of the budget, exceeding the 5.00% limit. Please monitor your spending."
+        11,
+        "The Overall Monthly Budget is $100.00. \nTotal spending has reached 10.00% of the budget, exceeding the 5.00% limit. Please monitor your spending.",
     )
 
 
 def test_getBudgetTypes():
     testresult = helper.getBudgetTypes()
-    localBudgetTypes = {"overall": "Overall Budget", "category": "Category-Wise Budget", "exit": "Exit"}
+    localBudgetTypes = {
+        "overall": "Overall Budget",
+        "category": "Category-Wise Budget",
+        "exit": "Exit",
+    }
     assert sorted(testresult) == sorted(localBudgetTypes)
 
 
@@ -472,56 +488,74 @@ def create_message(text):
 
 # Mocked conversion data for tests
 CURRENCY_TO_USD_DATA = [
-    ("USD", "USD", 100, 100),       # Convert 100 USD to USD (should be the same)
-    ("CNY", "USD", 100, 14.0),      # Example conversion of 100 CNY to USD
-    ("GBP", "USD", 100, 130),       # Example conversion of 100 GBP to USD
-    ("EUR", "USD", 100, 108),       # Example conversion of 100 EUR to USD
-    ("CAD", "USD", 100, 71.9),        # Example conversion of 100 CAD to USD
-    ("JPY", "USD", 1000, 6.52),      # Example conversion of 1000 JPY to USD
+    ("USD", "USD", 100, 100),  # Convert 100 USD to USD (should be the same)
+    ("CNY", "USD", 100, 14.0),  # Example conversion of 100 CNY to USD
+    ("GBP", "USD", 100, 130),  # Example conversion of 100 GBP to USD
+    ("EUR", "USD", 100, 108),  # Example conversion of 100 EUR to USD
+    ("CAD", "USD", 100, 71.9),  # Example conversion of 100 CAD to USD
+    ("JPY", "USD", 1000, 6.52),  # Example conversion of 1000 JPY to USD
 ]
 
-@pytest.mark.parametrize("from_currency, to_currency, amount, expected", CURRENCY_TO_USD_DATA)
+
+@pytest.mark.parametrize(
+    "from_currency, to_currency, amount, expected", CURRENCY_TO_USD_DATA
+)
 def test_convert_currency_to_usd(from_currency, to_currency, amount, expected):
-    """ Test conversion from specified currencies to USD. """
+    """Test conversion from specified currencies to USD."""
     result = convert_currency(from_currency, to_currency, amount)
     assert result > expected * 0.5 and result < expected * 1.5
 
+
 def test_getCurrencies():
-    """ Test that getCurrencies returns a list of available currencies including all specified ones. """
+    """Test that getCurrencies returns a list of available currencies including all specified ones."""
     currencies = getCurrencies()
     assert set(["USD", "CNY", "GBP", "EUR", "CAD", "JPY"]).issubset(currencies)
 
-@pytest.mark.parametrize("amount, currency, expected", [("100", "USD", "100.0"), ("200", "CNY", "200.0"), ("50", "GBP", "50.0")])
+
+@pytest.mark.parametrize(
+    "amount, currency, expected",
+    [("100", "USD", "100.0"), ("200", "CNY", "200.0"), ("50", "GBP", "50.0")],
+)
 def test_valid_multi_currency_amount(amount, currency, expected):
-    """ Test various valid currency amounts with expected decimal formatting """
+    """Test various valid currency amounts with expected decimal formatting"""
     assert validate_entered_amount(amount) == expected
+
 
 def test_valid_multi_currency_amount_values():
     assert helper.convert_currency("USD", "USD", 100) == 100
     assert helper.convert_currency("CNY", "USD", 200) == 28
 
+
 def test_invalid_currency_conversion():
-    """ Test conversion when invalid currency is provided """
+    """Test conversion when invalid currency is provided"""
     result = convert_currency("INVALID", "USD", 100)
     assert result is None
 
-@pytest.mark.parametrize("from_currency, to_currency, amount", [
-    ("USD", "USD", -50),  # Negative amount
-    ("EUR", "USD", 0),    # Zero amount
-])
+
+@pytest.mark.parametrize(
+    "from_currency, to_currency, amount",
+    [
+        ("USD", "USD", -50),  # Negative amount
+        ("EUR", "USD", 0),  # Zero amount
+    ],
+)
 def test_convert_currency_invalid_amounts(from_currency, to_currency, amount):
-    """ Test currency conversion with zero and negative amounts """
+    """Test currency conversion with zero and negative amounts"""
     assert convert_currency(from_currency, to_currency, amount) is None
 
-@pytest.mark.parametrize("from_currency, to_currency, amount, expected", [
-    ("CNY", "USD", 0.01, 0.00157),    # Tiny CNY amount to USD
-    ("JPY", "USD", 500000, 3260.0),      # Large JPY amount to USD
-    ("GBP", "USD", 10000.76, 13000.99) # Large GBP with decimal
-])
+
+@pytest.mark.parametrize(
+    "from_currency, to_currency, amount, expected",
+    [
+        ("CNY", "USD", 0.01, 0.00157),  # Tiny CNY amount to USD
+        ("JPY", "USD", 500000, 3260.0),  # Large JPY amount to USD
+        ("GBP", "USD", 10000.76, 13000.99),  # Large GBP with decimal
+    ],
+)
 def test_edge_case_currency_conversion(from_currency, to_currency, amount, expected):
-    """ Test conversion with boundary and high-precision cases """
+    """Test conversion with boundary and high-precision cases"""
     result = convert_currency(from_currency, to_currency, amount)
     if result == 0:
-        assert result == round(expected,2)
+        assert result == round(expected, 2)
     else:
-        assert result > round(expected,2) * 0.5 and result < round(expected,2) * 1.5
+        assert result > round(expected, 2) * 0.5 and result < round(expected, 2) * 1.5

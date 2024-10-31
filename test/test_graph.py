@@ -77,11 +77,13 @@ def test_visualize(mocker):
     # graphing.plt.bar.assert_called_with(r2,
     # ANY, width=width, label='your spendings')
 
+
 @patch("code.graphing.plt.savefig")
 def test_visualize_success(mock_savefig):
     """Test the original visualize function with valid data."""
     graphing.visualize(dummy_total_text_data, dummy_monthly_budget)
     mock_savefig.assert_called_once_with("expenditure.png", bbox_inches="tight")
+
 
 @patch("code.graphing.plt.savefig")
 def test_visualize_new(mocker_savefig):
@@ -99,12 +101,15 @@ def test_visualize_new(mocker_savefig):
     for img in result:
         mocker_savefig.assert_any_call(img, bbox_inches="tight")
 
+
 @patch("os.remove")
 @patch("code.graphing.plt.savefig")
 def test_visualize_new_cleanup(mock_savefig, mock_remove):
     """Test that visualize_new generates and removes files correctly."""
     # Simulate generated image files from visualize_new
-    generated_images = graphing.visualize_new(dummy_total_text_data, dummy_monthly_budget)
+    generated_images = graphing.visualize_new(
+        dummy_total_text_data, dummy_monthly_budget
+    )
 
     # Check that the files were saved
     for img in generated_images:
@@ -117,6 +122,7 @@ def test_visualize_new_cleanup(mock_savefig, mock_remove):
     # Ensure that os.remove was called for each file
     for img in generated_images:
         mock_remove.assert_any_call(img)
+
 
 def test_viewBudget_with_data(mocker):
     """Test viewBudget function with valid data."""
@@ -134,7 +140,7 @@ def test_viewBudget_no_data(mocker):
     category_budget = {"Food": 0.0, "Transport": 0.0}
     result = graphing.viewBudget(category_budget)
 
-    assert result is False  
+    assert result is False
 
 
 @patch("code.graphing.plt")
@@ -175,6 +181,3 @@ def test_time_series_empty_data():
         graphing.time_series({})
     except ValueError as e:
         assert str(e) == "cat_spend_dict cannot be empty"
-
-
-

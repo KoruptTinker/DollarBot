@@ -30,12 +30,14 @@ from mock.mock import patch
 from telebot import types
 from code import budget_limit
 
+
 def create_message(text):
     params = {"messagebody": text}
     chat = types.User(11, False, "test")
     message = types.Message(1, None, None, chat, "text", params, "")
     message.text = text
     return message
+
 
 @patch("telebot.telebot")
 def test_run(mock_telebot, mocker):
@@ -61,8 +63,10 @@ def test_update_budget_limit_with_existing_limit(mock_telebot, mocker):
     budget_limit.update_budget_limit(message.chat.id, mc)
 
     assert budget_limit.update_budget_limit
-    mc.send_message.assert_called_with(11, "Current Budget Limit Alert is 20% \n\nHow much is your new monthly budget limit alert? \n(Enter numeric values only)")
-
+    mc.send_message.assert_called_with(
+        11,
+        "Current Budget Limit Alert is 20% \n\nHow much is your new monthly budget limit alert? \n(Enter numeric values only)",
+    )
 
 
 @patch("telebot.telebot")
@@ -79,9 +83,12 @@ def test_update_budget_limit_with_existing_limit(mock_telebot, mocker):
     budget_limit.update_budget_limit(message.chat.id, mc)
 
     assert budget_limit.update_budget_limit
-    mc.send_message.assert_called_with(11, "Current Budget Limit Alert is 20% \n\nHow much is your new monthly budget limit alert? \n(Enter numeric values only)")
+    mc.send_message.assert_called_with(
+        11,
+        "Current Budget Limit Alert is 20% \n\nHow much is your new monthly budget limit alert? \n(Enter numeric values only)",
+    )
 
-    
+
 @patch("telebot.telebot")
 def test_delete_budget_limit_user_not_in_list(mock_telebot, mocker):
     mc = mock_telebot.return_value
@@ -91,7 +98,7 @@ def test_delete_budget_limit_user_not_in_list(mock_telebot, mocker):
     budget_limit.helper.read_json.return_value = {}
 
     message = create_message("hello from testing")
-    
+
     budget_limit.delete_budget_limit(message, mc)
 
     mc.send_message.assert_called_with(11, "Chat ID not found in user list!")
@@ -104,10 +111,10 @@ def test_delete_budget_limit_user_in_list(mock_telebot, mocker):
     mc.send_message.write_json = True
 
     mocker.patch.object(budget_limit, "helper")
-    budget_limit.helper.read_json.return_value = {"11":{"budget": {"limit": "10"}}}
+    budget_limit.helper.read_json.return_value = {"11": {"budget": {"limit": "10"}}}
 
     message = create_message("hello from testing")
-    
+
     budget_limit.delete_budget_limit(message, mc)
 
     mc.send_message.assert_called_with(11, "Budget Limit deleted!")
@@ -124,12 +131,14 @@ def test_run_set_budget_limit(mock_telebot, mocker):
         "dellim": "Delete Budget Limit",
         "exit": "Exit",
     }
-    
+
     message = create_message("Set Budget Limit")
     budget_limit.run(message, mc)
 
     assert mc.reply_to.called
-    mc.reply_to.assert_called_with(message, "Set Budget Limit Alert", reply_markup=mock.ANY)
+    mc.reply_to.assert_called_with(
+        message, "Set Budget Limit Alert", reply_markup=mock.ANY
+    )
 
 
 @patch("telebot.telebot")
@@ -148,6 +157,7 @@ def test_post_limit_option_selection_update_limit(mock_telebot, mocker):
 
     assert budget_limit.update_budget_limit.called
 
+
 @patch("telebot.telebot")
 def test_post_limit_option_selection_delete_limit(mock_telebot, mocker):
     mc = mock_telebot.return_value
@@ -163,6 +173,7 @@ def test_post_limit_option_selection_delete_limit(mock_telebot, mocker):
     budget_limit.post_limit_option_selection(message, mc)
 
     assert budget_limit.delete_budget_limit.called
+
 
 @patch("telebot.telebot")
 def test_post_limit_option_selection_invalid_option(mock_telebot, mocker):
@@ -200,14 +211,12 @@ def test_post_budget_limit_input(mock_telebot, mocker):
     mc.send_message.assert_called_with(11, "Budget Limit Alert Updated to 15%!")
 
 
-
-
 @patch("telebot.telebot")
 def test_update_budget_limit_without_existing_limit(mock_telebot, mocker):
     mc = mock_telebot.return_value
     mocker.patch.object(budget_limit, "helper")
     budget_limit.helper.isBudgetLimitAvailable.return_value = False
-    
+
     mc.send_message = mock.Mock(return_value=True)
 
     message = create_message("hello from testing")
@@ -250,7 +259,9 @@ def test_post_budget_limit_input_new_user(mock_telebot, mocker):
 def test_post_budget_limit_input_exceeds_budget(mock_telebot, mocker):
     mc = mock_telebot.return_value
     mocker.patch.object(budget_limit, "helper")
-    budget_limit.helper.validate_entered_amount.return_value = 120  # Set to exceed budget
+    budget_limit.helper.validate_entered_amount.return_value = (
+        120  # Set to exceed budget
+    )
     budget_limit.helper.read_json.return_value = {
         "11": {"budget": {"overall": "100", "limit": 0}}
     }
@@ -259,10 +270,7 @@ def test_post_budget_limit_input_exceeds_budget(mock_telebot, mocker):
     message = create_message("120")
     budget_limit.post_budget_limit_input(message, mc)
 
-    mc.send_message.assert_called_with(
-        11,
-        "Budget Limit Alert Updated to 120%!"
-    )
+    mc.send_message.assert_called_with(11, "Budget Limit Alert Updated to 120%!")
 
 
 @patch("telebot.telebot")
@@ -322,6 +330,7 @@ def test_run_multiple_options(mock_telebot, mocker):
     budget_limit.run(message, mc)
 
     assert mc.reply_to.called
+
 
 @patch("telebot.telebot")
 def test_cancel_operation_midway(mock_telebot, mocker):

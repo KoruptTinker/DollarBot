@@ -32,6 +32,7 @@ from datetime import datetime
 
 # === Documentation of edit.py ===
 
+
 def run(m, bot):
     """
     run(message, bot): This is the main function used to implement the delete feature.
@@ -44,7 +45,7 @@ def run(m, bot):
     markup.row_width = 2
     user_history = helper.getUserHistory(chat_id)
     if not user_history:
-        bot.send_message(chat_id,"You have no previously recorded expenses to modify")
+        bot.send_message(chat_id, "You have no previously recorded expenses to modify")
         return
     for c in user_history:
         expense_data = c.split(",")
@@ -55,8 +56,8 @@ def run(m, bot):
     info = bot.reply_to(m, "Select expense to be edited:", reply_markup=markup)
     bot.register_next_step_handler(info, select_category_to_be_updated, bot)
 
-def select_category_to_be_updated(m, bot):
 
+def select_category_to_be_updated(m, bot):
     """
     select_category_to_be_updated(m, bot): Handles the user's selection of expense categories for updating.
 
@@ -76,10 +77,12 @@ def select_category_to_be_updated(m, bot):
         markup.add(c.strip())
     choice = bot.reply_to(m, "What do you want to update?", reply_markup=markup)
     updated = []
-    bot.register_next_step_handler(choice, enter_updated_data, bot, selected_data, updated)
+    bot.register_next_step_handler(
+        choice, enter_updated_data, bot, selected_data, updated
+    )
+
 
 def enter_updated_data(m, bot, selected_data, updated):
-
     """
     enter_updated_data(m, bot, selected_data, updated): Handles the user's input for updating expense information.
 
@@ -105,7 +108,7 @@ def enter_updated_data(m, bot, selected_data, updated):
 
         @bot.callback_query_handler(func=DetailedTelegramCalendar.func())
         def edit_cal(c):
-            chat_id= c.message.chat.id
+            chat_id = c.message.chat.id
             result, key, step = DetailedTelegramCalendar().process(c.data)
 
             if not result and key:
@@ -117,8 +120,11 @@ def enter_updated_data(m, bot, selected_data, updated):
                 )
             elif result:
                 data = datetime.today().date()
-                if (result > data):
-                    bot.send_message(chat_id,"Cannot select future dates, Please try /edit command again with correct dates")
+                if result > data:
+                    bot.send_message(
+                        chat_id,
+                        "Cannot select future dates, Please try /edit command again with correct dates",
+                    )
                 else:
                     edit_date(bot, selected_data, result, c, updated)
                     bot.edit_message_text(
@@ -137,8 +143,8 @@ def enter_updated_data(m, bot, selected_data, updated):
         )
         bot.register_next_step_handler(new_cost, edit_cost, bot, selected_data, updated)
 
-def update_different_category(m, bot, selected_data, updated):
 
+def update_different_category(m, bot, selected_data, updated):
     """
     update_different_category(m, bot, selected_data, updated): Handles user's choice to update another category.
 
@@ -159,7 +165,10 @@ def update_different_category(m, bot, selected_data, updated):
             if c not in updated:
                 markup.add(c.strip())
         choice = bot.reply_to(m, "What do you want to update?", reply_markup=markup)
-        bot.register_next_step_handler(choice, enter_updated_data, bot, selected_data, updated)
+        bot.register_next_step_handler(
+            choice, enter_updated_data, bot, selected_data, updated
+        )
+
 
 def edit_date(bot, selected_data, result, c, updated):
     """
@@ -179,7 +188,9 @@ def edit_date(bot, selected_data, result, c, updated):
         selected_category = selected_data[1].split("=")[1]
         selected_amount = selected_data[2].split("=")[1]
         if (
-            user_data[0] == selected_date and user_data[1] == selected_category and user_data[2] == selected_amount[1:]
+            user_data[0] == selected_date
+            and user_data[1] == selected_category
+            and user_data[2] == selected_amount[1:]
         ):
             data_edit[i] = (
                 new_date + "," + selected_category + "," + selected_amount[1:]
@@ -192,10 +203,17 @@ def edit_date(bot, selected_data, result, c, updated):
     updated.append(new_date_str)
     selected_data[0] = new_date_str
     if len(updated) == 3:
-        bot.send_message(m.chat.id, "You have updated all the categories for this expense")
+        bot.send_message(
+            m.chat.id, "You have updated all the categories for this expense"
+        )
         return
-    resp = bot.send_message(m.chat.id, "Do you want to update another category in this expense?(Y/N)")
-    bot.register_next_step_handler(resp, update_different_category, bot, selected_data ,updated)
+    resp = bot.send_message(
+        m.chat.id, "Do you want to update another category in this expense?(Y/N)"
+    )
+    bot.register_next_step_handler(
+        resp, update_different_category, bot, selected_data, updated
+    )
+
 
 def edit_cat(m, bot, selected_data, updated):
     """
@@ -213,7 +231,9 @@ def edit_cat(m, bot, selected_data, updated):
         selected_category = selected_data[1].split("=")[1]
         selected_amount = selected_data[2].split("=")[1]
         if (
-            user_data[0] == selected_date and user_data[1] == selected_category and user_data[2] == selected_amount[1:]
+            user_data[0] == selected_date
+            and user_data[1] == selected_category
+            and user_data[2] == selected_amount[1:]
         ):
             data_edit[i] = selected_date + "," + new_cat + "," + selected_amount[1:]
             break
@@ -225,10 +245,17 @@ def edit_cat(m, bot, selected_data, updated):
     selected_data[1] = new_cat_str
     bot.reply_to(m, "Category is updated")
     if len(updated) == 3:
-        bot.send_message(m.chat.id, "You have updated all the categories for this expense")
+        bot.send_message(
+            m.chat.id, "You have updated all the categories for this expense"
+        )
         return
-    resp = bot.send_message(m.chat.id, "Do you want to update another category in this expense?(Y/N)")
-    bot.register_next_step_handler(resp, update_different_category, bot, selected_data, updated)
+    resp = bot.send_message(
+        m.chat.id, "Do you want to update another category in this expense?(Y/N)"
+    )
+    bot.register_next_step_handler(
+        resp, update_different_category, bot, selected_data, updated
+    )
+
 
 def edit_cost(m, bot, selected_data, updated):
     """
@@ -248,7 +275,9 @@ def edit_cost(m, bot, selected_data, updated):
             selected_category = selected_data[1].split("=")[1]
             selected_amount = selected_data[2].split("=")[1]
             if (
-                user_data[0] == selected_date and user_data[1] == selected_category and user_data[2] == selected_amount[1:]
+                user_data[0] == selected_date
+                and user_data[1] == selected_category
+                and user_data[2] == selected_amount[1:]
             ):
                 data_edit[i] = selected_date + "," + selected_category + "," + new_cost
                 break
@@ -261,7 +290,13 @@ def edit_cost(m, bot, selected_data, updated):
     updated.append(new_cost_str)
     selected_data[1] = new_cost_str
     if len(updated) == 3:
-        bot.send_message(m.chat.id, "You have updated all the categories for this expense")
+        bot.send_message(
+            m.chat.id, "You have updated all the categories for this expense"
+        )
         return
-    resp = bot.send_message(m.chat.id, "Do you want to update another category in this expense?(Y/N)")
-    bot.register_next_step_handler(resp, update_different_category, bot, selected_data, updated)
+    resp = bot.send_message(
+        m.chat.id, "Do you want to update another category in this expense?(Y/N)"
+    )
+    bot.register_next_step_handler(
+        resp, update_different_category, bot, selected_data, updated
+    )
