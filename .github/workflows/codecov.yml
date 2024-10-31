@@ -18,7 +18,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install pytest pytest-cov mock pandas pyTelegramBotAPI telegram_bot_calendar matplotlib tabulate
+          pip install pytest pytest-cov mock pandas pyTelegramBotAPI matplotlib tabulate
+          pip install git+https://github.com/someuser/telegram_bot_calendar.git
+
 
       - name: Run tests
         run: python -m pytest --cov --cov-report=xml
