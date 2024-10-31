@@ -72,10 +72,27 @@ The customizable budget tracking and alerts feature allows users to set specific
 
 ### Example Usage
 
-**1. Set a Budget**  
-To set a budget, users can enter the command in Telegram as follows:
-'/budget set <amount> <category>'
-  
+**1. Set a Budget** :
+   - To set a budget, users can enter the command in Telegram as follows: `/budget set <amount> <category>`
+   - For instance, to set a $500 budget for food, the user would enter: `/budget set 500 food`
+
+**2. Update Budget** : 
+   - To update an existing budget, users can use the `/budget update` command.  `/budget update <new_amount> <category>`
+   - For example, to increase the food budget to $600, the user would enter: `/budget update 600 food`
+
+**3. Delete Budget**  
+   - If users need to delete a specific budget category, they can use: `/budget delete <category>`
+   - For instance, to remove the budget set for transportation: `/budget delete transportation`
+
+**4. Check Budget Limits and Alerts**  
+   - Users can check their budget status by using: `/budget view <category>`. When the user approaches critical thresholds (80%, 90%, or 100% of the budget), they will automatically receive alert notifications via the bot.
+
+**5. View Remaining Budget**  
+   - Users can view the remaining balance and percentage for a category or overall budget: `/budget remaining <category>`
+   - For example, to view the remaining budget for food: `/budget remaining food`
+
+
+
 ---
 
 ## Conclusion
