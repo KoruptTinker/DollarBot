@@ -4,6 +4,7 @@
 [![DOI](https://zenodo.org/badge/875854476.svg)](https://doi.org/10.5281/zenodo.14018911)
 [![Black](https://github.com/vegechick510/DollarBot/actions/workflows/black.yml/badge.svg)](https://github.com/vegechick510/DollarBot/actions/workflows/black.yml)
 [![Autopep8](https://github.com/vegechick510/DollarBot/actions/workflows/autopep8.yml/badge.svg)](https://github.com/vegechick510/DollarBot/actions/workflows/autopep8.yml)
+[![Pylint](https://github.com/vegechick510/DollarBot/actions/workflows/pylint.yml/badge.svg)](https://github.com/vegechick510/DollarBot/actions/workflows/pylint.yml)
 [![Platform](https://img.shields.io/badge/Platform-Telegram-blue)](https://desktop.telegram.org/)
 [![codecov](https://codecov.io/gh/vegechick510/DollarBot/graph/badge.svg?token=uFIfOR9FTm)](https://codecov.io/gh/vegechick510/DollarBot)
 [![GitHub issues](https://img.shields.io/github/issues-raw/vegechick510/DollarBot)](https://github.com/vegechick510/DollarBot/issues)
