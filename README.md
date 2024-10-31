@@ -9,8 +9,7 @@
 ![Version](https://img.shields.io/github/v/release/vegechick510/DollarBot?color=ff69b4&label=Version)
 ![GitHub issues](https://img.shields.io/github/issues-raw/vegechick510/DollarBot)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/vegechick510/DollarBot)
-[![Build Status](https://app.travis-ci.com/vegechick510/DollarBot.svg?branch=main)](https://app.travis-ci.com/vegechick510/DollarBot)
-
+[![Build Status](https://app.travis-ci.com/vegechick510/DollarBot.svg?token=bszqsvX8dXGMn7ks1pEp&branch=main)](https://app.travis-ci.com/vegechick510/DollarBot)
 
 # 💰 Dollar Bot 💰
 
