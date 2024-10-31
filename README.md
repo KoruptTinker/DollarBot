@@ -7,6 +7,7 @@
 [![Pylint](https://github.com/vegechick510/DollarBot/actions/workflows/pylint.yml/badge.svg)](https://github.com/vegechick510/DollarBot/actions/workflows/pylint.yml)
 [![Platform](https://img.shields.io/badge/Platform-Telegram-blue)](https://desktop.telegram.org/)
 [![codecov](https://codecov.io/gh/vegechick510/DollarBot/graph/badge.svg?token=uFIfOR9FTm)](https://codecov.io/gh/vegechick510/DollarBot)
+[![pytest](https://github.com/vegechick510/DollarBot/actions/workflows/pytest.yml/badge.svg)](https://github.com/vegechick510/DollarBot/actions/workflows/pytest.yml)
 [![GitHub issues](https://img.shields.io/github/issues-raw/vegechick510/DollarBot)](https://github.com/vegechick510/DollarBot/issues)
 [![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/vegechick510/DollarBot)](https://github.com/vegechick510/DollarBot/issues?q=is%3Aissue+is%3Aclosed)
 
