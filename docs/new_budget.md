@@ -4,7 +4,7 @@
 
 The customizable budget tracking and alerts feature allows users to set specific budgets and receive alerts tailored to their spending patterns. Users can set overall and category-specific budgets, track spending progress, and receive notifications as they approach budget limits. This functionality is designed to help users maintain financial control by receiving real-time feedback on their expenses relative to set budgets.
 
----
+
 
 ## Feature Details
 
@@ -12,7 +12,7 @@ The customizable budget tracking and alerts feature allows users to set specific
 - **Real-Time Alerts:** Notify users when they approach critical thresholds (80%, 90%, and 100%) of their budgets.
 - **Insightful Analysis:** Provide visual breakdowns and detailed analysis of spending in each category, helping users adjust their financial goals.
 
----
+
 
 ## Implementation
 
@@ -53,7 +53,7 @@ The customizable budget tracking and alerts feature allows users to set specific
      - `check_limit(category=None)`: Checks the budget limit and notifies the user if 80%, 90%, or 100% of the budget has been reached.
      - `send_alert(category, threshold)`: Sends alerts based on defined threshold percentages.
 
----
+
 
 ### Workflow and Logic
 
@@ -68,7 +68,7 @@ The customizable budget tracking and alerts feature allows users to set specific
    - Budgets and their remaining amounts are displayed through `budget_view.py`.
    - Spending trends and remaining budget per category are visually summarized, allowing users to adjust spending or reset budgets as needed.
 
----
+
 
 ### Example Usage
 
@@ -93,7 +93,7 @@ The customizable budget tracking and alerts feature allows users to set specific
 
 
 
----
+
 
 ## Conclusion
 
