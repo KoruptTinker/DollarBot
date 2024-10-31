@@ -78,8 +78,7 @@ def update_budget_limit(chat_id, bot):
     message from the user, and bot which is the telegram bot object. This function is called when the
     user wants to either create a new budget limit alert or update an existing one. It checks if there is an
     existing budget limit through the helper module's isBudgetLimitAvailable function and if so, displays this
-    along with the prompt for the new (to be updated) budget limit, or just asks for the new budget limit. It passes control
-    to the post_budget_limit_input function in the same file.
+    along with the prompt for the new (to be updated) budget limit, or just asks for the new budget limit. It passes control to the post_budget_limit_input function in the same file.
     """
     if helper.isBudgetLimitAvailable(chat_id):
         currentBudget = helper.getBudgetLimit(chat_id)
@@ -114,6 +113,14 @@ def post_budget_limit_input(message, bot):
         helper.throw_exception(e, message, bot, logging)
 
 def delete_budget_limit(message, bot):
+    """
+    delete_budget_limit(message, bot): It takes 2 arguments for processing - 
+    message which is the message from the user, and bot which is the telegram bot object. 
+    It gets the user's chat ID from the message object, and reads all user data through 
+    the read_json method from the helper module. It then proceeds to empty the budget limit
+    data for the particular user based on the user ID provided from the UI.
+    It returns a simple message indicating that this operation has been done to the UI.
+    """
     chat_id = message.chat.id
     user_list = helper.read_json()
     print("user_list", user_list)
