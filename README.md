@@ -1,16 +1,16 @@
-
 ![MIT license](https://img.shields.io/badge/License-MIT-green.svg)
-![GitHub](https://img.shields.io/github/languages/top/tpanati/DollarBot?color=red&label=Python&logo=Python&logoColor=yellow)
+![GitHub](https://img.shields.io/github/languages/top/vegechick510/DollarBot?color=red&label=Python&logo=Python&logoColor=yellow)
 ![GitHub](https://img.shields.io/badge/Language-Python-blue.svg)
-[![DOI](https://zenodo.org/badge/715323572.svg)](https://zenodo.org/doi/10.5281/zenodo.10146708)
-![GitHub contributors](https://img.shields.io/github/contributors/tpanati/DollarBot)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10146708.svg)](https://doi.org/10.5281/zenodo.10146708)
+![GitHub contributors](https://img.shields.io/github/contributors/vegechick510/DollarBot)
 [![Platform](https://img.shields.io/badge/Platform-Telegram-blue)](https://desktop.telegram.org/)
-[![codecov](https://codecov.io/gh/tpanati/DollarBot/graph/badge.svg?token=23RW1XPB3P)](https://codecov.io/gh/tpanati/DollarBot)
-![Lines of code](https://tokei.rs/b1/github/tpanati/DollarBot)
-![Version](https://img.shields.io/github/v/release/tpanati/DollarBot?color=ff69b4&label=Version)
-![GitHub issues](https://img.shields.io/github/issues-raw/tpanati/DollarBot)
-![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/tpanati/DollarBot)
-[![Build Status](https://app.travis-ci.com/usmanwardag/dollar_bot.svg?branch=main)](https://app.travis-ci.com/usmanwardag/dollar_bot)
+[![codecov](https://codecov.io/gh/vegechick510/DollarBot/graph/badge.svg?token=23RW1XPB3P)](https://codecov.io/gh/vegechick510/DollarBot)
+![Lines of code](https://tokei.rs/b1/github/vegechick510/DollarBot)
+![Version](https://img.shields.io/github/v/release/vegechick510/DollarBot?color=ff69b4&label=Version)
+![GitHub issues](https://img.shields.io/github/issues-raw/vegechick510/DollarBot)
+![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/vegechick510/DollarBot)
+[![Build Status](https://app.travis-ci.com/vegechick510/DollarBot.svg?branch=main)](https://app.travis-ci.com/vegechick510/DollarBot)
+
 
 # 💰 Dollar Bot 💰
 
