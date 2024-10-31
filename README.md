@@ -2,7 +2,7 @@
 ![GitHub](https://img.shields.io/github/languages/top/vegechick510/DollarBot?color=red&label=Python&logo=Python&logoColor=yellow)
 ![GitHub](https://img.shields.io/badge/Language-Python-blue.svg)
 [![DOI](https://zenodo.org/badge/875854476.svg)](https://doi.org/10.5281/zenodo.14018911)
-![Code style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)
+[![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/vegechick510/DollarBot/actions/workflows/black.yml)
 ![GitHub contributors](https://img.shields.io/github/contributors/vegechick510/DollarBot)
 [![Platform](https://img.shields.io/badge/Platform-Telegram-blue)](https://desktop.telegram.org/)
 [![codecov](https://codecov.io/gh/vegechick510/DollarBot/graph/badge.svg?token=uFIfOR9FTm)](https://codecov.io/gh/vegechick510/DollarBot)
