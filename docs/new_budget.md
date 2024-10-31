@@ -72,10 +72,9 @@ The customizable budget tracking and alerts feature allows users to set specific
 
 ### Example Usage
 
-- **Set a Budget**: Users can set a monthly budget for food by calling `set_budget(500, category="food")`. 
-- **Update Budget**: If a user wants to increase the food budget to $600, they can call `update_budget(600, category="food")`.
-- **Delete Budget**: To remove the set budget for transportation, use `delete_category_budget("transportation")`.
-- **Check Limits**: As users spend within a category, `check_limit()` automatically sends alerts if they hit specified thresholds.
+**1. Set a Budget**  
+To set a budget, users can enter the command in Telegram as follows:
+'/budget set <amount> <category>'
   
 ---
 
