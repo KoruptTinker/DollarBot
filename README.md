@@ -22,8 +22,6 @@ You wake up, brew a fresh cup of coffee, and start your day. You're excited beca
 
 And the best part? DollarBot is your financial sidekick, available exclusively on Telegram. That means no matter where you are, it's there to assist you in recording your expenses seamlessly.
 
-<a href="https://www.canva.com/design/DAFxwU4ABIg/LqMkLeGUBhC__JmWmdkFiQ/watch?utm_content=DAFxwU4ABIg&utm_campaign=designshare&utm_medium=link&utm_source=editor">Click here for a video overview!!</a>
-
 <hr>
 <p align="center">
 <a><img width=500 
