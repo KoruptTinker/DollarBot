@@ -31,9 +31,7 @@ And the best part? DollarBot is your financial sidekick, available exclusively o
 </p>
 <hr>
 
-## Scorecard
 
-[Score card - Group 13](https://github.com/tpanati/DollarBot/blob/main/proj3/DollarBot_proj3_scorecard.csv)
 
 ## Demo Video
 
@@ -257,40 +255,30 @@ This option is to get the monthly analysis report of the expenditure
 <p align="center"><img width="700" src="./docs/workflows/monthly.gif"></p>
 It can be invoked by using `/monthly` command.
 
-# :construction: Road Map
-
-Our implementation has been tracked in a project board which can be viewed here -
-[DollarBot Developer board](https://github.com/users/tpanati/projects/2)
+# :construction: What's Next
 
 Some possible future enhancements are as follows:
-1.	**AI-Driven Financial Insights:** Integrate advanced generative AI algorithms to provide personalized financial insights and recommendations. Leverage machine learning to analyze spending patterns and offer proactive suggestions for optimizing expenses.
-2.	**Expense Sharing and Splitting:** Enable users to share expenses effortlessly with friends, family, or colleagues. Implement a feature that allows users to split bills and track shared expenses, making group financial management seamless.
-3.	**Cross-Platform Compatibility:** Develop setup scripts specifically for Windows users to ensure a smooth and hassle-free installation process on this platform. Expand DollarBot's accessibility to a broader user base by optimizing its performance on Windows operating systems.
-4.	**Natural Language Processing (NLP) Integration:** Enhance DollarBot's user experience by implementing Natural Language Processing (NLP) capabilities. Enable the bot to respond to casual conversation, making interactions more intuitive and user-friendly. Users can engage with DollarBot in a more conversational manner, improving overall usability.
-5.  **Integration with Financial APIs:** Integrate with popular financial APIs to fetch real-time transaction data from bank accounts and credit cards. This enhancement provides users with up-to-the-minute financial information, ensuring accuracy and completeness in their spending records.
-6.  **Multi-Currency Support:** Extend DollarBot's functionality to support multiple currencies, catering to users with diverse financial portfolios. This enhancement ensures accurate tracking and reporting for users dealing with expenses in different currencies.
-7.  **Smart Notifications and Alerts:** Implement intelligent notification features to alert users about budget limits, unusual spending patterns, or upcoming bills. These proactive notifications will empower users to make informed financial decisions in real-time.
-8.  **Secure Cloud Sync and Backup:** Implement a secure cloud sync and backup feature to ensure users' data is protected and accessible across devices. This enhancement provides users with peace of mind, knowing that their financial data is safely stored and can be easily recovered if needed.
+
 
 
 :heart: Acknowledgements
 ---
-We would like to thank Dr. Timothy Menzies for helping us understand the process of building a good Software Engineering project. We would also like to thank the teaching assistants San Gilson, Andre Lustosa, Xueqi (Sherry) Yang, Yasitha Rajapaksha, and Rahul Yedida for their support throughout the project.
+We would like to thank Dr. Timothy Menzies for helping us understand the process of building a good Software Engineering project. We would also like to thank the teaching assistants for their support throughout the project.
 
 
 :page_facing_up: License
 ---
-This project is licensed under the terms of the MIT license. Please check [LICENSE](https://github.com/tpanati/DollarBot/blob/main/LICENSE) for more details.
+This project is licensed under the terms of the MIT license. Please check [LICENSE](https://github.com/vegechick510/DollarBot/blob/main/LICENSE.md) for more details.
 
 ## Contributors
 <table>
   <tr>
-    <td align="center"><img src="https://avatars.githubusercontent.com/u/114872378?v=4" width="75px;" alt=""/><br /><sub><b>Harshavardhan Bandaru</b></sub></a></td>
-    <td align="center"><img src="https://avatars.githubusercontent.com/u/35067896?v=4" width="75px;" alt=""/><br /><sub><b>Vyshnavi Adusumeli</b></sub></a><br /></td>
-    <td align="center"><img src="https://avatars.githubusercontent.com/u/144171816?s=400&u=e9fb80d2e9acb2fc438881017b49e6d26720a50d&v=4" width="75px;" alt=""/><br /><sub><b>Tejaswini Panati</b></sub></a><br /></td>
+    <td align="center"><sub><b>Xianting Lu</b></sub></a></td>
+    <td align="center"><sub><b>Xiang Lan</b></sub></a></td>
+    <td align="center"><sub><b>Xingyue Shi</b></sub></a></td>
   </tr>
 </table>
 
 # :calling: Support
 
-For any support, email us at `vadusum@ncsu.edu`
+For any support, email us at `xlan4@ncsu.edu`
