@@ -21,6 +21,8 @@ You wake up, brew a fresh cup of coffee, and start your day. You're excited beca
 
 And the best part? DollarBot is your financial sidekick, available exclusively on Telegram. That means no matter where you are, it's there to assist you in recording your expenses seamlessly.
 
+<a href="https://dollarbotgroup28.my.canva.site/">Click here for a video overview!!</a>
+
 <p align="center">
   <img src="https://github.com/vegechick510/DollarBot/blob/main/docs/DALL%C2%B7E%202024-10-31%2001.51.11%20-%20A%20cartoon-style%20illustration%20of%20a%20friendly%20robot%20for%20a%20financial%20management%20project.%20The%20robot's%20features%20are%20represented%20by%20shapes%2C%20symbolizing%20funct.webp" alt="DollarBot Illustration" width="400"/>
 </p>
@@ -29,7 +31,7 @@ And the best part? DollarBot is your financial sidekick, available exclusively o
 
 ## Demo Video
 
-<a href="https://youtu.be/bAio20DZ_-I">https://youtu.be/bAio20DZ_-I</a>
+<a href="https://www.youtube.com/watch?v=TtzeHElefbQ">https://www.youtube.com/watch?v=TtzeHElefbQ</a>
 
 
 ## :money_with_wings: About DollarBot
