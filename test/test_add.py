@@ -205,7 +205,10 @@ def test_recording_currency_conversion_to_usd(amount, category, expected_usd):
     chat_id = 54321  # Dummy chat ID
     currency = "EUR" if category == "Food" else "GBP"
     converted_amount = convert_currency(currency, "USD", amount)
-    assert round(converted_amount, 2) <= expected_usd * 1.5 and round(converted_amount, 2) >= expected_usd * 0.5
+    assert (
+        round(converted_amount, 2) <= expected_usd * 1.5
+        and round(converted_amount, 2) >= expected_usd * 0.5
+    )
 
 
 @pytest.mark.parametrize(
