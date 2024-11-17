@@ -1,4 +1,6 @@
+import certifi
 from pymongo import MongoClient
+from .user import UsersModel
 from typing import Optional
 import atexit
 
@@ -6,6 +8,7 @@ class MongoDB:
     _connection_url = None
     _db = None
     _instance = None
+    _users: UsersModel = None
     _client: Optional[MongoClient] = None
     
     def __new__(cls, connection_url: str = "", db_name: str = ""):
@@ -13,6 +16,7 @@ class MongoDB:
             cls._instance = super(MongoDB, cls).__new__(cls)
             cls._instance._db = db_name
             cls._instance._connection_url = connection_url
+            cls._instance._users = UsersModel()
             cls._instance._connect()
         return cls._instance
     
@@ -20,7 +24,7 @@ class MongoDB:
         """Establish MongoDB connection"""
         if not self._client:
             try:
-                self._client = MongoClient(self._connection_url)
+                self._client = MongoClient(self._connection_url, tlsCAFile=certifi.where())
                 atexit.register(self._cleanup)
             except Exception as e:
                 raise Exception(f"Failed to connect to MongoDB: {e}")
@@ -42,10 +46,19 @@ class MongoDB:
         return self._client[self._db]
 
     @property
-    def user_collection(self):
+    def _user_collection(self):
         """Get reference to the user collection in the DB"""
         return self._client.DollarBot.users
 
+    def fetch_user_from_telegram(self, chat_id: str = ""):
+        return self._users.get_user_from_telegram(self._user_collection, chat_id)
+
+    def create_user_from_telegram(self, chat_id: str = ""):
+        if chat_id:
+            self._users.create_user_from_telegram(self._user_collection, chat_id)
+            return True
+        return False
+    
     @property
     def spends_collection(self):
         """Get reference to the spends collection in the DB"""

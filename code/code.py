@@ -33,7 +33,6 @@ import insight
 
 secrets = Secrets()
 mongoClient = MongoDB(secrets.MongoConnectionURL, secrets.DBName)
-userCollection = mongoClient.user_collection
 
 bot = telebot.TeleBot(secrets.TelegramAPIKey)
 
@@ -303,9 +302,9 @@ def process_account_choice(message):
 
 
 def addUserHistory(chat_id):
-    userData = userCollection.find_one({'telegram_chat_id': chat_id})
+    userData = mongoClient.fetch_user_from_telegram(chat_id=chat_id)
     if userData == None:
-        userCollection.insert_one({'telegram_chat_id': chat_id, "discord_id": None})
+        mongoClient.create_user_from_telegram(chat_id)
 
 
 def main():
