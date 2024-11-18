@@ -2,6 +2,7 @@ import certifi
 from pymongo import MongoClient
 from .user import UsersModel
 from .spends import SpendsModel
+from .budgets import BudgetsModel
 from typing import Optional
 import atexit
 
@@ -11,6 +12,7 @@ class MongoDB:
     _instance = None
     _users: UsersModel = None
     _spends: SpendsModel = None
+    _budgets: BudgetsModel = None
     _client: Optional[MongoClient] = None
     
     def __new__(cls, connection_url: str = "", db_name: str = ""):
@@ -20,6 +22,7 @@ class MongoDB:
             cls._instance._connection_url = connection_url
             cls._instance._users = UsersModel()
             cls._instance._spends = SpendsModel()
+            cls._instance._budgets = BudgetsModel()
             cls._instance._connect()
         return cls._instance
     
@@ -70,6 +73,44 @@ class MongoDB:
     def create_spends_from_telegram(self, chat_id: str = "", date: str = "", category: str = "", amount: int = 0):
         if date and category and amount and chat_id:
             self._spends.create_spend_from_telegram(self._spends_collection, chat_id, date, category, amount)
+            return True
+    
+        return False
+
+    def fetch_spends_from_telegram(self, chat_id: str = ""):
+        if chat_id:
+            return self._spends.fetch_spends_from_telegram(self._spends_collection, chat_id)
+    
+        return []
+    
+    @property
+    def _budgets_collection(self):
+        """Get reference to the spends collection in the DB"""
+        return self._client.DollarBot.budgets
+    
+    def create_budget_from_telegram(self, chat_id: str = ""):
+        if chat_id:
+            self._budgets.create_budget_from_telegram(self._budgets_collection, chat_id)
+            return True
+    
+        return False
+    
+    def fetch_budget_from_telegram(self, chat_id: str = ""):
+        if chat_id:
+            return self._budgets.fetch_budget_from_telegram(self._budgets_collection, chat_id)
+    
+        return None
+
+    def update_budget_from_telegram(self, chat_id: str = "", category: str = "", amount: float = 0):
+        if chat_id and category:
+            self._budgets.update_budget_category(self._budgets_collection, chat_id, category, amount)
+            return True
+    
+        return False
+    
+    def reset_budget_from_telegram(self, chat_id: str = ""):
+        if chat_id:
+            self._budgets.reset_budget_from_telegram(self._budgets_collection, chat_id)
             return True
     
         return False

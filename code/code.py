@@ -305,6 +305,7 @@ def addUserHistory(chat_id):
     userData = mongoClient.fetch_user_from_telegram(chat_id=chat_id)
     if userData == None:
         mongoClient.create_user_from_telegram(chat_id)
+        mongoClient.create_budget_from_telegram(chat_id)
 
 
 def main():
