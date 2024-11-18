@@ -1,6 +1,7 @@
 import certifi
 from pymongo import MongoClient
 from .user import UsersModel
+from .spends import SpendsModel
 from typing import Optional
 import atexit
 
@@ -9,6 +10,7 @@ class MongoDB:
     _db = None
     _instance = None
     _users: UsersModel = None
+    _spends: SpendsModel = None
     _client: Optional[MongoClient] = None
     
     def __new__(cls, connection_url: str = "", db_name: str = ""):
@@ -17,6 +19,7 @@ class MongoDB:
             cls._instance._db = db_name
             cls._instance._connection_url = connection_url
             cls._instance._users = UsersModel()
+            cls._instance._spends = SpendsModel()
             cls._instance._connect()
         return cls._instance
     
@@ -60,10 +63,17 @@ class MongoDB:
         return False
     
     @property
-    def spends_collection(self):
+    def _spends_collection(self):
         """Get reference to the spends collection in the DB"""
         return self._client.DollarBot.spends
     
+    def create_spends_from_telegram(self, chat_id: str = "", date: str = "", category: str = "", amount: int = 0):
+        if date and category and amount and chat_id:
+            self._spends.create_spend_from_telegram(self._spends_collection, chat_id, date, category, amount)
+            return True
+    
+        return False
+
     def close(self):
         """Manually close the connection"""
         self._cleanup()

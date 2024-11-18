@@ -1,4 +1,5 @@
 from pymongo.database import Collection
+
 class UsersModel:
 
     def get_user_from_telegram(self, user_collection: Collection = None, chat_id: str = ""):
