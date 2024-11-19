@@ -64,7 +64,6 @@ def run(message, bot):
             graphing.overall_split(category_budget)
 
             category_spend = {}
-            categories = helper.getSpendCategories()
             for spend in user_history:
                 category_spend[spend['category']] = category_spend.get(spend['category'], 0) + spend['amount']
             if category_spend != {}:
