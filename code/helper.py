@@ -435,7 +435,7 @@ def deleteBudgetCategory(chatId, category):
 def getAvailableCategories(history):
     available_categories = set()
     for record in history:
-        available_categories.add(record.split(",")[1])
+        available_categories.add(record["category"])
     return available_categories
 
 
@@ -443,7 +443,7 @@ def getCategoryWiseSpendings(available_categories, history):
     category_wise_history = {}
     for cat in available_categories:
         for record in history:
-            if cat in record:
+            if cat==record["category"]:
                 if cat in category_wise_history.keys():
                     category_wise_history[cat].append(record)
                 else:

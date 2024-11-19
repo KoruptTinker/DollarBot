@@ -101,9 +101,9 @@ def predict_category_spending(category_history):
     total_spent = 0
     recorded_days = []
     for record in category_history:
-        total_spent += float(record.split(",")[2])
+        total_spent += float(record["amount"])
         date = datetime.strptime(
-            record.split(",")[0].split(" ")[0], helper.getDateFormat()
+            record["date"], "%Y-%m-%d"
         )
         recorded_days.append(date)
     first = min(recorded_days)
