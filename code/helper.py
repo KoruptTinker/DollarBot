@@ -215,7 +215,7 @@ def getUserHistoryByDate(chat_id, date):
     data = getUserHistory(chat_id)
     previous_expenses = []
     for record in data:
-        if f"{date}," in record:
+        if date == record["date"]:
             previous_expenses.append(record)
     return previous_expenses
 
@@ -450,6 +450,11 @@ def getCategoryWiseSpendings(available_categories, history):
                     category_wise_history[cat] = [record]
     return category_wise_history
 
+def erase_spend_history(chat_id: str = ""):
+    return mongoClient.reset_spends_from_telegram(chat_id)
+
+def delete_spend_history(chat_id: str = "", date: str = ""):
+    return mongoClient.delete_spends_from_telegram(chat_id, date)
 
 def getFormattedPredictions(category_predictions):
     category_budgets = ""

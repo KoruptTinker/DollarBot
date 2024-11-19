@@ -7,3 +7,9 @@ class SpendsModel:
 
     def fetch_spends_from_telegram(self, spends_collection: Collection = None, chat_id: str = ""):
         return sorted(list(spends_collection.find({"user": chat_id})), key=lambda x: x["date"])
+    
+    def reset_spend_history_from_telegram(self, spends_collection: Collection = None, chat_id: str = ""):
+        return spends_collection.delete_many({"user": chat_id})
+    
+    def delete_spend_history_from_telegram(self, spends_collection: Collection = None, chat_id: str = "", date: str = ""):
+        return spends_collection.delete_many({"user": chat_id, "date": date})

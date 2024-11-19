@@ -83,6 +83,20 @@ class MongoDB:
     
         return []
     
+    def reset_spends_from_telegram(self, chat_id: str = ""):
+        if chat_id:
+            self._spends.reset_spend_history_from_telegram(self._spends_collection, chat_id)
+            return True
+    
+        return False
+    
+    def delete_spends_from_telegram(self, chat_id: str = "", date: str = ""):
+        if chat_id and date:
+            report = self._spends.delete_spend_history_from_telegram(self._spends_collection, chat_id, date)
+            return True
+    
+        return False
+    
     @property
     def _budgets_collection(self):
         """Get reference to the spends collection in the DB"""
@@ -110,7 +124,7 @@ class MongoDB:
     
     def reset_budget_from_telegram(self, chat_id: str = ""):
         if chat_id:
-            self._budgets.reset_budget_from_telegram(self._budgets_collection, chat_id)
+            report = self._budgets.reset_budget_from_telegram(self._budgets_collection, chat_id)
             return True
     
         return False
