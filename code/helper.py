@@ -347,25 +347,21 @@ def display_remaining_overall_budget(message, bot):
     if budget == None or budget == 0:
         msg = "No budget set. Please set a budget if it is needed."
     else:
-        budget_limit = getBudgetLimit(chat_id)
-        if budget_limit == None or budget_limit == "0":
-            msg = "No budget limit set. Please set a budget limit if it is needed."
+        budget_limit = float(80)
+        if remaining_budget / budget > 1 - budget_limit / 100:
+            msg = "The Overall Monthly Budget is ${:.2f}. \nRemaining Overall Monthly Budget is ${:.2f}".format(
+                budget, remaining_budget
+            )
+        elif (
+            remaining_budget / budget <= 1 - budget_limit / 100
+        ) and budget_limit != 0:
+            msg = "The Overall Monthly Budget is ${:.2f}. \nTotal spending has reached {:.2%} of the budget, exceeding the {:.2%} limit. Please monitor your spending.".format(
+                budget, 1 - remaining_budget / budget, budget_limit / 100
+            )
         else:
-            budget_limit = float(budget_limit)
-            if remaining_budget / budget > 1 - budget_limit / 100:
-                msg = "The Overall Monthly Budget is ${:.2f}. \nRemaining Overall Monthly Budget is ${:.2f}".format(
-                    budget, remaining_budget
-                )
-            elif (
-                remaining_budget / budget <= 1 - budget_limit / 100
-            ) and budget_limit != 0:
-                msg = "The Overall Monthly Budget is ${:.2f}. \nTotal spending has reached {:.2%} of the budget, exceeding the {:.2%} limit. Please monitor your spending.".format(
-                    budget, 1 - remaining_budget / budget, budget_limit / 100
-                )
-            else:
-                msg = "The Overall Monthly Budget is ${}. \nBudget Exceded!\nExpenditure exceeds the budget by ${}".format(
-                    budget, str(remaining_budget)[1:]
-                )
+            msg = "The Overall Monthly Budget is ${}. \nBudget Exceded!\nExpenditure exceeds the budget by ${}".format(
+                budget, str(remaining_budget)[1:]
+            )
     bot.send_message(chat_id, msg)
 
 
