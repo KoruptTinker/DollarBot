@@ -92,7 +92,28 @@ class MongoDB:
     
     def delete_spends_from_telegram(self, chat_id: str = "", date: str = ""):
         if chat_id and date:
-            report = self._spends.delete_spend_history_from_telegram(self._spends_collection, chat_id, date)
+            self._spends.delete_spend_history_from_telegram(self._spends_collection, chat_id, date)
+            return True
+    
+        return False
+    
+    def update_spend_date_from_telegram(self, spend_id: str = "",  date: str = ""):
+        if spend_id and date:
+            report = self._spends.update_spend_date_from_telegram(self._spends_collection, spend_id, date)
+            return True
+    
+        return False
+    
+    def update_spend_category_from_telegram(self, spend_id: str = "", category: str = ""):
+        if spend_id and category:
+            self._spends.update_spend_category_from_telegram(self._spends_collection, spend_id, category)
+            return True
+    
+        return False
+    
+    def update_spend_amount_from_telegram(self, spend_id: str = "", amount: int = 0):
+        if spend_id and amount:
+            self._spends.update_spend_amount_from_telegram(self._spends_collection, spend_id, amount)
             return True
     
         return False

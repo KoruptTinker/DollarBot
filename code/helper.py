@@ -201,6 +201,16 @@ def getUserHistory(chat_id):
     """
     return mongoClient.fetch_spends_from_telegram(chat_id)
 
+def updateUserSpend(spend_id, date = None, category = None, amount = None):
+    if date:
+        return mongoClient.update_spend_date_from_telegram(spend_id, date)
+    elif category:
+        return mongoClient.update_spend_category_from_telegram(spend_id, category)
+    elif amount:
+        return mongoClient.update_spend_amount_from_telegram(spend_id, amount)
+    else:
+        return False
+
 
 def getUserHistoryByCategory(chat_id, category):
     data = getUserHistory(chat_id)

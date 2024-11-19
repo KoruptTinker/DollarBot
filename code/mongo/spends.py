@@ -13,3 +13,12 @@ class SpendsModel:
     
     def delete_spend_history_from_telegram(self, spends_collection: Collection = None, chat_id: str = "", date: str = ""):
         return spends_collection.delete_many({"user": chat_id, "date": date})
+    
+    def update_spend_date_from_telegram(self, spends_collection: Collection = None, spend_id: str = "", date: str = ""):
+        return spends_collection.update_one({"_id": spend_id}, {"$set": {"date": date}})
+
+    def update_spend_category_from_telegram(self, spends_collection: Collection = None, spend_id: str = "", category: str = ""):
+        return spends_collection.update_one({"_id": spend_id}, {"$set": {"category": category}})
+
+    def update_spend_amount_from_telegram(self, spends_collection: Collection = None, spend_id: str = "", amount: int = 0):
+        return spends_collection.update_one({"_id": spend_id}, {"$set": {"amount": amount}})
