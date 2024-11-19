@@ -58,66 +58,23 @@ def run(message, bot):
                 transform=ax.transAxes,
                 fontsize=20,
             )
-        for rec in user_history:
-            date, category, amount = rec.split(",")
-            print(date, category, amount)
-            rec_str = f"{amount}$ {category} expense on {date}"
-            plt.text(
-                0,
-                top,
-                rec_str,
-                horizontalalignment="left",
-                verticalalignment="center",
-                transform=ax.transAxes,
-                fontsize=14,
-                bbox=dict(facecolor="red", alpha=0.3),
-            )
-            top -= 0.15
-        plt.axis("off")
-        # plt.savefig("expense_history.png")
-        plt.close()
-
-        if helper.isOverallBudgetAvailable(
-            chat_id
-        ) and helper.isCategoryBudgetByCategoryNotZero(chat_id):
-            if helper.isCategoryBudgetAvailable(chat_id):
-                category_budget = {}
-                categories = helper.getSpendCategories()
-                for cat in categories:
-                    if helper.isCategoryBudgetByCategoryAvailable(chat_id, cat):
-                        category_budget[cat] = helper.getCategoryBudgetByCategory(
-                            chat_id, cat
-                        )
-                graphing.overall_split(category_budget)
+    
+        if helper.isOverallBudgetAvailable(chat_id):
+            category_budget = helper.getCategoryBudget(chat_id)
+            graphing.overall_split(category_budget)
 
             category_spend = {}
             categories = helper.getSpendCategories()
-            for cat in categories:
-                spend = helper.calculate_total_spendings_for_category_chat_id(
-                    chat_id, cat
-                )
-                if spend != 0:
-                    category_spend[cat] = spend
+            for spend in user_history:
+                category_spend[spend['category']] = category_spend.get(spend['category'], 0) + spend['amount']
             if category_spend != {}:
                 graphing.spend_wise_split(category_spend)
-                os.remove("spend_wise.png")
 
-            if helper.isCategoryBudgetAvailable(chat_id):
-                category_spend_percent = {}
-                categories = helper.getSpendCategories()
-                for cat in categories:
-                    if helper.isCategoryBudgetByCategoryAvailable(chat_id, cat):
-                        percent = helper.calculateRemainingCategoryBudgetPercent(
-                            chat_id, cat
-                        )
-                        category_spend_percent[cat] = percent
-                graphing.remaining(category_spend_percent)
-
-            if helper.getUserHistory(chat_id):
+            if user_history:
                 cat_spend_dict = helper.getUserHistoryDateExpense(chat_id)
                 graphing.time_series(cat_spend_dict)
 
-            list_of_images = ["overall_split.png", "remaining.png", "time_series.png"]
+            list_of_images = ["overall_split.png", "spend_wise.png", "time_series.png"]
             pdf = FPDF()
             pdf.add_page()
             x_coord = 20

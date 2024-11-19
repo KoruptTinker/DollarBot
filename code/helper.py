@@ -224,8 +224,7 @@ def getUserHistoryDateExpense(chat_id):
     data = getUserHistory(chat_id)
     cat_spend_dict = {}
     for record in data:
-        split_vals = record.split(",")
-        cat_spend_dict[split_vals[0]] = split_vals[2]
+        cat_spend_dict[record['date']] = record['amount']
     return cat_spend_dict
 
 
