@@ -39,7 +39,7 @@ def create_chart_for_monthly_analysis(user_history, userid):
     result = []
 
     # Parse user history into a DataFrame
-    user_history_split = [item.split(",") for item in user_history]
+    user_history_split = [[item["date"], item["category"], item["amount"]] for item in user_history]
     df = pd.DataFrame(user_history_split, columns=["Date", "Category", "Cost"])
 
     # Data Preprocessing
