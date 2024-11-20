@@ -53,12 +53,13 @@ def run(message, bot):
         transaction_data = []
 
         for rec in user_history:
-            values = rec.split(",")
-            date_str, category, amount = values
+            date_str = rec["date"] 
+            category = rec["category"]
+            amount = rec["amount"]
             amount = float(amount)
 
             # Parse the date
-            date_time = datetime.strptime(date_str, "%d-%b-%Y")
+            date_time = datetime.strptime(date_str, "%Y-%m-%d")
             transaction_data.append((date_time, date_str, category, amount))
 
             # Calculate month for comparison
