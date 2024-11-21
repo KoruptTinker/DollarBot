@@ -7,6 +7,10 @@ jobs:
   test:
     name: Run tests and collect coverage
     runs-on: ubuntu-latest
+    env:
+      MONGO_CONNECTION_URL: ${{secrets.MONGO_CONNECTION_URL}}
+      DB_NAME: ${{secrets.DB_NAME}}
+      TELEGRAM_API_KEY: ${{secrets.TELEGRAM_API_KEY}}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
