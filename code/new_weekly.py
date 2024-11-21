@@ -39,7 +39,9 @@ def create_chart_for_weekly_analysis(user_history, userid):
     result = []
 
     # Parse user history into a DataFrame
-    user_history_split = [[item["date"], item["category"], item["amount"]]for item in user_history]
+    user_history_split = [
+        [item["date"], item["category"], item["amount"]] for item in user_history
+    ]
     df = pd.DataFrame(user_history_split, columns=["Date", "Category", "Cost"])
     df["Cost"] = pd.to_numeric(df["Cost"], errors="coerce")
     df["Date"] = pd.to_datetime(df["Date"])

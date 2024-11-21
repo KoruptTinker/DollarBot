@@ -55,7 +55,9 @@ def run(m, bot):
         markup.add(str_date + str_category + str_amount)
         options.append(str_date + str_category + str_amount)
     info = bot.reply_to(m, "Select expense to be edited:", reply_markup=markup)
-    bot.register_next_step_handler(info, select_category_to_be_updated, bot, options, user_history)
+    bot.register_next_step_handler(
+        info, select_category_to_be_updated, bot, options, user_history
+    )
 
 
 def select_category_to_be_updated(m, bot, options, user_history):
@@ -77,12 +79,12 @@ def select_category_to_be_updated(m, bot, options, user_history):
 
     if info is not None:
         for i in range(len(options)):
-            if(options[i] == info):
+            if options[i] == info:
                 selected_idx = i
                 break
-    
+
     spend_id = user_history[selected_idx].get("_id", "")
-    
+
     selected_data = [] if info is None else info.split(",")
     for c in selected_data:
         markup.add(c.strip())
@@ -146,13 +148,17 @@ def enter_updated_data(m, bot, selected_data, updated, spend_id):
 
     if "Category" in choice1:
         new_cat = bot.reply_to(m, "Please select the new category", reply_markup=markup)
-        bot.register_next_step_handler(new_cat, edit_cat, bot, selected_data, updated, spend_id)
+        bot.register_next_step_handler(
+            new_cat, edit_cat, bot, selected_data, updated, spend_id
+        )
 
     if "Amount" in choice1:
         new_cost = bot.reply_to(
             m, "Please type the new cost\n(Enter only numerical value)"
         )
-        bot.register_next_step_handler(new_cost, edit_cost, bot, selected_data, updated, spend_id)
+        bot.register_next_step_handler(
+            new_cost, edit_cost, bot, selected_data, updated, spend_id
+        )
 
 
 def update_different_category(m, bot, selected_data, updated, spend_id):
@@ -187,7 +193,7 @@ def edit_date(bot, selected_data, result, c, updated, spend_id):
     the message from the user, and bot which is the telegram bot object from the
     edit3(m, bot):: function in the same file. It takes care of date change and edits.
     """
-    new_date = datetime.strftime(result, '%Y-%m-%d')
+    new_date = datetime.strftime(result, "%Y-%m-%d")
     m = c.message
 
     helper.updateUserSpend(spend_id, date=new_date)

@@ -46,9 +46,7 @@ def test_no_data_available(mock_telebot, mocker):
     mc = mock_telebot.return_value
     mc.reply_to.return_value = True
     mocker.patch.object(estimate, "helper")
-    mocker.patch.object(
-        estimate.helper, "getUserHistoryByDate", return_value=[]
-    )
+    mocker.patch.object(estimate.helper, "getUserHistoryByDate", return_value=[])
     message = create_message("/estimate")
     estimate.run(message, mc)
     assert mc.reply_to.called

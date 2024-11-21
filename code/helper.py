@@ -191,6 +191,7 @@ def validate_entered_duration(duration_entered):
             return str(duration)
     return 0
 
+
 def update_budget(chat_id: str = "", category: str = "", amount: float = 0):
     return mongoClient.update_budget_from_telegram(chat_id, category, amount)
 
@@ -201,7 +202,8 @@ def getUserHistory(chat_id):
     """
     return mongoClient.fetch_spends_from_telegram(chat_id)
 
-def updateUserSpend(spend_id, date = None, category = None, amount = None):
+
+def updateUserSpend(spend_id, date=None, category=None, amount=None):
     if date:
         return mongoClient.update_spend_date_from_telegram(spend_id, date)
     elif category:
@@ -234,7 +236,7 @@ def getUserHistoryDateExpense(chat_id):
     data = getUserHistory(chat_id)
     cat_spend_dict = {}
     for record in data:
-        cat_spend_dict[record['date']] = record['amount']
+        cat_spend_dict[record["date"]] = record["amount"]
     return cat_spend_dict
 
 
@@ -260,11 +262,11 @@ def getOverallBudget(chatId):
     data = mongoClient.fetch_budget_from_telegram(chatId)
     if data is None or data == {}:
         return 0
-    
+
     overall = 0
     for cat in dict(data["category"]).keys():
         overall += int(data["category"][cat])
-    
+
     return overall
 
 
@@ -280,6 +282,7 @@ def getCategoryBudgetByCategory(chatId, cat):
         return None
     data = getCategoryBudget(chatId)
     return data[cat]
+
 
 def resetBudget(chat_id):
     return mongoClient.reset_budget_from_telegram(chat_id)
@@ -379,7 +382,7 @@ def calculateRemainingOverallBudget(chat_id):
     budget = getOverallBudget(chat_id)
     history = getUserHistory(chat_id)
     query = datetime.now().today().strftime("%Y-%m")
-    queryResult = [value for _, value in enumerate(history) if query in value['date']]
+    queryResult = [value for _, value in enumerate(history) if query in value["date"]]
     if budget == 0:
         return None, -calculate_total_spendings(queryResult)
     return float(budget), float(budget) - calculate_total_spendings(queryResult)
@@ -453,18 +456,21 @@ def getCategoryWiseSpendings(available_categories, history):
     category_wise_history = {}
     for cat in available_categories:
         for record in history:
-            if cat==record["category"]:
+            if cat == record["category"]:
                 if cat in category_wise_history.keys():
                     category_wise_history[cat].append(record)
                 else:
                     category_wise_history[cat] = [record]
     return category_wise_history
 
+
 def erase_spend_history(chat_id: str = ""):
     return mongoClient.reset_spends_from_telegram(chat_id)
 
+
 def delete_spend_history(chat_id: str = "", date: str = ""):
     return mongoClient.delete_spends_from_telegram(chat_id, date)
+
 
 def getFormattedPredictions(category_predictions):
     category_budgets = ""

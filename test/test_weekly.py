@@ -4,8 +4,8 @@ from code import new_weekly
 
 # === Dummy Data for Testing ===
 dummy_user_history = [
-    {"amount": 100, "date": "2023-01-15", "category": "Food"}, 
-    {"amount": 101, "date": "2023-01-15", "category": "Travel"}
+    {"amount": 100, "date": "2023-01-15", "category": "Food"},
+    {"amount": 101, "date": "2023-01-15", "category": "Travel"},
 ]
 
 dummy_user_id = "test_user"
@@ -13,7 +13,9 @@ dummy_user_id = "test_user"
 
 def prepare_test_dataframe(user_history):
     """Helper function to prepare a DataFrame for testing."""
-    user_history_split = [[item["date"], item["category"], item["amount"]] for item in user_history]
+    user_history_split = [
+        [item["date"], item["category"], item["amount"]] for item in user_history
+    ]
     df = pd.DataFrame(user_history_split, columns=["Date", "Category", "Cost"])
     df["Cost"] = pd.to_numeric(df["Cost"])
     df["Date"] = pd.to_datetime(df["Date"])

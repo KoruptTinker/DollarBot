@@ -80,7 +80,7 @@ def process_delete_argument(message, bot):
         helper.erase_spend_history(chat_id)
         bot.send_message(chat_id, "History has been deleted!")
     else:
-        try: 
+        try:
             date = datetime.strptime(text, "%Y-%m-%d").strftime("%Y-%m-%d")
             # get the records either by given day, month, or all records
             records_to_delete = helper.getUserHistoryByDate(chat_id, date)
@@ -91,16 +91,21 @@ def process_delete_argument(message, bot):
             response_str = "Confirm records to delete\n"
             print(records_to_delete)
             for record in records_to_delete:
-                response_str += str(record["date"] + " " + record["category"] + " " + str(record["amount"]) + "\n")
+                response_str += str(
+                    record["date"]
+                    + " "
+                    + record["category"]
+                    + " "
+                    + str(record["amount"])
+                    + "\n"
+                )
 
             markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
             markup.add("Yes")
             markup.add("No")
             response_str += "\nReply Yes or No"
             response = bot.reply_to(message, response_str, reply_markup=markup)
-            bot.register_next_step_handler(
-                response, handle_confirmation, bot, date
-            )
+            bot.register_next_step_handler(response, handle_confirmation, bot, date)
         except Exception:
             # if none of the formats worked
             bot.reply_to(message, "Error parsing date")

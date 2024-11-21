@@ -53,7 +53,7 @@ def run(message, bot):
         transaction_data = []
 
         for rec in user_history:
-            date_str = rec["date"] 
+            date_str = rec["date"]
             category = rec["category"]
             amount = rec["amount"]
             amount = float(amount)

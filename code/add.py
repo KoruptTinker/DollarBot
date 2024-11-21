@@ -12,6 +12,7 @@ option = {}
 secrets = Secrets()
 mongoClient = MongoDB(secrets.MongoConnectionURL, secrets.DBName)
 
+
 def convert_currency(from_currency, to_currency, amount):
     api_url = f"https://api.exchangerate-api.com/v4/latest/{from_currency}"
     response = requests.get(api_url)
@@ -158,11 +159,13 @@ def post_amount_input(message, bot, selected_category, selected_currency, date):
             raise Exception("Spent amount has to be a non-zero number.")
 
         date_str, category_str = (
-            date.strftime('%Y-%m-%d'),
+            date.strftime("%Y-%m-%d"),
             str(option[chat_id]),
         )
 
-        mongoClient.create_spends_from_telegram(chat_id, date_str, category_str, amount_value)
+        mongoClient.create_spends_from_telegram(
+            chat_id, date_str, category_str, amount_value
+        )
 
         bot.send_message(
             chat_id,

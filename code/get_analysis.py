@@ -91,8 +91,10 @@ def viewSpendWise(chat_id, bot):
     category_spend = {}
     current_month = datetime.now().today().strftime("%Y-%m")
     for spend in user_history:
-        if(current_month in spend["date"]):
-            category_spend[spend['category']] = category_spend.get(spend['category'], 0) + spend['amount']
+        if current_month in spend["date"]:
+            category_spend[spend["category"]] = (
+                category_spend.get(spend["category"], 0) + spend["amount"]
+            )
     if category_spend != {}:
         graphing.spend_wise_split(category_spend)
 
@@ -139,12 +141,14 @@ def viewRemaining(chat_id, bot):
 
     category_spend = {}
     for spend in user_history:
-        category_spend[spend['category']] = category_spend.get(spend['category'], 0) + spend['amount']
+        category_spend[spend["category"]] = (
+            category_spend.get(spend["category"], 0) + spend["amount"]
+        )
     if category_spend != {}:
         graphing.spend_wise_split(category_spend)
 
     for cat in categoryBudget.keys():
-        percent = (category_spend.get(cat, 0) / categoryBudget[cat])*100
+        percent = (category_spend.get(cat, 0) / categoryBudget[cat]) * 100
         if percent > 0:
             category_spend_percent[cat] = percent
 

@@ -58,14 +58,16 @@ def run(message, bot):
                 transform=ax.transAxes,
                 fontsize=20,
             )
-    
+
         if helper.isOverallBudgetAvailable(chat_id):
             category_budget = helper.getCategoryBudget(chat_id)
             graphing.overall_split(category_budget)
 
             category_spend = {}
             for spend in user_history:
-                category_spend[spend['category']] = category_spend.get(spend['category'], 0) + spend['amount']
+                category_spend[spend["category"]] = (
+                    category_spend.get(spend["category"], 0) + spend["amount"]
+                )
             if category_spend != {}:
                 graphing.spend_wise_split(category_spend)
 

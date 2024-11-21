@@ -393,6 +393,7 @@ def test_display_remaining_overall_budget_not_set(mock_telebot, mocker):
         11, "No budget set. Please set a budget if it is needed."
     )
 
+
 def test_getBudgetTypes():
     testresult = helper.getBudgetTypes()
     localBudgetTypes = {

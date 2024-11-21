@@ -97,7 +97,12 @@ def test_process_delete_argument_with_valid_date(mock_telebot, mocker):
 
     # Mock the necessary functions and data
     mocker.patch.object(
-        delete.helper, "getUserHistoryByDate", return_value=[{"amount": 100, "date": "2023-01-15", "category": "Food"}, {"amount": 101, "date": "2023-01-15", "category": "Travel"}]
+        delete.helper,
+        "getUserHistoryByDate",
+        return_value=[
+            {"amount": 100, "date": "2023-01-15", "category": "Food"},
+            {"amount": 101, "date": "2023-01-15", "category": "Travel"},
+        ],
     )
 
     # Create a mock message with a specified date
@@ -143,9 +148,7 @@ def test_process_delete_argument_with_invalid_date(mock_telebot, mocker):
     # Assert that the expected functions were called
     # Note: Since there's no date validation, the function should proceed with invalid dates
     # Assert that the bot replied with an error message
-    mock_bot.reply_to.assert_called_with(
-        MOCK_Message_data, "Error parsing date"
-    )
+    mock_bot.reply_to.assert_called_with(MOCK_Message_data, "Error parsing date")
 
 
 @patch("telebot.telebot")
@@ -170,12 +173,15 @@ def test_handle_confirmation_yes(mock_telebot, mocker):
     # Call the function being tested
     delete.handle_confirmation(MOCK_Message_data, mock_bot, "2023-01-15")
 
-    delete.helper.delete_spend_history.assert_called_with(MOCK_Message_data.chat.id, "2023-01-15")
+    delete.helper.delete_spend_history.assert_called_with(
+        MOCK_Message_data.chat.id, "2023-01-15"
+    )
 
     # Assert that the expected functions were called
     mock_bot.send_message.assert_called_with(
         MOCK_Message_data.chat.id, "Successfully deleted records"
     )
+
 
 @patch("telebot.telebot")
 def test_handle_confirmation_no(mock_telebot, mocker):

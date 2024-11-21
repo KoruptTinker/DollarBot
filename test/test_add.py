@@ -166,7 +166,7 @@ def test_convert_currency_identity(from_currency, to_currency, amount, expected)
 def test_add_record_small_currency_value():
     """Test adding a small CAD to USD converted value with one decimal precision"""
     converted_amount = convert_currency("CAD", "USD", 1.0)
-    assert round(converted_amount, 1) == 0.7 # Example rate
+    assert round(converted_amount, 1) == 0.7  # Example rate
 
 
 def test_add_record_large_currency_value():

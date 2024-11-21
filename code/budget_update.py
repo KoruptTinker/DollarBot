@@ -72,6 +72,7 @@ def post_type_selection(message, bot):
     except Exception as e:
         helper.throw_exception(e, message, bot, logging)
 
+
 def update_category_budget(message, bot):
     """
     update_category_budget(message, bot): It takes 2 arguments for processing -
@@ -108,9 +109,7 @@ def post_category_selection(message, bot):
                 chat_id, "Invalid", reply_markup=types.ReplyKeyboardRemove()
             )
             raise Exception(
-                'Sorry I don\'t recognise this category "{}"!'.format(
-                    selected_category
-                )
+                'Sorry I don\'t recognise this category "{}"!'.format(selected_category)
             )
         budgetCategories = helper.getCategoryBudget(chat_id)
         if budgetCategories and selected_category in budgetCategories.keys():
@@ -118,9 +117,7 @@ def post_category_selection(message, bot):
             msg_string = "Current monthly budget for {} is {}\n\nEnter monthly budget for {}\n(Enter numeric values only)"
             message = bot.send_message(
                 chat_id,
-                msg_string.format(
-                    selected_category, currentBudget, selected_category
-                ),
+                msg_string.format(selected_category, currentBudget, selected_category),
             )
         else:
             message = bot.send_message(
@@ -134,6 +131,7 @@ def post_category_selection(message, bot):
         )
     except Exception as e:
         helper.throw_exception(e, message, bot, logging)
+
 
 def post_category_amount_input(message, bot, category):
     """
