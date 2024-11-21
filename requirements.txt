@@ -1,5 +1,6 @@
 pyTelegramBotAPI
 pytest
+pytest-cov
 jproperties
 flake8
 matplotlib
