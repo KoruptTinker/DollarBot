@@ -4,6 +4,7 @@ pytest-cov
 jproperties
 flake8
 matplotlib
+pandas
 fpdf
 coverage
 pytest-mock
