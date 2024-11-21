@@ -81,7 +81,7 @@ def select_category_to_be_updated(m, bot, options, user_history):
                 selected_idx = i
                 break
     
-    spend_id = user_history[selected_idx]["_id"]
+    spend_id = user_history[selected_idx].get("_id", "")
     
     selected_data = [] if info is None else info.split(",")
     for c in selected_data:

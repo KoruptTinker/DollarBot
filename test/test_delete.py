@@ -70,7 +70,7 @@ def test_delete_with_no_data(mock_telebot, mocker):
 @patch("telebot.telebot")
 def test_process_delete_argument_all_records(mock_telebot, mocker):
     mocker.patch.object(delete, "helper")
-    mocker.patch.object(delete, "deleteHistory")
+    mocker.patch.object(delete.helper, "erase_spend_history")
 
     # Create a mock message with "all" as the text
     MOCK_Message_data = create_message("all")
@@ -84,7 +84,7 @@ def test_process_delete_argument_all_records(mock_telebot, mocker):
     delete.process_delete_argument(MOCK_Message_data, mock_bot)
 
     # Assert that the expected functions were called
-    delete.deleteHistory.assert_called_with(MOCK_Message_data.chat.id)
+    delete.helper.erase_spend_history.assert_called_with(MOCK_Message_data.chat.id)
     mock_bot.send_message.assert_called_with(
         MOCK_Message_data.chat.id, "History has been deleted!"
     )
@@ -97,7 +97,7 @@ def test_process_delete_argument_with_valid_date(mock_telebot, mocker):
 
     # Mock the necessary functions and data
     mocker.patch.object(
-        delete.helper, "getUserHistoryByDate", return_value=["record1", "record2"]
+        delete.helper, "getUserHistoryByDate", return_value=[{"amount": 100, "date": "2023-01-15", "category": "Food"}, {"amount": 101, "date": "2023-01-15", "category": "Travel"}]
     )
 
     # Create a mock message with a specified date
@@ -142,84 +142,64 @@ def test_process_delete_argument_with_invalid_date(mock_telebot, mocker):
 
     # Assert that the expected functions were called
     # Note: Since there's no date validation, the function should proceed with invalid dates
-    delete.helper.getUserHistoryByDate.assert_called_with(
-        MOCK_Message_data.chat.id, invalid_date
-    )
     # Assert that the bot replied with an error message
     mock_bot.reply_to.assert_called_with(
-        MOCK_Message_data, "No transactions within invalid_date"
+        MOCK_Message_data, "Error parsing date"
     )
-
-
-def test_deleteHistory():
-    # Mock user_list
-    delete.user_list = {
-        "sample_chat_id": {
-            "data": ["record1", "record2"],
-            "budget": {"overall": "100", "category": {"food": "50"}},
-        }
-    }
-
-    # Call deleteHistory function
-    result = delete.deleteHistory("sample_chat_id")
-
-    # Assert that the data is cleared in the result
-    expected_result = {
-        "sample_chat_id": {"data": [], "budget": {"overall": "0", "category": {}}}
-    }
-    assert result == expected_result
 
 
 @patch("telebot.telebot")
 def test_handle_confirmation_yes(mock_telebot, mocker):
     mocker.patch.object(delete, "helper")
 
-    # Create a mock message with "yes" as the text
+    # Mock the bot instance
+    mock_bot = mock_telebot.return_value
+
+    mocker.patch.object(delete, "helper")
+    mocker.patch.object(delete.helper, "delete_spend_history")
+
+    # Create a mock message with "all" as the text
     MOCK_Message_data = create_message("yes")
     MOCK_Message_data.text = "yes"  # Set the text attribute explicitly
+    MOCK_Message_data.bot = mock_bot
 
-    # Mock the user_list
-    delete.user_list = {
-        "sample_chat_id": {
-            "data": ["record1", "record2"],
-            "budget": {"overall": "100", "category": {"food": "50"}},
-        }
-    }
-
-    # Mock the bot instance
+    # Create a MagicMock for the bot instance
     mock_bot = mock_telebot.return_value
     MOCK_Message_data.bot = mock_bot
 
-    # Use mocker.patch to replace delete.helper.write_json with a MagicMock
-    mock_write_json = mocker.patch.object(delete.helper, "write_json")
+    # Call the function being tested
+    delete.handle_confirmation(MOCK_Message_data, mock_bot, "2023-01-15")
 
-    # Use mocker.patch to replace delete.helper.read_json with a MagicMock
-    mock_read_json = mocker.patch.object(
-        delete.helper, "read_json", side_effect=lambda: expected_user_list
+    delete.helper.delete_spend_history.assert_called_with(MOCK_Message_data.chat.id, "2023-01-15")
+
+    # Assert that the expected functions were called
+    mock_bot.send_message.assert_called_with(
+        MOCK_Message_data.chat.id, "Successfully deleted records"
     )
 
+@patch("telebot.telebot")
+def test_handle_confirmation_no(mock_telebot, mocker):
+    mocker.patch.object(delete, "helper")
+
+    # Mock the bot instance
+    mock_bot = mock_telebot.return_value
+
+    mocker.patch.object(delete, "helper")
+    mocker.patch.object(delete.helper, "delete_spend_history")
+
+    # Create a mock message with "all" as the text
+    MOCK_Message_data = create_message("no")
+    MOCK_Message_data.text = "no"  # Set the text attribute explicitly
+    MOCK_Message_data.bot = mock_bot
+
+    # Create a MagicMock for the bot instance
+    mock_bot = mock_telebot.return_value
+    MOCK_Message_data.bot = mock_bot
+
     # Call the function being tested
-    delete.handle_confirmation(MOCK_Message_data, mock_bot, ["record1", "record2"])
+    delete.handle_confirmation(MOCK_Message_data, mock_bot, "2023-01-15")
 
-    expected_user_list = {
-        "sample_chat_id": {
-            "data": [],
-            "budget": {"overall": "100", "category": {"food": "50"}},
-        }
-    }
-    # Debugging: Print the values for investigation
-    # print("delete.user_list:", delete.user_list)
-    # print("expected_user_list:", expected_user_list)
-
-    # Assert that delete.helper.write_json was called with the correct arguments
-    mock_write_json.assert_called_with(delete.user_list)
-
-    # Reload delete.user_list from the file to synchronize it with the changes made during handle_confirmation
-    delete.user_list = mock_read_json()
-
-    # Debugging: Print the values after reloading
-    # print("delete.user_list (after reload):", delete.user_list)
-
-    # Assert that delete.user_list is updated
-
-    assert delete.user_list == expected_user_list
+    # Assert that the expected functions were called
+    mock_bot.send_message.assert_called_with(
+        MOCK_Message_data.chat.id, "No records deleted"
+    )

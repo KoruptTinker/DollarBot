@@ -259,7 +259,7 @@ def createNewUserRecord():
 def getOverallBudget(chatId):
     data = mongoClient.fetch_budget_from_telegram(chatId)
     if data is None or data == {}:
-        return None
+        return 0
     
     overall = 0
     for cat in dict(data["category"]).keys():

@@ -17,7 +17,7 @@ def run(message, bot):
     chat_id = message.chat.id
     user_history = helper.getUserHistory(chat_id)
 
-    if user_history is None:
+    if user_history is None or len(user_history) == 0:
         bot.send_message(
             chat_id, "Oops! Looks like you do not have any spending records!"
         )

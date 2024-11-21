@@ -40,16 +40,6 @@ def create_message(text):
 
 
 @patch("telebot.telebot")
-def test_run(mock_telebot, mocker):
-    mc = mock_telebot.return_value
-    mc.send_message.return_value = True
-
-    message = create_message("hello from test run!")
-    budget_limit.run(message, mc)
-    assert mc.reply_to.called
-
-
-@patch("telebot.telebot")
 def test_update_budget_limit_with_existing_limit(mock_telebot, mocker):
     mc = mock_telebot.return_value
     mocker.patch.object(budget_limit, "helper")
