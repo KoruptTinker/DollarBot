@@ -13,3 +13,5 @@ tabulate
 plotly
 kaleido
 forex-python
+pymongos
+python-dotenv
