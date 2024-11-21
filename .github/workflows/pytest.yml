@@ -12,7 +12,10 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest  # Specify the environment (Ubuntu in this case)
-
+    env:
+      MONGO_CONNECTION_URL: ${{secrets.MONGO_CONNECTION_URL}}
+      DB_NAME: ${{secrets.DB_NAME}}
+      TELEGRAM_API_KEY: ${{secrets.TELEGRAM_API_KEY}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2  # Check out the code from the repository
@@ -24,7 +27,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install pytest pytest-cov mock pandas pyTelegramBotAPI matplotlib tabulate plotly python-telegram-bot-calendar pytest-mock kaleido
+          pip install -r requirements.txt
 
       - name: Run Pytest
         run: |
