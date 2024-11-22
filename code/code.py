@@ -288,6 +288,7 @@ def command_insight(message):
     """
     insight.run(message, bot)
 
+
 @bot.message_handler(commands=["link"])
 def handle_set_account(message):
     link.run(message, bot)

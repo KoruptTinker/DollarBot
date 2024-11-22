@@ -16,6 +16,11 @@ class UsersModel:
         )
 
     def link_discord_to_telegram(
-        self, user_collection: Collection = None, chat_id: str = "", discord_id: str = ""
+        self,
+        user_collection: Collection = None,
+        chat_id: str = "",
+        discord_id: str = "",
     ):
-        return user_collection.update_one({"telegram_chat_id": chat_id}, {"$set": {"discord_id": discord_id}})
+        return user_collection.update_one(
+            {"telegram_chat_id": chat_id}, {"$set": {"discord_id": discord_id}}
+        )

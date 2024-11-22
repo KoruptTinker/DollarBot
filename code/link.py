@@ -13,8 +13,14 @@ def run(message, bot):
     if user["discord_id"] is not None and user["discord_id"] != 0:
         bot.reply_to(message, "You already have a discord account linked!")
     elif existing_link_code is not None:
-        bot.reply_to(message, f"Use the following code on discord to link your account: {existing_link_code["link_code"]}")
+        bot.reply_to(
+            message,
+            f"Use the following code on discord to link your account: {existing_link_code["link_code"]}",
+        )
     else:
         link_code = helper.generateRandomLinkCode()
         helper.createLinkCodeTelegram(chat_id, link_code)
-        bot.reply_to(message, f"Use the following code on discord to link your account: {link_code}")
+        bot.reply_to(
+            message,
+            f"Use the following code on discord to link your account: {link_code}",
+        )
