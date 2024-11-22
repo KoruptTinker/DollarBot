@@ -7,7 +7,7 @@ class UsersModel:
         self, user_collection: Collection = None, chat_id: str = ""
     ):
         return user_collection.find_one({"telegram_chat_id": chat_id})
-    
+
     def get_user_from_discord(
         self, user_collection: Collection = None, discord_id: str = ""
     ):
