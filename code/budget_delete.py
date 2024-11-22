@@ -40,11 +40,5 @@ def run(message, bot):
     It returns a simple message indicating that this operation has been done to the UI.
     """
     chat_id = message.chat.id
-    user_list = helper.read_json()
-    print(user_list)
-    if str(chat_id) in user_list:
-        user_list[str(chat_id)]["budget"]["overall"] = str(0)
-        user_list[str(chat_id)]["budget"]["category"] = {}
-        user_list[str(chat_id)]["budget"]["limit"] = str(0)
-        helper.write_json(user_list)
+    helper.resetBudget(chat_id)
     bot.send_message(chat_id, "Budget deleted!")

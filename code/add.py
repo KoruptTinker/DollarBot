@@ -4,8 +4,13 @@ from telebot import types
 from telegram_bot_calendar import DetailedTelegramCalendar, LSTEP
 from datetime import datetime
 import requests
+from config import Secrets
+from mongo import MongoDB
 
 option = {}
+
+secrets = Secrets()
+mongoClient = MongoDB(secrets.MongoConnectionURL, secrets.DBName)
 
 
 def convert_currency(from_currency, to_currency, amount):
@@ -149,21 +154,22 @@ def post_amount_input(message, bot, selected_category, selected_currency, date):
             bot.send_message(chat_id, "Error converting currency. Please try again.")
             return
 
-        amount_value = str(round(converted_amount, 2))
-        if float(amount_value) == 0:
+        amount_value = round(converted_amount, 2)
+        if amount_value == 0:
             raise Exception("Spent amount has to be a non-zero number.")
 
-        date_str, category_str, amount_str = (
-            date.strftime(helper.getDateFormat()),
+        date_str, category_str = (
+            date.strftime("%Y-%m-%d"),
             str(option[chat_id]),
-            str(amount_value),
         )
-        helper.write_json(
-            add_user_record(chat_id, f"{date_str},{category_str},{amount_str}")
+
+        mongoClient.create_spends_from_telegram(
+            chat_id, date_str, category_str, amount_value
         )
+
         bot.send_message(
             chat_id,
-            f"The following expenditure has been recorded: You have spent ${amount_str} for {category_str} on {date_str}",
+            f"The following expenditure has been recorded: You have spent ${amount_value} for {category_str} on {date_str}",
         )
 
         helper.display_remaining_budget(message, bot)
@@ -173,9 +179,6 @@ def post_amount_input(message, bot, selected_category, selected_currency, date):
 
 
 def add_user_record(chat_id, record_to_be_added):
-    """
-    Adds an expense record to the user's data in the JSON file.
-    """
     user_list = helper.read_json()
     if str(chat_id) not in user_list:
         user_list[str(chat_id)] = helper.createNewUserRecord()

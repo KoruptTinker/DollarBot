@@ -39,7 +39,9 @@ def create_chart_for_weekly_analysis(user_history, userid):
     result = []
 
     # Parse user history into a DataFrame
-    user_history_split = [item.split(",") for item in user_history]
+    user_history_split = [
+        [item["date"], item["category"], item["amount"]] for item in user_history
+    ]
     df = pd.DataFrame(user_history_split, columns=["Date", "Category", "Cost"])
     df["Cost"] = pd.to_numeric(df["Cost"], errors="coerce")
     df["Date"] = pd.to_datetime(df["Date"])
@@ -66,7 +68,7 @@ def create_original_line_chart(df, userid):
     plt.plot(grouped_data.index, grouped_data["Cost"], marker="o")
     plt.xticks(
         grouped_data.index,
-        grouped_data["Year"].astype(str) + "-" + grouped_data["Week"],
+        "Week: " + grouped_data["Week"],
         rotation=45,
     )
     plt.xlabel("Year-Week")
@@ -92,7 +94,7 @@ def create_category_line_chart(df, userid):
 
     plt.xticks(
         grouped_data.index,
-        grouped_data["Year"].astype(str) + "-" + grouped_data["Week"],
+        "Week: " + grouped_data["Week"],
         rotation=45,
     )
     plt.xlabel("Year-Week")

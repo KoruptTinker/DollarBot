@@ -29,6 +29,7 @@ import helper
 import graphing
 from telebot import types
 import os
+from datetime import datetime
 
 
 def viewOverallBudget(chat_id, bot):
@@ -85,10 +86,17 @@ def viewSpendWise(chat_id, bot):
     and sends it to the user.
     """
     category_spend = {}
-    for cat in helper.getCategoryBudget(chat_id):
-        spend = helper.calculate_total_spendings_for_category_chat_id(chat_id, cat)
-        if spend != 0:
-            category_spend[cat] = spend
+    user_history = helper.getUserHistory(chat_id)
+
+    category_spend = {}
+    current_month = datetime.now().today().strftime("%Y-%m")
+    for spend in user_history:
+        if current_month in spend["date"]:
+            category_spend[spend["category"]] = (
+                category_spend.get(spend["category"], 0) + spend["amount"]
+            )
+    if category_spend != {}:
+        graphing.spend_wise_split(category_spend)
 
     if category_spend == {}:
         bot.send_message(
@@ -118,7 +126,9 @@ def viewRemaining(chat_id, bot):
     This function calculates the remaining budget percentage for each category, generates a remaining budget graph,
     and sends it to the user.
     """
-    if not helper.isCategoryBudgetAvailable(chat_id):
+    categoryBudget = helper.getCategoryBudget(chat_id)
+    user_history = helper.getUserHistory(chat_id)
+    if categoryBudget == {}:
         bot.send_message(
             chat_id,
             "No category budget available",
@@ -129,11 +139,18 @@ def viewRemaining(chat_id, bot):
     category_spend_percent = {}
     categories = helper.getSpendCategories()
 
-    for cat in categories:
-        if helper.isCategoryBudgetByCategoryAvailable(chat_id, cat):
-            percent = helper.calculateRemainingCategoryBudgetPercent(chat_id, cat)
-            if percent:
-                category_spend_percent[cat] = percent
+    category_spend = {}
+    for spend in user_history:
+        category_spend[spend["category"]] = (
+            category_spend.get(spend["category"], 0) + spend["amount"]
+        )
+    if category_spend != {}:
+        graphing.spend_wise_split(category_spend)
+
+    for cat in categoryBudget.keys():
+        percent = (category_spend.get(cat, 0) / categoryBudget[cat]) * 100
+        if percent > 0:
+            category_spend_percent[cat] = percent
 
     if category_spend_percent != {}:
         graphing.remaining(category_spend_percent)

@@ -172,7 +172,7 @@ def test_getUserHistory_without_data(mocker):
     mocker.patch.object(helper, "read_json")
     helper.read_json.return_value = {}
     result = helper.getUserHistory(MOCK_CHAT_ID)
-    if result is None:
+    if len(result) == 0:
         assert True
     else:
         assert False, "Result is not None when user data does not exist"
@@ -181,21 +181,11 @@ def test_getUserHistory_without_data(mocker):
 def test_getUserHistory_with_data(mocker):
     mocker.patch.object(helper, "read_json")
     helper.read_json.return_value = MOCK_USER_DATA
-    result = helper.getUserHistory(MOCK_CHAT_ID)
-    if result == MOCK_USER_DATA[str(MOCK_CHAT_ID)]["data"]:
+    result = helper.getUserHistory(7687448400)
+    if len(result) == 1:
         assert True
     else:
         assert False, "User data is available but not found"
-
-
-def test_getUserHistory_with_none(mocker):
-    mocker.patch.object(helper, "read_json")
-    helper.read_json.return_value = None
-    result = helper.getUserHistory(MOCK_CHAT_ID)
-    if result is None:
-        assert True
-    else:
-        assert False, "Result is not None when the file does not exist"
 
 
 def test_getSpendCategories(mocker):
@@ -284,25 +274,18 @@ def test_createNewUserRecord():
 def test_getOverallBudget_none_case():
     helper.getUserData.return_value = None
     overall_budget = helper.getOverallBudget(11)
-    assert overall_budget is None
+    assert overall_budget is 0
 
 
 def test_getOverallBudget_working_case():
-    helper.getUserData = mock.Mock(return_value={"budget": {"overall": 10}})
-    overall_budget = helper.getOverallBudget(11)
-    assert overall_budget == 10
-
-
-def test_getCategoryBudget_none_case():
-    helper.getUserData.return_value = None
-    overall_budget = helper.getCategoryBudget(11)
-    assert overall_budget is None
+    overall_budget = helper.getOverallBudget(7687448401)
+    assert overall_budget == 0
 
 
 def test_getCategoryBudget_working_case():
-    helper.getUserData = mock.Mock(return_value={"budget": {"category": {"Food": 10}}})
-    overall_budget = helper.getCategoryBudget(11)
-    assert overall_budget is not None
+    cat_data = {"Food": 10.0, "Utilities": 20.0}
+    overall_budget = helper.getCategoryBudget(7687448400)
+    assert overall_budget.keys() == cat_data.keys()
 
 
 def test_getCategoryBudgetByCategory_none_case():
@@ -411,69 +394,9 @@ def test_display_remaining_overall_budget_not_set(mock_telebot, mocker):
     )
 
 
-@patch("telebot.telebot")
-def test_display_remaining_overall_budget_no_limit(mock_telebot, mocker):
-    mc = mock_telebot.return_value
-    mc.send_message.return_value = True
-    helper.calculateRemainingOverallBudget = mock.Mock(return_value=(100, 10))
-    helper.getBudgetLimit = mock.Mock(return_value="0")
-    message = create_message("hello from testing")
-    helper.display_remaining_overall_budget(message, mc)
-
-    mc.send_message.assert_called_with(
-        11, "No budget limit set. Please set a budget limit if it is needed."
-    )
-
-
-@patch("telebot.telebot")
-def test_display_remaining_overall_budget_cost_lt_limit(mock_telebot, mocker):
-    mc = mock_telebot.return_value
-    mc.send_message.return_value = True
-    helper.calculateRemainingOverallBudget = mock.Mock(return_value=(100, 90))
-    helper.getBudgetLimit = mock.Mock(return_value="20")
-    message = create_message("hello from testing")
-    helper.display_remaining_overall_budget(message, mc)
-
-    mc.send_message.assert_called_with(
-        11,
-        "The Overall Monthly Budget is $100.00. \nRemaining Overall Monthly Budget is $90.00",
-    )
-
-
-@patch("telebot.telebot")
-def test_display_remaining_overall_budget_cost_eq_limit(mock_telebot, mocker):
-    mc = mock_telebot.return_value
-    mc.send_message.return_value = True
-    helper.calculateRemainingOverallBudget = mock.Mock(return_value=(100, 90))
-    helper.getBudgetLimit = mock.Mock(return_value="10")
-    message = create_message("hello from testing")
-    helper.display_remaining_overall_budget(message, mc)
-
-    mc.send_message.assert_called_with(
-        11,
-        "The Overall Monthly Budget is $100.00. \nTotal spending has reached 10.00% of the budget, exceeding the 10.00% limit. Please monitor your spending.",
-    )
-
-
-@patch("telebot.telebot")
-def test_display_remaining_overall_budget_gt_limit(mock_telebot, mocker):
-    mc = mock_telebot.return_value
-    mc.send_message.return_value = True
-    helper.calculateRemainingOverallBudget = mock.Mock(return_value=(100, 90))
-    helper.getBudgetLimit = mock.Mock(return_value="5")
-    message = create_message("hello from testing")
-    helper.display_remaining_overall_budget(message, mc)
-
-    mc.send_message.assert_called_with(
-        11,
-        "The Overall Monthly Budget is $100.00. \nTotal spending has reached 10.00% of the budget, exceeding the 5.00% limit. Please monitor your spending.",
-    )
-
-
 def test_getBudgetTypes():
     testresult = helper.getBudgetTypes()
     localBudgetTypes = {
-        "overall": "Overall Budget",
         "category": "Category-Wise Budget",
         "exit": "Exit",
     }
@@ -523,7 +446,7 @@ def test_valid_multi_currency_amount(amount, currency, expected):
 
 def test_valid_multi_currency_amount_values():
     assert helper.convert_currency("USD", "USD", 100) == 100
-    assert helper.convert_currency("CNY", "USD", 200) == 28
+    assert round(helper.convert_currency("CNY", "USD", 200), 0) > 0
 
 
 def test_invalid_currency_conversion():

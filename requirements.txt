@@ -1,8 +1,10 @@
 pyTelegramBotAPI
 pytest
+pytest-cov
 jproperties
 flake8
 matplotlib
+pandas
 fpdf
 coverage
 pytest-mock
@@ -13,3 +15,5 @@ tabulate
 plotly
 kaleido
 forex-python
+pymongos
+python-dotenv

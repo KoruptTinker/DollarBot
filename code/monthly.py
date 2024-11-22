@@ -41,7 +41,7 @@ def run(message, bot):
     helper.read_json()
     chat_id = message.chat.id
     user_history = helper.getUserHistory(chat_id)
-    if user_history == None:
+    if user_history == None or len(user_history) == 0:
         bot.send_message(
             chat_id, "Oops! Looks like you do not have any spending records!"
         )

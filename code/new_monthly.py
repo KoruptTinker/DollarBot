@@ -17,7 +17,7 @@ def run(message, bot):
     chat_id = message.chat.id
     user_history = helper.getUserHistory(chat_id)
 
-    if user_history is None:
+    if user_history is None or len(user_history) == 0:
         bot.send_message(
             chat_id, "Oops! Looks like you do not have any spending records!"
         )
@@ -39,7 +39,9 @@ def create_chart_for_monthly_analysis(user_history, userid):
     result = []
 
     # Parse user history into a DataFrame
-    user_history_split = [item.split(",") for item in user_history]
+    user_history_split = [
+        [item["date"], item["category"], item["amount"]] for item in user_history
+    ]
     df = pd.DataFrame(user_history_split, columns=["Date", "Category", "Cost"])
 
     # Data Preprocessing

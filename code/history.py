@@ -42,7 +42,6 @@ def run(message, bot):
     displays the user's historical data.
     """
     try:
-        helper.read_json()
         chat_id = message.chat.id
         user_history = helper.getUserHistory(chat_id)
         table = [["Date", "Category", "Amount"]]
@@ -52,15 +51,16 @@ def run(message, bot):
             raise Exception("Sorry! No spending records found!")
         else:
             for rec in user_history:
-                values = rec.split(",")
                 # Store each value in separate variables
-                date, category, amount = values
+                date = rec["date"]
+                category = rec["category"]
+                amount = rec["amount"]
 
-                date_time = datetime.strptime(date, "%d-%b-%Y")
+                date_time = datetime.strptime(date, "%Y-%m-%d")
                 current_date = datetime.now()
 
                 if date_time <= current_date:
-                    table.append([date, category, "$ " + amount])
+                    table.append([date, category, "$ " + str(amount)])
             spend_total_str = "<pre>" + tabulate(table, headers="firstrow") + "</pre>"
             bot.send_message(chat_id, spend_total_str, parse_mode="HTML")
     except Exception as e:

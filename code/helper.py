@@ -29,6 +29,12 @@ import re
 import json
 import os
 from datetime import datetime
+from mongo import MongoDB
+from config import Secrets
+
+
+secrets = Secrets()
+mongoClient = MongoDB(secrets.MongoConnectionURL, secrets.DBName)
 
 spend_categories = []
 choices = ["Date", "Category", "Cost"]
@@ -39,17 +45,10 @@ budget_options = {
     "update": "Add/Update",
     "view": "View",
     "delete": "Delete",
-    "limit": "Budget Limit",
     "exit": "Exit",
 }
 budget_types = {
-    "overall": "Overall Budget",
     "category": "Category-Wise Budget",
-    "exit": "Exit",
-}
-budget_limit_options = {
-    "updatelim": "Set/Update Limit",
-    "dellim": "Delete Limit",
     "exit": "Exit",
 }
 data_format = {"data": [], "budget": {"overall": "0", "category": None, "limit": None}}
@@ -193,14 +192,26 @@ def validate_entered_duration(duration_entered):
     return 0
 
 
+def update_budget(chat_id: str = "", category: str = "", amount: float = 0):
+    return mongoClient.update_budget_from_telegram(chat_id, category, amount)
+
+
 def getUserHistory(chat_id):
     """
     getUserHistory(chat_id): Takes 1 argument chat_id and uses this to get the relevant user's historical data.
     """
-    data = getUserData(chat_id)
-    if data is not None:
-        return data["data"]
-    return None
+    return mongoClient.fetch_spends_from_telegram(chat_id)
+
+
+def updateUserSpend(spend_id, date=None, category=None, amount=None):
+    if date:
+        return mongoClient.update_spend_date_from_telegram(spend_id, date)
+    elif category:
+        return mongoClient.update_spend_category_from_telegram(spend_id, category)
+    elif amount:
+        return mongoClient.update_spend_amount_from_telegram(spend_id, amount)
+    else:
+        return False
 
 
 def getUserHistoryByCategory(chat_id, category):
@@ -216,7 +227,7 @@ def getUserHistoryByDate(chat_id, date):
     data = getUserHistory(chat_id)
     previous_expenses = []
     for record in data:
-        if f"{date}," in record:
+        if date == record["date"]:
             previous_expenses.append(record)
     return previous_expenses
 
@@ -225,8 +236,7 @@ def getUserHistoryDateExpense(chat_id):
     data = getUserHistory(chat_id)
     cat_spend_dict = {}
     for record in data:
-        split_vals = record.split(",")
-        cat_spend_dict[split_vals[0]] = split_vals[2]
+        cat_spend_dict[record["date"]] = record["amount"]
     return cat_spend_dict
 
 
@@ -249,17 +259,22 @@ def createNewUserRecord():
 
 
 def getOverallBudget(chatId):
-    data = getUserData(chatId)
+    data = mongoClient.fetch_budget_from_telegram(chatId)
     if data is None or data == {}:
-        return None
-    return data["budget"]["overall"]
+        return 0
+
+    overall = 0
+    for cat in dict(data["category"]).keys():
+        overall += int(data["category"][cat])
+
+    return overall
 
 
 def getCategoryBudget(chatId):
-    data = getUserData(chatId)
+    data = mongoClient.fetch_budget_from_telegram(chatId)
     if data is None:
         return None
-    return data["budget"]["category"]
+    return data["category"]
 
 
 def getCategoryBudgetByCategory(chatId, cat):
@@ -267,6 +282,10 @@ def getCategoryBudgetByCategory(chatId, cat):
         return None
     data = getCategoryBudget(chatId)
     return data[cat]
+
+
+def resetBudget(chat_id):
+    return mongoClient.reset_budget_from_telegram(chat_id)
 
 
 def canAddBudget(chatId):
@@ -341,36 +360,30 @@ def display_remaining_overall_budget(message, bot):
     if budget == None or budget == 0:
         msg = "No budget set. Please set a budget if it is needed."
     else:
-        budget_limit = getBudgetLimit(chat_id)
-        if budget_limit == None or budget_limit == "0":
-            msg = "No budget limit set. Please set a budget limit if it is needed."
+        budget_limit = float(80)
+        if remaining_budget / budget > 1 - budget_limit / 100:
+            msg = "The Overall Monthly Budget is ${:.2f}. \nRemaining Overall Monthly Budget is ${:.2f}".format(
+                budget, remaining_budget
+            )
+        elif (
+            remaining_budget / budget <= 1 - budget_limit / 100
+        ) and budget_limit != 0:
+            msg = "The Overall Monthly Budget is ${:.2f}. \nTotal spending has reached {:.2%} of the budget, exceeding the {:.2%} limit. Please monitor your spending.".format(
+                budget, 1 - remaining_budget / budget, budget_limit / 100
+            )
         else:
-            budget_limit = float(budget_limit)
-            if remaining_budget / budget > 1 - budget_limit / 100:
-                msg = "The Overall Monthly Budget is ${:.2f}. \nRemaining Overall Monthly Budget is ${:.2f}".format(
-                    budget, remaining_budget
-                )
-            elif (
-                remaining_budget / budget <= 1 - budget_limit / 100
-            ) and budget_limit != 0:
-                msg = "The Overall Monthly Budget is ${:.2f}. \nTotal spending has reached {:.2%} of the budget, exceeding the {:.2%} limit. Please monitor your spending.".format(
-                    budget, 1 - remaining_budget / budget, budget_limit / 100
-                )
-            else:
-                msg = "The Overall Monthly Budget is ${}. \nBudget Exceded!\nExpenditure exceeds the budget by ${}".format(
-                    budget, str(remaining_budget)[1:]
-                )
+            msg = "The Overall Monthly Budget is ${}. \nBudget Exceded!\nExpenditure exceeds the budget by ${}".format(
+                budget, str(remaining_budget)[1:]
+            )
     bot.send_message(chat_id, msg)
 
 
 def calculateRemainingOverallBudget(chat_id):
     budget = getOverallBudget(chat_id)
     history = getUserHistory(chat_id)
-    if history == None:
-        return None, None
-    query = datetime.now().today().strftime(getMonthFormat())
-    queryResult = [value for _, value in enumerate(history) if str(query) in value]
-    if budget == None:
+    query = datetime.now().today().strftime("%Y-%m")
+    queryResult = [value for _, value in enumerate(history) if query in value["date"]]
+    if budget == 0:
         return None, -calculate_total_spendings(queryResult)
     return float(budget), float(budget) - calculate_total_spendings(queryResult)
 
@@ -378,8 +391,7 @@ def calculateRemainingOverallBudget(chat_id):
 def calculate_total_spendings(queryResult):
     total = 0
     for row in queryResult:
-        s = row.split(",")
-        total = total + float(s[2])
+        total = total + float(row["amount"])
     return total
 
 
@@ -436,7 +448,7 @@ def deleteBudgetCategory(chatId, category):
 def getAvailableCategories(history):
     available_categories = set()
     for record in history:
-        available_categories.add(record.split(",")[1])
+        available_categories.add(record["category"])
     return available_categories
 
 
@@ -444,12 +456,20 @@ def getCategoryWiseSpendings(available_categories, history):
     category_wise_history = {}
     for cat in available_categories:
         for record in history:
-            if cat in record:
+            if cat == record["category"]:
                 if cat in category_wise_history.keys():
                     category_wise_history[cat].append(record)
                 else:
                     category_wise_history[cat] = [record]
     return category_wise_history
+
+
+def erase_spend_history(chat_id: str = ""):
+    return mongoClient.reset_spends_from_telegram(chat_id)
+
+
+def delete_spend_history(chat_id: str = "", date: str = ""):
+    return mongoClient.delete_spends_from_telegram(chat_id, date)
 
 
 def getFormattedPredictions(category_predictions):

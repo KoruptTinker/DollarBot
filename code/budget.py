@@ -46,7 +46,7 @@ def run(message, bot):
     """
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
     options = helper.getBudgetOptions()
-    budget, remaining_budget = helper.calculateRemainingOverallBudget(message.chat.id)
+    budget, _ = helper.calculateRemainingOverallBudget(message.chat.id)
     markup.row_width = 2
     for c in options.values():
         markup.add(c)
@@ -56,7 +56,7 @@ def run(message, bot):
         )
     else:
         msg_before = "The Overall Monthly Budget is ${:.2f}.\nSelect Operation.".format(
-            budget, remaining_budget
+            budget
         )
     msg = bot.reply_to(message, msg_before, reply_markup=markup)
     bot.register_next_step_handler(msg, post_operation_selection, bot)
@@ -84,8 +84,6 @@ def post_operation_selection(message, bot):
             budget_view.run(message, bot)
         elif op == options["delete"]:
             budget_delete.run(message, bot)
-        elif op == options["limit"]:
-            budget_limit.run(message, bot)
         elif op == options["exit"]:
             return
     except Exception as e:

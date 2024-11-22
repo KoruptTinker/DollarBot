@@ -32,62 +32,6 @@ from telebot import types
 
 
 @patch("telebot.telebot")
-def test_update_overall_budget_already_available_case(mock_telebot, mocker):
-    mc = mock_telebot.return_value
-    mc.send_message.return_value = True
-
-    mocker.patch.object(budget_update, "helper")
-    budget_update.helper.isOverallBudgetAvailable.return_value = True
-    budget_update.helper.getOverallBudget.return_value = 100
-
-    budget_update.update_overall_budget(120, mc)
-    mc.send_message.assert_called_with(120, ANY)
-
-
-@patch("telebot.telebot")
-def test_update_overall_budget_new_budget_case(mock_telebot, mocker):
-    mc = mock_telebot.return_value
-    mc.send_message.return_value = True
-
-    mocker.patch.object(budget_update, "helper")
-    budget_update.helper.isOverallBudgetAvailable.return_value = True
-
-    budget_update.update_overall_budget(120, mc)
-    mc.send_message.assert_called_with(120, ANY)
-
-
-@patch("telebot.telebot")
-def test_post_overall_amount_input_working(mock_telebot, mocker):
-    mc = mock_telebot.return_value
-    mc.send_message.return_value = True
-
-    mocker.patch.object(budget_update, "helper")
-    budget_update.helper.isOverallBudgetAvailable.return_value = True
-    budget_update.helper.validate_entered_amount.return_value = 150
-
-    message = create_message("hello from testing")
-    budget_update.post_overall_amount_input(message, mc)
-
-    mc.send_message.assert_called_with(11, ANY)
-
-
-@patch("telebot.telebot")
-def test_post_overall_amount_input_nonworking(mock_telebot, mocker):
-    mc = mock_telebot.return_value
-    mc.send_message.return_value = True
-
-    mocker.patch.object(budget_update, "helper")
-    budget_update.helper.isOverallBudgetAvailable.return_value = True
-    budget_update.helper.validate_entered_amount.return_value = 0
-    budget_update.helper.throw_exception.return_value = True
-
-    message = create_message("hello from testing")
-    budget_update.post_overall_amount_input(message, mc)
-
-    assert budget_update.helper.throw_exception.called
-
-
-@patch("telebot.telebot")
 def test_update_category_budget(mock_telebot, mocker):
     mc = mock_telebot.return_value
     mc.reply_to.return_value = True
@@ -145,7 +89,7 @@ def test_post_category_selection_category_wise_case(mock_telebot, mocker):
     budget_update.post_category_selection(message, mc)
 
     mc.send_message.assert_called_with(11, ANY)
-    assert budget_update.helper.getCategoryBudgetByCategory.called
+    assert budget_update.helper.getSpendCategories.called
 
 
 @patch("telebot.telebot")

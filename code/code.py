@@ -21,23 +21,20 @@ import monthly, new_monthly
 import sendEmail
 import add_recurring
 from datetime import datetime
-from jproperties import Properties
 from telebot import types
 from helper import migrate_users
 from helper import migrate_data_entries
 import add_balance
+from config import Secrets
+from mongo import MongoDB
 
 import insight
 
 
-configs = Properties()
+secrets = Secrets()
+mongoClient = MongoDB(secrets.MongoConnectionURL, secrets.DBName)
 
-with open("user.properties", "rb") as read_prop:
-    configs.load(read_prop)
-
-api_token = str(configs.get("api_token").data)
-
-bot = telebot.TeleBot(api_token)
+bot = telebot.TeleBot(secrets.TelegramAPIKey)
 
 telebot.logger.setLevel(logging.INFO)
 
@@ -71,9 +68,7 @@ def listener(user_requests):
 
     try:
         helper.read_json()
-        global user_list
         chat_id = user_requests[0].chat.id
-
         if user_requests[0].text[0] != "/":
             bot.send_message(chat_id, message)
     except Exception:
@@ -87,7 +82,6 @@ bot.set_update_listener(listener)
 def help(m):
 
     helper.read_json()
-    global user_list
     chat_id = m.chat.id
 
     message = "Here are the commands you can use: \n"
@@ -102,7 +96,6 @@ def help(m):
 def faq(m):
 
     helper.read_json()
-    global user_list
     chat_id = m.chat.id
 
     faq_message = (
@@ -129,8 +122,10 @@ def start_and_menu_command(m):
     Commands used to run this: commands=['start', 'menu']
     """
     helper.read_json()
-    global user_list
+
     chat_id = m.chat.id
+
+    addUserHistory(chat_id)
 
     text_intro = (
         "Welcome to the Dollar Bot! \n"
@@ -306,12 +301,11 @@ def process_account_choice(message):
     bot.send_message(message.chat.id, f"Account type set to {account_type}")
 
 
-def addUserHistory(chat_id, user_record):
-    global user_list
-    if not (str(chat_id) in user_list):
-        user_list[str(chat_id)] = []
-    user_list[str(chat_id)].append(user_record)
-    return user_list
+def addUserHistory(chat_id):
+    userData = mongoClient.fetch_user_from_telegram(chat_id=chat_id)
+    if userData == None:
+        mongoClient.create_user_from_telegram(chat_id)
+        mongoClient.create_budget_from_telegram(chat_id)
 
 
 def main():

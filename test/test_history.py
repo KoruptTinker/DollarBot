@@ -79,7 +79,7 @@ def test_run_with_data(mock_telebot, mocker):
     mc = mock_telebot.return_value
     mc.send_message.return_value = True
     history.run(MOCK_Message_data, mc)
-    assert mc.send_message.called
+    assert mc.reply_to.called
 
 
 @patch("telebot.telebot")
