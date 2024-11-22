@@ -152,6 +152,14 @@ def command_add(message):
     """
     add.run(message, bot)
 
+@bot.message_handler(commands=["sendEmail"])
+def command_add(message):
+    """
+    command_add(message) Takes 1 argument message which contains the message from
+    the user along with the chat ID of the user chat. It then calls add.py to run to execute
+    the add functionality. Commands used to run this: commands=['add']
+    """
+    sendEmail.run(message, bot)
 
 # defines how the /weekly command has to be handled/processed
 @bot.message_handler(commands=["weekly"])

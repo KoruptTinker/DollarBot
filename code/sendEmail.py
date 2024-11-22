@@ -29,11 +29,12 @@ import csv
 import re
 import helper
 import logging
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.mime.base import MIMEBase
-from email import encoders
+from gmail import GMailClient
+from config import Secrets
+
+secrets = Secrets()
+
+emailClient = GMailClient(secrets.GmailAccount, secrets.GmailPassword)
 
 
 # === Documentation of sendEmail.py ===
@@ -79,9 +80,9 @@ def acceptEmailId(message, bot):
 
             else:
                 for rec in user_history:
-                    values = rec.split(",")
-                    # Store each value in separate variables
-                    date, category, amount = values
+                    date = rec["date"]
+                    category = rec["category"]
+                    amount = str(rec["amount"])
                     table.append([date, category, "$ " + amount])
 
                 with open("history.csv", "w", newline="", encoding="utf-8") as file:
@@ -92,38 +93,8 @@ def acceptEmailId(message, bot):
                 This email has an attached copy of your expenditure history.
                 Thank you!
                 """
+                emailClient.send_email(email, "Spending History Document", mail_content, "history.csv")
                 # The mail addresses and password
-                sender_address = "secheaper@gmail.com"
-                # sender_pass = 'csc510se'
-                sender_pass = "lrmd uazh dshu xcxi"
-                receiver_address = email
-                # Setup the MIME
-                message = MIMEMultipart()
-                message["From"] = sender_address
-                message["To"] = receiver_address
-                message["Subject"] = "Spending History document"
-                # The subject line
-                # The body and the attachments for the mail
-                message.attach(MIMEText(mail_content, "plain"))
-                attach_file_name = "history.csv"
-                attach_file = open(attach_file_name, "rb")
-                payload = MIMEBase("application", "octet-stream")
-                payload.set_payload((attach_file).read())
-                encoders.encode_base64(payload)  # encode the attachment
-                # add payload header with filename
-                payload.add_header(
-                    "Content-Disposition", f"attachment; filename={attach_file_name}"
-                )
-                message.attach(payload)
-                # Create SMTP session for sending the mail
-                session = smtplib.SMTP("smtp.gmail.com", 587)  # use gmail with port
-                session.starttls()  # enable security
-                session.login(
-                    sender_address, sender_pass
-                )  # login with mail_id and password
-                text = message.as_string()
-                session.sendmail(sender_address, receiver_address, text)
-                session.quit()
                 bot.send_message(chat_id, "Mail Sent")
 
         except Exception as ex:

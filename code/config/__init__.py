@@ -10,6 +10,9 @@ class Secrets:
 
     TelegramAPIKey: str = ""
 
+    GmailAccount: str = ""
+    GmailPassword: str = ""
+
     def __new__(cls) -> "Secrets":
         if cls._instance is None:
             cls._instance = super(Secrets, cls).__new__(cls)
@@ -22,6 +25,8 @@ class Secrets:
         self.MongoConnectionURL = os.getenv("MONGO_CONNECTION_URL", "")
         self.DBName = os.getenv("DB_NAME", "")
         self.TelegramAPIKey = os.getenv("TELEGRAM_API_KEY", "")
+        self.GmailAccount = os.getenv("GMAIL_ACCOUNT")
+        self.GmailPassword = os.getenv("GMAIL_PASS")
 
         if not self.MongoConnectionURL:
             raise ValueError("MONGO_CONNECTION_URL environment variable is not set")
@@ -31,3 +36,9 @@ class Secrets:
 
         if not self.TelegramAPIKey:
             raise ValueError("TELEGRAM_API_KEY environment variable is not set")
+        
+        if not self.GmailAccount:
+            raise ValueError("GMAIL_ACCOUMT environment variable is not set")
+        
+        if not self.GmailPassword:
+            raise ValueError("GMAIL_PASS environment variable is not set")
