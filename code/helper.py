@@ -136,6 +136,9 @@ def write_json(user_list):
         print("Sorry, the data file could not be found.")
 
 
+def createSpends(chat_id, date_str, category_str, amount_value):
+        return mongoClient.create_spends_from_telegram(chat_id, date_str, category_str, amount_value)
+
 def fetchUserFromTelegram(chat_id):
     return mongoClient.fetch_user_from_telegram(chat_id)
 
