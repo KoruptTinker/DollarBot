@@ -64,6 +64,9 @@ class MongoDB:
 
     def fetch_user_from_telegram(self, chat_id: str = ""):
         return self._users.get_user_from_telegram(self._user_collection, chat_id)
+    
+    def fetch_user_from_discord(self, discord_id: str = ""):
+        return self._users.get_user_from_discord(self._user_collection, discord_id)
 
     def create_user_from_telegram(self, chat_id: str = ""):
         if chat_id:

@@ -139,6 +139,9 @@ def write_json(user_list):
 def fetchUserFromTelegram(chat_id):
     return mongoClient.fetch_user_from_telegram(chat_id)
 
+def fetchUserFromDiscord(discord_id):
+    return mongoClient.fetch_user_from_discord(discord_id)
+
 
 def fetchLinkCodeFromTelegram(chat_id):
     return mongoClient.fetch_link_code_from_telegram(chat_id)
