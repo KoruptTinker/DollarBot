@@ -27,6 +27,7 @@ class DiscordClient(discord.Client):
             await self.tree.sync()
 
     async def setup_hook(self):
+        self.tree.copy_global_to(guild=self._guild_id)
         await self.tree.sync(guild=self._guild_id)
 
     async def on_ready(self):
