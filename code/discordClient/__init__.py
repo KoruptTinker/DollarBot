@@ -1,5 +1,6 @@
 import discord
 from discord import app_commands
+import helper
 
 
 class DiscordClient(discord.Client):
@@ -17,15 +18,28 @@ class DiscordClient(discord.Client):
         async def ping(interaction: discord.Interaction):
             await interaction.response.send_message("Pong!")
 
-        @self.tree.command(name="dm", description="Sends a DM")
-        async def dm(interaction: discord.Interaction):
-            await interaction.user.send("Hello")
-            await interaction.response.send_message("Sent you a DM!")
+        @self.tree.command(name="link", description="Link your Discord account with Telegram")
+        async def link(interaction: discord.Interaction, code: str):
+            if not code.isdigit() or len(code) != 6:
+                await interaction.response.send_message(
+                    "Please provide a valid 6-digit code.", 
+                    ephemeral=True
+                )
+                return
 
-        @self.tree.command(name="sync", description="Syncs commands")
-        async def sync(interaction: discord.Interaction):
-            await self.tree.sync()
+            existing_code = helper.fetchLinkCode(code)
+            if existing_code != None:
+                helper.linkDiscordToTelegram(existing_code["chat_id"], interaction.user.id)
+                helper.deleteLinkCode(existing_code["link_code"])
 
+                await interaction.response.send_message(
+                    "Successfully linked your discord account to your telegram account!", 
+                )
+            else:
+                await interaction.response.send_message(
+                    "Code you've entered is invalid! Please get a new code from the Telegram app!", 
+                )
+                
     async def setup_hook(self):
         self.tree.copy_global_to(guild=self._guild_id)
         await self.tree.sync(guild=self._guild_id)

@@ -16,3 +16,6 @@ class LinkCodesModel:
     
     def fetch_link_code_discord(self, link_collection: Collection, discord_id: int):
         return link_collection.find_one({"discord_id": discord_id})
+    
+    def delete_link_code(self, link_collection: Collection, link_code: str):
+        return link_collection.delete_one({"link_code": link_code})

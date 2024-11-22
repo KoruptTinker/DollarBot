@@ -70,6 +70,12 @@ class MongoDB:
             self._users.create_user_from_telegram(self._user_collection, chat_id)
             return True
         return False
+    
+    def link_discord_to_telegram(self, chat_id: str = "", discord_id: str = ""):
+        if chat_id and discord_id:
+            self._users.link_discord_to_telegram(self._user_collection, chat_id, discord_id)
+            return True
+        return False
 
     @property
     def _spends_collection(self):
@@ -218,6 +224,13 @@ class MongoDB:
             return self._link_codes.fetch_link_code_telegram(self._link_codes_collection, chat_id)
         
         return None
+    
+    def delete_link_code(self, link_code: str):
+        if link_code:
+            return self._link_codes.delete_link_code(self._link_codes_collection, link_code)
+        
+        return None
+
 
     def close(self):
         """Manually close the connection"""
