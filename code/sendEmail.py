@@ -93,7 +93,9 @@ def acceptEmailId(message, bot):
                 This email has an attached copy of your expenditure history.
                 Thank you!
                 """
-                emailClient.send_email(email, "Spending History Document", mail_content, "history.csv")
+                emailClient.send_email(
+                    email, "Spending History Document", mail_content, "history.csv"
+                )
                 # The mail addresses and password
                 bot.send_message(chat_id, "Mail Sent")
 

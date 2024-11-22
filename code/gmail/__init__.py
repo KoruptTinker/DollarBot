@@ -4,6 +4,7 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 
+
 class GMailClient:
     _email_address: str = ""
     _password: str = ""
@@ -12,7 +13,13 @@ class GMailClient:
         self._email_address = email
         self._password = password
 
-    def send_email(self, to_email: str = "", subject: str = "", content: str = "", attachment: str = ""):
+    def send_email(
+        self,
+        to_email: str = "",
+        subject: str = "",
+        content: str = "",
+        attachment: str = "",
+    ):
         sender_address = self._email_address
         sender_pass = self._password
         receiver_address = to_email
@@ -24,7 +31,7 @@ class GMailClient:
         # The subject line
         # The body and the attachments for the mail
         message.attach(MIMEText(content, "plain"))
-        if(attachment != ""):
+        if attachment != "":
             attach_file_name = attachment
             attach_file = open(attach_file_name, "rb")
             payload = MIMEBase("application", "octet-stream")
@@ -36,10 +43,8 @@ class GMailClient:
             )
             message.attach(payload)
         session = smtplib.SMTP("smtp.gmail.com", 587)
-        session.starttls()  
-        session.login(
-            sender_address, sender_pass
-        )
+        session.starttls()
+        session.login(sender_address, sender_pass)
         text = message.as_string()
         session.sendmail(sender_address, receiver_address, text)
         session.quit()

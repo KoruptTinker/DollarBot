@@ -152,6 +152,7 @@ def command_add(message):
     """
     add.run(message, bot)
 
+
 @bot.message_handler(commands=["sendEmail"])
 def command_add(message):
     """
@@ -160,6 +161,7 @@ def command_add(message):
     the add functionality. Commands used to run this: commands=['add']
     """
     sendEmail.run(message, bot)
+
 
 # defines how the /weekly command has to be handled/processed
 @bot.message_handler(commands=["weekly"])

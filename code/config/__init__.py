@@ -36,9 +36,9 @@ class Secrets:
 
         if not self.TelegramAPIKey:
             raise ValueError("TELEGRAM_API_KEY environment variable is not set")
-        
+
         if not self.GmailAccount:
             raise ValueError("GMAIL_ACCOUMT environment variable is not set")
-        
+
         if not self.GmailPassword:
             raise ValueError("GMAIL_PASS environment variable is not set")
