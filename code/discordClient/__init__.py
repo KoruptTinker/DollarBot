@@ -1,6 +1,7 @@
 import discord
 from discord import app_commands
 
+
 class DiscordClient(discord.Client):
     _guild_id: discord.Object = None
     _bot_token: str = None
@@ -15,7 +16,7 @@ class DiscordClient(discord.Client):
         @self.tree.command(name="ping", description="Sends a pong response")
         async def ping(interaction: discord.Interaction):
             await interaction.response.send_message("Pong!")
-        
+
         @self.tree.command(name="dm", description="Sends a DM")
         async def dm(interaction: discord.Interaction):
             await interaction.user.send("Hello")
@@ -29,7 +30,7 @@ class DiscordClient(discord.Client):
         await self.tree.sync(guild=self._guild_id)
 
     async def on_ready(self):
-        print(f'Logged in as {self.user}')
+        print(f"Logged in as {self.user}")
 
     def start_bot(self):
-        self.run(self._bot_token)    
+        self.run(self._bot_token)
