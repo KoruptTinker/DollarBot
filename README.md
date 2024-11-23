@@ -5,7 +5,7 @@
 [![Autopep8](https://github.com/KoruptTinker/DollarBot/actions/workflows/autopep8.yml/badge.svg)](https://github.com/KoruptTinker/DollarBot/actions/workflows/autopep8.yml)
 [![Pylint](https://github.com/KoruptTinker/DollarBot/actions/workflows/pylint.yml/badge.svg)](https://github.com/KoruptTinker/DollarBot/actions/workflows/pylint.yml)
 [![Platform](https://img.shields.io/badge/Platform-Telegram-blue)](https://desktop.telegram.org/)
-[![Discord](https://img.shields.io/discord/1309342901108604968?style=flat&cacheSeconds=10)](https://discord.gg/dJjYMjEfeX)
+![Discord](https://img.shields.io/discord/1309342901108604968?style=flat&logo=discord&logoColor=green&label=Discord%20Server)
 [![codecov](https://codecov.io/gh/KoruptTinker/DollarBot/graph/badge.svg?token=crodhCsUXz)](https://codecov.io/gh/KoruptTinker/DollarBot)
 [![pytest](https://github.com/KoruptTinker/DollarBot/actions/workflows/pytest.yml/badge.svg)](https://github.com/KoruptTinker/DollarBot/actions/workflows/pytest.yml)
 [![GitHub issues](https://img.shields.io/github/issues-raw/KoruptTinker/DollarBot)](https://github.com/KoruptTinker/DollarBot/issues)
