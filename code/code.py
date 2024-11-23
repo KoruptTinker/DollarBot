@@ -335,7 +335,7 @@ def main():
     # migrate_users()
     # migrate_data_entries()
     try:
-        # bot.polling(none_stop=True)
+        bot.polling(none_stop=True)
         discordClient.start_bot()
     except Exception as e:
         logging.exception(str(e))
