@@ -27,12 +27,15 @@ from helper import migrate_data_entries
 import add_balance
 from config import Secrets
 from mongo import MongoDB
+from discordClient import DiscordClient
+import link
 
 import insight
 
 
 secrets = Secrets()
 mongoClient = MongoDB(secrets.MongoConnectionURL, secrets.DBName)
+discordClient = DiscordClient(secrets.GuildID, secrets.BotToken)
 
 bot = telebot.TeleBot(secrets.TelegramAPIKey)
 
@@ -286,6 +289,11 @@ def command_insight(message):
     insight.run(message, bot)
 
 
+@bot.message_handler(commands=["link"])
+def handle_set_account(message):
+    link.run(message, bot)
+
+
 @bot.message_handler(commands=["set_account"])
 def handle_set_account(message):
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
@@ -317,7 +325,8 @@ def main():
     # migrate_users()
     # migrate_data_entries()
     try:
-        bot.polling(none_stop=True)
+        # bot.polling(none_stop=True)
+        discordClient.start_bot()
     except Exception as e:
         logging.exception(str(e))
         time.sleep(3)
