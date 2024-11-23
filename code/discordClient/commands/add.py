@@ -5,7 +5,7 @@ from datetime import datetime
 from tabulate import tabulate
 
 CATEGORIES = [
-    app_commands.Choice(name="Food", value="food"),
+    app_commands.Choice(name="Food", value="Food"),
     app_commands.Choice(name="Transport", value="Transport"),
     app_commands.Choice(name="Groceries", value="Groceries"),
     app_commands.Choice(name="Shopping", value="Shopping"),
