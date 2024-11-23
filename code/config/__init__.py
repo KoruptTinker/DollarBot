@@ -12,7 +12,7 @@ class Secrets:
 
     GmailAccount: str = ""
     GmailPassword: str = ""
-    
+
     BotToken: str = ""
     GuildID: str = ""
 
@@ -47,7 +47,7 @@ class Secrets:
 
         if not self.GmailPassword:
             raise ValueError("GMAIL_PASS environment variable is not set")
-        
+
         if not self.BotToken:
             raise ValueError("BOT_TOKEN environment variable is not set")
 
