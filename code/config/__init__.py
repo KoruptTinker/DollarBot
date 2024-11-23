@@ -12,6 +12,9 @@ class Secrets:
 
     GmailAccount: str = ""
     GmailPassword: str = ""
+    
+    BotToken: str = ""
+    GuildID: str = ""
 
     def __new__(cls) -> "Secrets":
         if cls._instance is None:
@@ -27,6 +30,8 @@ class Secrets:
         self.TelegramAPIKey = os.getenv("TELEGRAM_API_KEY", "")
         self.GmailAccount = os.getenv("GMAIL_ACCOUNT")
         self.GmailPassword = os.getenv("GMAIL_PASS")
+        self.BotToken = str(os.getenv("BOT_TOKEN"))
+        self.GuildID = int(os.getenv("GUILD_ID"))
 
         if not self.MongoConnectionURL:
             raise ValueError("MONGO_CONNECTION_URL environment variable is not set")
@@ -42,3 +47,9 @@ class Secrets:
 
         if not self.GmailPassword:
             raise ValueError("GMAIL_PASS environment variable is not set")
+        
+        if not self.BotToken:
+            raise ValueError("BOT_TOKEN environment variable is not set")
+
+        if not self.GuildID:
+            raise ValueError("GUILD_ID environment variable is not set")

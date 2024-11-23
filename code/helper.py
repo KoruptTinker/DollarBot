@@ -31,6 +31,7 @@ import os
 from datetime import datetime
 from mongo import MongoDB
 from config import Secrets
+import random
 
 
 secrets = Secrets()
@@ -133,6 +134,52 @@ def write_json(user_list):
             json.dump(user_list, json_file, ensure_ascii=False, indent=4)
     except FileNotFoundError:
         print("Sorry, the data file could not be found.")
+
+
+def createSpends(chat_id, date_str, category_str, amount_value):
+    return mongoClient.create_spends_from_telegram(
+        chat_id, date_str, category_str, amount_value
+    )
+
+
+def fetchUserFromTelegram(chat_id):
+    return mongoClient.fetch_user_from_telegram(chat_id)
+
+
+def fetchUserFromDiscord(discord_id):
+    return mongoClient.fetch_user_from_discord(discord_id)
+
+
+def fetchLinkCodeFromTelegram(chat_id):
+    return mongoClient.fetch_link_code_from_telegram(chat_id)
+
+
+def linkDiscordToTelegram(chat_id, discord_id):
+    return mongoClient.link_discord_to_telegram(chat_id, discord_id)
+
+
+def fetchLinkCodeFromDiscord(discord_id):
+    return mongoClient.fetch_link_code_from_discord(discord_id)
+
+
+def createLinkCodeTelegram(chat_id, link_code):
+    return mongoClient.create_link_code_from_telegram(chat_id, link_code)
+
+
+def createLinkCodeDiscord(discord_id, link_code):
+    return mongoClient.create_link_code_from_discord(discord_id, link_code)
+
+
+def deleteLinkCode(link_code):
+    return mongoClient.delete_link_code(link_code)
+
+
+def fetchLinkCode(link_code):
+    return mongoClient.fetch_link_code(link_code)
+
+
+def generateRandomLinkCode():
+    return str(random.randint(100000, 999999))
 
 
 def read_category_json():

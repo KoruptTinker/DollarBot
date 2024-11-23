@@ -3,11 +3,7 @@ name: pytest
 # Trigger the workflow on push or pull request to the main branch
 on:
   push:
-    branches:
-      - main
   pull_request:
-    branches:
-      - main
 
 jobs:
   test:
@@ -16,6 +12,8 @@ jobs:
       MONGO_CONNECTION_URL: ${{secrets.MONGO_CONNECTION_URL}}
       DB_NAME: ${{secrets.DB_NAME}}
       TELEGRAM_API_KEY: ${{secrets.TELEGRAM_API_KEY}}
+      BOT_TOKEN: ${{secrets.BOT_TOKEN}}
+      GUILD_ID: ${{secrets.GUILD_ID}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2  # Check out the code from the repository
