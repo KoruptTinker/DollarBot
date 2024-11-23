@@ -16,7 +16,6 @@ async def weekly(interaction: discord.Interaction):
         )
         return
 
-
     user_history = helper.getUserHistory(user_details["telegram_chat_id"])
 
     if user_history is None or len(user_history) == 0:
@@ -27,13 +26,16 @@ async def weekly(interaction: discord.Interaction):
     else:
         try:
             # Keep original charts and add new charts
-            charts = create_chart_for_weekly_analysis(user_history, user_details["telegram_chat_id"])
+            charts = create_chart_for_weekly_analysis(
+                user_history, user_details["telegram_chat_id"]
+            )
             files = [discord.File(open(chart, "rb")) for chart in charts]
             await interaction.response.send_message(files=files)
         except Exception as e:
             print(f"Exception occurred: {e}")
             await interaction.response.send_message("Something went wrong")
-            
+
+
 def create_chart_for_weekly_analysis(user_history, userid):
     result = []
 
@@ -58,6 +60,7 @@ def create_chart_for_weekly_analysis(user_history, userid):
     result.append(create_pie_chart(df, userid))
 
     return result
+
 
 def create_original_line_chart(df, userid):
     plt.figure(figsize=(10, 6))
@@ -136,9 +139,5 @@ def create_pie_chart(df, userid):
     return fig_name
 
 
-
-
 async def setup(tree: app_commands.CommandTree):
-    tree.command(name="weekly", description="View weekly analysis")(
-        weekly
-    )
+    tree.command(name="weekly", description="View weekly analysis")(weekly)
