@@ -14,6 +14,8 @@ jobs:
       TELEGRAM_API_KEY: ${{secrets.TELEGRAM_API_KEY}}
       BOT_TOKEN: ${{secrets.BOT_TOKEN}}
       GUILD_ID: ${{secrets.GUILD_ID}}
+      GMAIL_ACCOUNT: ${{secrets.GMAIL_ACCOUNT}}
+      GMAIL_PASS: ${{secrets.GMAIL_PASS}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2  # Check out the code from the repository

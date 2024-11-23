@@ -11,6 +11,8 @@ jobs:
       MONGO_CONNECTION_URL: ${{secrets.MONGO_CONNECTION_URL}}
       DB_NAME: ${{secrets.DB_NAME}}
       TELEGRAM_API_KEY: ${{secrets.TELEGRAM_API_KEY}}
+      GMAIL_ACCOUNT: ${{secrets.GMAIL_ACCOUNT}}
+      GMAIL_PASS: ${{secrets.GMAIL_PASS}}
       BOT_TOKEN: ${{secrets.BOT_TOKEN}}
       GUILD_ID: ${{secrets.GUILD_ID}}
     steps:

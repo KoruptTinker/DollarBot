@@ -10,6 +10,9 @@ class Secrets:
 
     TelegramAPIKey: str = ""
 
+    GmailAccount: str = ""
+    GmailPassword: str = ""
+
     BotToken: str = ""
     GuildID: str = ""
 
@@ -25,6 +28,8 @@ class Secrets:
         self.MongoConnectionURL = os.getenv("MONGO_CONNECTION_URL", "")
         self.DBName = os.getenv("DB_NAME", "")
         self.TelegramAPIKey = os.getenv("TELEGRAM_API_KEY", "")
+        self.GmailAccount = os.getenv("GMAIL_ACCOUNT")
+        self.GmailPassword = os.getenv("GMAIL_PASS")
         self.BotToken = str(os.getenv("BOT_TOKEN"))
         self.GuildID = int(os.getenv("GUILD_ID"))
 
@@ -36,6 +41,12 @@ class Secrets:
 
         if not self.TelegramAPIKey:
             raise ValueError("TELEGRAM_API_KEY environment variable is not set")
+
+        if not self.GmailAccount:
+            raise ValueError("GMAIL_ACCOUMT environment variable is not set")
+
+        if not self.GmailPassword:
+            raise ValueError("GMAIL_PASS environment variable is not set")
 
         if not self.BotToken:
             raise ValueError("BOT_TOKEN environment variable is not set")
