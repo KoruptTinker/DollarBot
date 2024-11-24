@@ -35,6 +35,7 @@ async def monthly(interaction: discord.Interaction):
             print(f"Exception occurred: {e}")
             await interaction.response.send_message("Something went wrong")
 
+
 def create_chart_for_monthly_analysis(user_history, userid):
     """
     Generates monthly analysis charts: original line charts and new bar/pie charts.
@@ -143,6 +144,7 @@ def create_category_pie_chart(df, userid):
     fig_name = f"data/{userid}_category_pie_chart.png"
     pio.write_image(fig, fig_name)
     return fig_name
+
 
 async def setup(tree: app_commands.CommandTree):
     tree.command(name="monthly", description="View monthly analysis")(monthly)
