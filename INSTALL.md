@@ -1,12 +1,5 @@
-
 # Installation and Setup
-
-## Pre-requisite: The Telegram Desktop App
-
-Since DollarBot is built on top of Telegram, you'll first need:
-1. Download the Telegram Desktop Application <a href="https://desktop.telegram.org/">here.</a>
-```https://desktop.telegram.org/```
-2. Create a Telegram account or Sign in.
+## Pre-requisite: An active Telegram account
 
 Open up your terminal and let's get started:
 
@@ -14,7 +7,7 @@ Open up your terminal and let's get started:
 
 1. Clone this repository to your local system. 
 ```
-   git clone https://github.com/vegechick510/DollarBot/
+   git clone https://github.com/KoruptTinker/DollarBot/
 ```
 2. Start a terminal session in the directory where the project has been cloned. Run the following commands and follow the instructions on-screen to complete the installation.
 ```
@@ -33,7 +26,14 @@ We've used <a href="https://www.cygwin.com/">Cygwin,</a> but there are more opti
 
 Additionally, find more hints on Cygwin installation <a href="https://stackoverflow.com/questions/6413377/is-there-a-way-to-run-bash-scripts-on-windows">here.</a>
 
-## Running DollarBot:
+Once installed, run the following commands and follow the instructions on-screen to complete the installation.
+```
+  chmod a+x setup.sh
+  bash setup.sh
+```
+There, all done!
+
+## Getting Telegram BotToken:
 
 Once you've executed setup.sh, and all dependencies have been installed, you can start running DollarBot by following these instructions.
 
@@ -47,9 +47,49 @@ Once you've executed setup.sh, and all dependencies have been installed, you can
 
 4. In the repo directory (where you cloned it), run these commands.
 
+## Obtaining Bot Token
+
+1. Visit [Discord Developer Portal](https://discord.com/developers/applications)
+2. Click "New Application" and name your application[1]
+3. Navigate to "Bot" section in left menu
+4. Click "Add Bot"[4]
+5. Click "Reset Token" then "Copy" to obtain your bot token[4]
+
+> ⚠️ Never share your bot token with anyone!
+
+### Inviting Bot to Server
+
+1. Go to OAuth2 section in application settings
+2. In OAuth2 URL Generator select:
+   - `bot`
+   - `applications.commands`[2]
+
+3. Select required permissions for your bot
+
+4. Use this invite link structure: 
+https://discord.com/api/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=0&scope=bot%20applications.commands
+
+5. Replace `YOUR_CLIENT_ID` with your Application ID[3]
+6. Open generated link in browser
+7. Select target server (requires "Manage Server" permission)[2]
+8. Click "Authorize"
+
+Your bot should now appear in your server's member list!
+
+### Required Intents
+
+Enable these in Bot settings if needed:
+- Server Members Intent
+- Message Content Intent
+- Presence Intent[1]
+
+
+## Running DollarBot:
+
 (a) grant execution access to a bash script
   ```
   chmod a+x run.sh
+  ```
 
 (b) execute the run.sh bash script to start DollarBot
    
@@ -68,10 +108,3 @@ A successful run will generate a message on your terminal that says "TeleBot: St
 5. In the Telegram app, search for your newly created bot by entering your UNIQUE username and open the bot you created.
 
 6. Now, on Telegram, enter the "/start" or "menu" command, and you are all set to track your expenses!
-
-### Run Automatically at Startup
-
-To run the script automatically at startup / reboot, simply add the `.run_forever.sh` script to your `.bashrc` file, which executes whenever you reboot your system.
-<a href="https://stackoverflow.com/questions/49083789/how-to-add-new-line-in-bashrc-file-in-ubuntu">Click here for help adding to .bashrc files.</a>
-
-
