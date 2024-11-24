@@ -17,3 +17,4 @@ kaleido
 forex-python
 pymongos
 python-dotenv
+discord.py
