@@ -337,17 +337,18 @@ def main():
     parser.add_argument(
         "--bot",
         type=str,
-        choices=["telegram", "discord"],
+        choices=["telegram", "discord", "both"],
         default="both",
         help="Select which bot to run",
-    )[1]
+    )
 
     args = parser.parse_args()
 
     try:
-        if args.bot == "telegram":
+        if args.bot == "telegram" or args.bot == "both":
             bot.polling(none_stop=True)
-        elif args.bot == "discord":
+
+        if args.bot == "discord" or args.bot == "both":
             discordClient.start_bot()
 
     except Exception as e:
