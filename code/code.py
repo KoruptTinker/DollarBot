@@ -29,6 +29,8 @@ from config import Secrets
 from mongo import MongoDB
 from discordClient import DiscordClient
 import link
+import argparse
+import sys
 
 import insight
 
@@ -328,15 +330,26 @@ def addUserHistory(chat_id):
 
 def main():
     """
-    main() The entire bot's execution begins here. It ensure the bot variable begins
-    polling and actively listening for requests from telegram.
+    main() The entire bot's execution begins here. It allows selecting
+    which bot to run based on command line arguments.
     """
-    # Call this at the start of the script
-    # migrate_users()
-    # migrate_data_entries()
+    parser = argparse.ArgumentParser(description="Bot runner script")
+    parser.add_argument(
+        "--bot",
+        type=str,
+        choices=["telegram", "discord"],
+        default="both",
+        help="Select which bot to run",
+    )[1]
+
+    args = parser.parse_args()
+
     try:
-        bot.polling(none_stop=True)
-        discordClient.start_bot()
+        if args.bot == "telegram":
+            bot.polling(none_stop=True)
+        elif args.bot == "discord":
+            discordClient.start_bot()
+
     except Exception as e:
         logging.exception(str(e))
         time.sleep(3)
