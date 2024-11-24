@@ -1,34 +1,80 @@
+#!/bin/bash
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+BOLD='\033[1m'
+
+# Fancy banner
+echo -e "${PURPLE}╔════════════════════════════════════════╗${NC}"
+echo -e "${PURPLE}║${NC}     ${BOLD}Environment Setup Wizard${NC}           ${PURPLE}║${NC}"
+echo -e "${PURPLE}╚════════════════════════════════════════╝${NC}"
+echo
+
+# Check if .env file exists, create if not
+if [ ! -f .env ]; then
+    echo -e "${YELLOW}Creating .env file...${NC}"
+    touch .env
+fi
+
+# Function to check and prompt for empty values
+check_env_value() {
+    local key=$1
+    local prompt=$2
+    local value=$(grep "^${key}=" .env | cut -d'=' -f2)
+    
+    if [ -z "$value" ]; then
+        echo -e "\n${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+        echo -e "${BOLD}${BLUE}$prompt${NC}"
+        echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+        read -p "$(echo -e ${GREEN}Enter value for $key: ${NC})" new_value
+        if [ -n "$new_value" ]; then
+            if grep -q "^${key}=" .env; then
+                sed -i "s|^${key}=.*|${key}=${new_value}|" .env
+            else
+                echo "${key}=${new_value}" >> .env
+            fi
+            echo -e "${GREEN}✓ Successfully set $key${NC}"
+        fi
+    fi
+}
+
+# Install requirements
+echo -e "\n${YELLOW}Installing requirements...${NC}"
 pip3 install -r requirements.txt
 
-api_token=$(grep "api_token" user.properties|cut -d'=' -f2)
+echo -e "\n${BLUE}${BOLD}Checking environment variables...${NC}"
 
-flag = "old"
+# MongoDB setup
+echo -e "\n${PURPLE}📦 MongoDB Configuration${NC}"
+check_env_value "MONGO_CONNECTION_URL" "Please enter your MongoDB connection URL"
+check_env_value "DB_NAME" "Please enter a name for the DB. (Can be anything)"
 
-echo "Checking for API Token..."
-if [ -z "$api_token" ]
-then
-  echo "Welcome to DollarBot!"
-  echo "Follow the steps below to generate an API token to uniquely identify your personal DollarBot. Then, proceed to enter the generated token when prompted to run DollarBot."
-  echo
-  echo "1. Download and install the Telegram desktop application for your system from the following site: https://desktop.telegram.org/"
-  echo "2. Once you login to your Telegram account, search for \"BotFather\" in Telegram. Click on \"Start\" --> enter the following command:"
-  echo "/newbot"
-  echo "3. Follow the instructions on screen and choose a name for your bot. Post this, select a username for your bot that ends with \"bot\" (as per the instructions on your Telegram screen)"
-  echo "4. BotFather will now confirm the creation of your bot and provide a TOKEN to access the HTTP API - copy this token."
-  echo
-  echo "Do you want to add your API token now? (Y/n)"
-  read option
-  if [ $option == 'y' -o $option == 'Y' ]
-  then
-    flag = "new"
-    echo "Enter the copied token: "
-    read api_token
-    echo "api_token="$api_token >> user.properties
-  fi
-fi
+# Telegram setup
+echo -e "\n${PURPLE}💬 Telegram Configuration${NC}"
+check_env_value "TELEGRAM_API_KEY" "Follow these steps to get your Telegram API key:
+${YELLOW}1.${NC} Open Telegram and search for '${BOLD}BotFather${NC}'
+${YELLOW}2.${NC} Send ${BOLD}/newbot${NC} command
+${YELLOW}3.${NC} Choose a name for your bot
+${YELLOW}4.${NC} Select a username ending with 'bot'
+${YELLOW}5.${NC} Copy the provided HTTP API token"
 
-if [ -n "$api_token" ]
-then
-    echo "Thanks for choosing DollarBot! Starting DollarBot with new API token..." 
-    python3 code/code.py
-fi
+# Gmail setup
+echo -e "\n${PURPLE}📧 Gmail Configuration${NC}"
+check_env_value "GMAIL_ACCOUNT" "Enter your Gmail account"
+check_env_value "GMAIL_PASS" "Enter your Gmail password or app-specific password"
+
+# Discord setup
+echo -e "\n${PURPLE}🎮 Discord Configuration${NC}"
+check_env_value "BOT_TOKEN" "Enter your Discord bot token"
+check_env_value "GUILD_ID" "Enter your Discord guild ID"
+
+# Completion message
+echo -e "\n${GREEN}╔════════════════════════════════════════╗${NC}"
+echo -e "${GREEN}║${NC}     ${BOLD}Environment Setup Complete! ✨${NC}        ${GREEN}║${NC}"
+echo -e "${GREEN}╚════════════════════════════════════════╝${NC}"
