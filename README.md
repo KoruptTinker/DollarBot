@@ -1,6 +1,6 @@
 [![MIT license](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/KoruptTinker/DollarBot/blob/main/LICENSE.md)
 [![GitHub](https://img.shields.io/github/languages/top/KoruptTinker/DollarBot?color=green&label=Python&logo=Python&logoColor=green)]
-[![DOI](https://zenodo.org/badge/875854476.svg)](https://doi.org/10.5281/zenodo.14018911)
+[![DOI](https://zenodo.org/badge/888067731.svg)](https://doi.org/10.5281/zenodo.14210690)
 [![Black](https://github.com/KoruptTinker/DollarBot/actions/workflows/black.yml/badge.svg)](https://github.com/KoruptTinker/DollarBot/actions/workflows/black.yml)
 [![Autopep8](https://github.com/KoruptTinker/DollarBot/actions/workflows/autopep8.yml/badge.svg)](https://github.com/KoruptTinker/DollarBot/actions/workflows/autopep8.yml)
 [![Pylint](https://github.com/KoruptTinker/DollarBot/actions/workflows/pylint.yml/badge.svg)](https://github.com/KoruptTinker/DollarBot/actions/workflows/pylint.yml)
