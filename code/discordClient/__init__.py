@@ -1,7 +1,7 @@
 import discord
 from discord import app_commands
 
-from .commands import ping, link, history, add, weekly, monthly, predict
+from .commands import ping, link, history, add, weekly, monthly, predict, sendEmail
 
 class DiscordClient(discord.Client):
     def __init__(self, guild_id: int = 0, bot_token: str = ""):
@@ -24,6 +24,9 @@ class DiscordClient(discord.Client):
         await weekly.setup(self.tree)
         await predict.setup(self.tree)
         await monthly.setup(self.tree)
+        @self.tree.command(name="sendemail", description="Send your spending history via email.")
+        async def send_email_command(interaction: discord.Interaction):
+            await sendEmail.run(interaction)
 
     async def on_ready(self):
         print(f"Logged in as {self.user}")
