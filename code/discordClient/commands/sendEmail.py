@@ -42,11 +42,17 @@ async def run(interaction: discord.Interaction):
 
         # Wait for the email response
         def check(m):
-            print(f"Message received :{m}from {m.author.id} Content : {m.content}") 
+            
             return m.author == interaction.user and m.channel == interaction.channel
+            # print(f"Message received :{m}from {m.author.id} Content : {m.content}") 
 
         try:
             email_message = await interaction.client.wait_for("message", check=check, timeout=60)
+            print(f"Message content: {email_message.content}")
+            print(f"Message type: {email_message.type}")
+    
+
+            
         except asyncio.TimeoutError:
             await interaction.followup.send("You took too long to respond. Please try again.")
             return
