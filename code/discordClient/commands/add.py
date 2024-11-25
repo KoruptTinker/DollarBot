@@ -26,6 +26,19 @@ async def add(
     category: app_commands.Choice[str],
     amount: float,
 ):
+    """Add a new expense entry for the user.
+
+    This command allows users to add a new expense record with date, category, and amount.
+    It performs validation on the input data and stores the expense in the database if valid.
+
+    The function validates:
+        - User has a linked Telegram account
+        - Date format and ensures it's not in the future
+        - Amount is positive
+
+    On success, it stores the expense and sends a confirmation message.
+    On failure, it sends an appropriate error message.
+    """
     # Validate date
     try:
         user_data = helper.fetchUserFromDiscord(interaction.user.id)
@@ -65,4 +78,5 @@ async def add(
 
 
 async def setup(tree: app_commands.CommandTree):
+    """Register the add command with the command tree."""
     tree.command(name="add", description="Add a new expenditure")(add)
