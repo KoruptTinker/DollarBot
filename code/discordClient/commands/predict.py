@@ -1,212 +1,137 @@
-import discord
-from discord.ext import commands
-from discord import app_commands
-from datetime import datetime
+import time
 import logging
-from typing import Dict, List, Union, Tuple
-from pymongo import MongoClient
-import os
-from dotenv import load_dotenv
-from pathlib import Path
+from datetime import datetime
+import pymongo
+import discord
+from config import Secrets
+import asyncio
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+secrets = Secrets()
 
-# Load environment variables
-env_path = Path('.') / '.env'
-load_dotenv(dotenv_path=env_path)
+async def run(interaction: discord.Interaction, bot: discord.Client):
+    """
+    run(interaction, bot): This is the main function used to implement the predict feature.
+    It takes 2 arguments for processing - interaction which is the message from the user, and
+    bot which is the discord bot object.
+    """
+    user_id = interaction.user.id
+    user_details = fetch_user_from_discord(user_id)
+    if user_details is None or len(user_details["history"]) < 2:
+        await interaction.response.send_message(
+            "Sorry, you do not have sufficient spending records to predict a future budget"
+        )
+    else:
+        await predict_total(interaction, bot, user_details)
 
-# Get environment variables
-MONGO_URI = os.getenv('MONGO_CONNECTION_URL')
-DISCORD_TOKEN = os.getenv('BOT_TOKEN')
 
-# Verify environment variables
-if not MONGO_URI or not DISCORD_TOKEN:
-    raise ValueError("Required environment variables (MONGO_URI, DISCORD_TOKEN) are not set")
-
-# MongoDB setup
-try:
-    client = MongoClient(MONGO_URI)
-    db = client['expense_tracker']
-    expenses_collection = db['expenses']
-    users_collection = db['users']
-except Exception as e:
-    logger.error(f"Failed to connect to MongoDB: {e}")
-    raise
-
-# Set up Discord intents
-intents = discord.Intents.default()
-intents.message_content = True
-
-# Create bot instance
-class Bot(commands.Bot):
-    def __init__(self):
-        super().__init__(command_prefix='!', intents=intents)
-    
-    async def setup_hook(self):
-        await self.tree.sync()
+async def predict_total(interaction: discord.Interaction, bot: discord.Client, user_details: dict):
+    """
+    estimate_total(interaction, bot): It takes 2 arguments for processing - interaction which is the message
+    from the user, and bot which is the discord bot object. This function loads the user's data.
+    """
+    try:
+        history = user_details["history"]
+        available_categories = get_available_categories(history)
+        category_wise_history = get_category_wise_spendings(available_categories, history)
         
-bot = Bot()
-
-def get_user_details(discord_id: int) -> Dict:
-    """Fetch user details from MongoDB using Discord ID"""
-    return users_collection.find_one({"discord_id": str(discord_id)})
-
-def get_user_history(telegram_chat_id: str) -> List[Dict]:
-    """Fetch user's expense history from MongoDB using Telegram chat ID"""
-    return list(expenses_collection.find({"user_id": telegram_chat_id}))
-
-def calculate_budget_predictions(history: List[Dict]) -> Tuple[float, Dict[str, float]]:
-    """Calculate monthly budget predictions based on historical data"""
-    if len(history) < 2:
-        return None, None
+        await interaction.response.send_message("Hold on! Calculating...")
+        # show the bot "typing"
+        async with interaction.channel.typing():
+            time.sleep(0.5)
+        
+        category_spendings = {}
+        for category in available_categories:
+            category_spendings[category] = predict_category_spending(
+                category_wise_history[category]
+            )
+        
+        overall_spending = predict_overall_spending(user_details, category_spendings)
+        
+        await interaction.response.send_message(
+            f"Your overall budget for next month can be: ${overall_spending}",
+        )
+        
+        category_budgets = get_formatted_predictions(category_spendings)
+        await interaction.response.send_message(category_budgets)
     
-    category_wise_total = {}
-    total_spent = 0.0
+    except Exception as e:
+        logging.exception(str(e))
+        await interaction.response.send_message(f"Error: {str(e)}")
+
+
+def predict_category_spending(category_history: list):
+    """
+    predict_category_spending(history): Takes 1 argument for processing - category_history
+    which is the record of all expenses from a category.
+    """
+    if len(category_history) < 2:
+        return "Not enough records to predict spendings"
+    total_spent = 0
     recorded_days = []
-    
-    for record in history:
-        category = record['category']
-        amount = float(record['amount'])
-        total_spent += amount
-        category_wise_total[category] = category_wise_total.get(category, 0) + amount
-        recorded_days.append(datetime.strptime(record['date'], '%Y-%m-%d'))
-    
-    day_difference = (max(recorded_days) - min(recorded_days)).days + 1
+    for record in category_history:
+        total_spent += float(record["amount"])
+        date = datetime.strptime(record["date"], "%Y-%m-%d")
+        recorded_days.append(date)
+    first = min(recorded_days)
+    last = max(recorded_days)
+    day_difference = abs(int((last - first).days)) + 1
     avg_per_day = total_spent / day_difference
     predicted_spending = avg_per_day * 30
+    return round(predicted_spending, 2)
 
-    category_predictions = {
-        category: round((total / day_difference) * 30, 2) 
-        for category, total in category_wise_total.items()
-    }
-    overall_prediction = round(predicted_spending, 2)
 
-    return overall_prediction, category_predictions
+def predict_overall_spending(user_details: dict, category_wise_spending: dict):
+    """
+    predict_overall_spending(user_details, category_wise_spending): Takes 2 arguments for processing
+    user_details and category_wise_spending. It sums the predicted spending for all categories.
+    """
+    overall_spending = 0
+    for category in category_wise_spending.keys():
+        if isinstance(category_wise_spending[category], float):
+            overall_spending += category_wise_spending[category]
+    if overall_spending != 0:
+        return overall_spending
+    else:
+        history = user_details["history"]
+        overall_spending = predict_category_spending(history)
+        return overall_spending
 
-@bot.tree.command(name="predict", description="Predicts next month's budget based on spending history")
-async def predict(interaction: discord.Interaction):
-    """Predicts next month's budget based on spending history"""
-    try:
-        # Get user details
 
-        user_details = get_user_details(interaction.user.id)
-        if user_details is None:
-            await interaction.response.send_message(
-                "You don't have your Discord account linked to an active Telegram account. "
-                "Use /link command on Telegram to learn more",
-                ephemeral=True
-            )
-            return
+def fetch_user_from_discord(user_id: int) -> dict:
+    """
+    Fetches user data from MongoDB based on Discord user ID.
+    """
+    user_data = user_collection.find_one({"user_id": user_id})
+    if user_data:
+        return user_data
+    return None
 
-        # Get user history
-        history = get_user_history(user_details["telegram_chat_id"])
-        if not history or len(history) < 2:
-            await interaction.response.send_message(
-                "Sorry, you do not have sufficient spending records to predict a future budget",
-                ephemeral=True
-            )
-            return
 
-        await interaction.response.defer()
+def get_available_categories(history: list) -> list:
+    """
+    Returns a list of available categories from the user's history.
+    """
+    categories = set()
+    for record in history:
+        categories.add(record["category"])
+    return list(categories)
 
-        # Calculate predictions
-        overall_prediction, category_predictions = calculate_budget_predictions(history)
-        
-        if overall_prediction is None:
-            await interaction.followup.send("Not enough data to make predictions")
-            return
 
-        # Create embed for response
-        embed = discord.Embed(
-            title="Budget Prediction", 
-            color=discord.Color.blue(),
-            description=f"Overall budget prediction for next month: ${overall_prediction:.2f}"
-        )
+def get_category_wise_spendings(categories: list, history: list) -> dict:
+    """
+    Returns a dictionary with category-wise spending history.
+    """
+    category_wise_history = {category: [] for category in categories}
+    for record in history:
+        category_wise_history[record["category"]].append(record)
+    return category_wise_history
 
-        # Add category predictions
-        for category, amount in category_predictions.items():
-            embed.add_field(
-                name=category.capitalize(),
-                value=f"${amount:.2f}",
-                inline=True
-            )
 
-        await interaction.followup.send(embed=embed)
-
-    except Exception as e:
-        logger.exception("Error in predict command")
-        if not interaction.response.is_done():
-            await interaction.response.send_message(f"An error occurred: {str(e)}", ephemeral=True)
-        else:
-            await interaction.followup.send(f"An error occurred: {str(e)}", ephemeral=True)
-
-@bot.event
-async def on_ready():
-    """Event handler for when the bot is ready"""
-    logger.info(f'{bot.user} has connected to Discord!')
-
-async def setup(tree: app_commands.CommandTree):
-    """Setup function to register commands with the command tree"""
-    
-    @tree.command(name="predict", description="Predicts next month's budget based on spending history")
-    async def predict(interaction: discord.Interaction):
-        try:
-            # Get user details
-            user_details = get_user_details(interaction.user.id)
-            if user_details is None:
-                await interaction.response.send_message(
-                    "You don't have your Discord account linked to an active Telegram account. "
-                    "Use /link command on Telegram to learn more",
-                    ephemeral=True
-                )
-                return
-
-            # Get user history
-            history = get_user_history(user_details["telegram_chat_id"])
-            if not history or len(history) < 2:
-                await interaction.response.send_message(
-                    "Sorry, you do not have sufficient spending records to predict a future budget",
-                    ephemeral=True
-                )
-                return
-
-            await interaction.response.defer()
-
-            # Calculate predictions
-            overall_prediction, category_predictions = calculate_budget_predictions(history)
-            
-            if overall_prediction is None:
-                await interaction.followup.send("Not enough data to make predictions")
-                return
-
-            # Create embed for response
-            embed = discord.Embed(
-                title="Budget Prediction", 
-                color=discord.Color.blue(),
-                description=f"Overall budget prediction for next month: ${overall_prediction:.2f}"
-            )
-
-            # Add category predictions
-            for category, amount in category_predictions.items():
-                embed.add_field(
-                    name=category.capitalize(),
-                    value=f"${amount:.2f}",
-                    inline=True
-                )
-
-            await interaction.followup.send(embed=embed)
-
-        except Exception as e:
-            logger.exception("Error in predict command")
-            if not interaction.response.is_done():
-                await interaction.response.send_message(f"An error occurred: {str(e)}", ephemeral=True)
-            else:
-                await interaction.followup.send(f"An error occurred: {str(e)}", ephemeral=True)
-
-if __name__ == "__main__":
-    try:
-        bot.run(DISCORD_TOKEN)
-    except Exception as e:
-        logger.error(f"Failed to start bot: {e}")
+def get_formatted_predictions(category_spendings: dict) -> str:
+    """
+    Formats the category-wise predicted spendings for display.
+    """
+    formatted = ""
+    for category, spending in category_spendings.items():
+        formatted += f"{category}: ${spending}\n"
+    return formatted
