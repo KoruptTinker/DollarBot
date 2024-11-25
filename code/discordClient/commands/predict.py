@@ -10,6 +10,7 @@ import helper
 
 secrets = Secrets()
 
+
 async def predict(interaction: discord.Interaction):
     await interaction.response.defer()
     user_id = interaction.user.id
@@ -35,13 +36,16 @@ async def predict(interaction: discord.Interaction):
                 )
             overall_spending = predict_overall_spending(chat_id, category_spendings)
             await interaction.followup.send(
-                "Your overall budget for next month can be: ${}".format(overall_spending),
+                "Your overall budget for next month can be: ${}".format(
+                    overall_spending
+                ),
             )
             category_budgets = helper.getFormattedPredictions(category_spendings)
             await interaction.followup.send(category_budgets)
         except Exception as e:
             logging.exception(str(e))
             interaction.followup.send(f"Something went wrong: {str(e)}")
+
 
 def predict_category_spending(category_history):
     """
