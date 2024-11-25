@@ -3,6 +3,7 @@ from discord import app_commands
 
 from .commands import ping, link, history, add, weekly, monthly, predict
 
+
 class DiscordClient(discord.Client):
     def __init__(self, guild_id: int = 0, bot_token: str = ""):
         intents = discord.Intents.default()
