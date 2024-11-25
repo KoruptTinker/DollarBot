@@ -1,6 +1,3 @@
-
-
-
 # from discord import app_commands
 # import discord
 # import helper
@@ -24,7 +21,7 @@
 #         # Verify user and get details
 #         user_details = helper.fetchUserFromDiscord(interaction.user.id)
 #         # logger.debug(f"User details: {user_details}")
-        
+
 # async def display(interaction: discord.Interaction):
 #     try:
 #         user_details = helper.fetchUserFromDiscord(interaction.user.id)
@@ -39,7 +36,7 @@
 #         history = helper.getUserHistory(chat_id)
 # <<<<<<< HEAD
 #         logger.debug(f"User history: {history}")
-        
+
 #         if history is None or not history:
 #             await interaction.response.send_message(
 #                 "No spending records found!"
@@ -57,25 +54,25 @@
 #         current_date = datetime.now()
 #         day_query = current_date.strftime("%Y-%m-%d")
 #         month_query = current_date.strftime("%Y-%m")
-        
+
 #         logger.debug(f"Day query: {day_query}")
 #         logger.debug(f"Month query: {month_query}")
 
 #         # Filter records for day and month
 #         day_records = [value for index, value in enumerate(formatted_history) if str(day_query) in value]
 #         month_records = [value for index, value in enumerate(formatted_history) if str(month_query) in value]
-        
+
 #         logger.debug(f"Day records: {day_records}")
 #         logger.debug(f"Month records: {month_records}")
 
 #         # Calculate spending totals
 #         day_total_text, day_total_dict = calculate_spendings(day_records)
 #         month_total_text, month_total_dict = calculate_spendings(month_records)
-        
+
 #         # logger.debug(f"Day totals: {day_total_dict}")
 #         # logger.debug(f"Month totals: {month_total_dict}")
 # =======
-        
+
 #         if history is None:
 #             await interaction.response.send_message(
 #                 "Oops! Looks like you do not have any spending records!"
@@ -99,7 +96,7 @@
 
 #         # Format response message
 #         response = []
-        
+
 # <<<<<<< HEAD
 #         # Format daily spending table
 # =======
@@ -142,10 +139,10 @@
 #         if month_total_dict:
 #             monthly_budget = helper.getCategoryBudget(chat_id)
 #             logger.debug(f"Monthly budget: {monthly_budget}")
-            
+
 #             photo_paths = graphing.visualize_new(month_total_text, monthly_budget)
 #             logger.debug(f"Generated photo paths: {photo_paths}")
-            
+
 # =======
 #         # Generate and send graphs
 #         monthly_budget = helper.getCategoryBudget(chat_id)
@@ -169,7 +166,7 @@
 #     """
 #     try:
 #         total_dict = {}
-        
+
 #         for row in queryResult:
 #             s = row.split(",")
 #             cat = s[1]
@@ -177,14 +174,14 @@
 #                 total_dict[cat] = round(total_dict[cat] + float(s[2]), 2)
 #             else:
 #                 total_dict[cat] = float(s[2])
-                
+
 #         total_text = ""
 #         for key, value in total_dict.items():
 #             total_text += f"{key} ${value}\n"
-            
+
 #         logger.debug(f"Calculated totals - text: {total_text}, dict: {total_dict}")
 #         return total_text, total_dict
-        
+
 #     except Exception as e:
 #         logger.error(f"Error in calculate_spendings: {str(e)}", exc_info=True)
 #         raise
@@ -244,7 +241,7 @@
 # #         # Verify user and get details
 # #         user_details = helper.fetchUserFromDiscord(interaction.user.id)
 # #         # logger.debug(f"User details: {user_details}")
-        
+
 # #         if user_details is None:
 # #             await interaction.response.send_message(
 # #                 "You don't have your discord account linked to an active telegram account. Use /link command on telegram to learn more"
@@ -252,7 +249,7 @@
 # #             return
 # #         chat_id = user_details["telegram_chat_id"]
 # #         history = helper.getUserHistory(chat_id)
-        
+
 # #         if history is None or not history:
 # #             await interaction.response.send_message(
 # #                 "No spending records found!"
@@ -383,7 +380,7 @@
 
 # def calculate_spendings(queryResult):
 #     total_dict = {}
-    
+
 #     for row in queryResult:
 #         s = row.split(",")
 #         cat = s[1]
@@ -391,7 +388,7 @@
 #             total_dict[cat] = round(total_dict[cat] + float(s[2]), 2)
 #         else:
 #             total_dict[cat] = float(s[2])
-            
+
 #     total_text = ""
 #     for key, value in total_dict.items():
 #         total_text += f"{key} ${value}\n"

@@ -8,6 +8,7 @@ import asyncio
 
 secrets = Secrets()
 
+
 async def run(interaction: discord.Interaction, bot: discord.Client):
     """
     run(interaction, bot): This is the main function used to implement the predict feature.
@@ -24,7 +25,9 @@ async def run(interaction: discord.Interaction, bot: discord.Client):
         await predict_total(interaction, bot, user_details)
 
 
-async def predict_total(interaction: discord.Interaction, bot: discord.Client, user_details: dict):
+async def predict_total(
+    interaction: discord.Interaction, bot: discord.Client, user_details: dict
+):
     """
     estimate_total(interaction, bot): It takes 2 arguments for processing - interaction which is the message
     from the user, and bot which is the discord bot object. This function loads the user's data.
@@ -32,28 +35,30 @@ async def predict_total(interaction: discord.Interaction, bot: discord.Client, u
     try:
         history = user_details["history"]
         available_categories = get_available_categories(history)
-        category_wise_history = get_category_wise_spendings(available_categories, history)
-        
+        category_wise_history = get_category_wise_spendings(
+            available_categories, history
+        )
+
         await interaction.response.send_message("Hold on! Calculating...")
         # show the bot "typing"
         async with interaction.channel.typing():
             time.sleep(0.5)
-        
+
         category_spendings = {}
         for category in available_categories:
             category_spendings[category] = predict_category_spending(
                 category_wise_history[category]
             )
-        
+
         overall_spending = predict_overall_spending(user_details, category_spendings)
-        
+
         await interaction.response.send_message(
             f"Your overall budget for next month can be: ${overall_spending}",
         )
-        
+
         category_budgets = get_formatted_predictions(category_spendings)
         await interaction.response.send_message(category_budgets)
-    
+
     except Exception as e:
         logging.exception(str(e))
         await interaction.response.send_message(f"Error: {str(e)}")

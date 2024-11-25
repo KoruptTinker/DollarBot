@@ -10,6 +10,7 @@ from config import Secrets
 secrets = Secrets()
 emailClient = GMailClient(secrets.GmailAccount, secrets.GmailPassword)
 
+
 async def sendEmail(interaction: discord.Interaction, email: str):
     """
     Handles the email functionality as a slash command.
@@ -19,10 +20,12 @@ async def sendEmail(interaction: discord.Interaction, email: str):
         await interaction.response.defer()
 
         helper.read_json()
-        
+
         user_id = interaction.user.id
         if user_id is None:
-            await interaction.followup.send("You don't have your discord account linked to an active telegram account. Use /link command on telegram to learn more")
+            await interaction.followup.send(
+                "You don't have your discord account linked to an active telegram account. Use /link command on telegram to learn more"
+            )
             return
 
         # Ensure we get the correct telegram_chat_id
@@ -62,7 +65,9 @@ async def sendEmail(interaction: discord.Interaction, email: str):
         This email has an attached copy of your expenditure history.
         Thank you!
         """
-        emailClient.send_email(email, "Spending History Document", mail_content, "history.csv")
+        emailClient.send_email(
+            email, "Spending History Document", mail_content, "history.csv"
+        )
 
         # Respond with success
         await interaction.followup.send("Mail sent successfully!")
@@ -71,5 +76,9 @@ async def sendEmail(interaction: discord.Interaction, email: str):
         logging.error(str(ex), exc_info=True)
         await interaction.followup.send(f"An error occurred: {str(ex)}")
 
+
 async def setup(tree: app_commands.CommandTree):
-    tree.command(name="send_email", description="Send an email containing payments history in csv format")(sendEmail)
+    tree.command(
+        name="send_email",
+        description="Send an email containing payments history in csv format",
+    )(sendEmail)
