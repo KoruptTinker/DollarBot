@@ -17,7 +17,7 @@ async def history(interaction: discord.Interaction):
         2. Retrieves complete spending history
         3. Formats data into a table with date, category and amount columns
         4. Displays results in a Discord-friendly grid format
-        
+
     Records are filtered to only show transactions up to the current date.
     If no records exist or an error occurs, appropriate error messages are shown.
     """

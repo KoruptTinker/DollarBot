@@ -56,7 +56,7 @@ def create_chart_for_weekly_analysis(user_history, userid):
 
     Creates four different types of charts to analyze spending patterns:
     - Total spending over time (line chart)
-    - Category-wise spending over time (line chart) 
+    - Category-wise spending over time (line chart)
     - Weekly expenses comparison (bar chart)
     - Category distribution (pie chart)
 

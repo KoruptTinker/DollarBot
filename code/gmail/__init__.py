@@ -7,17 +7,17 @@ from email import encoders
 
 class GMailClient:
     """A client for sending emails through Gmail's SMTP server.
-    
+
     This class provides functionality to send emails with optional attachments
     using Gmail's SMTP server. It handles the connection, authentication, and
     message composition.
     """
+
     _email_address: str = ""
     _password: str = ""
 
     def __init__(self, email: str = "", password: str = ""):
-        """Initialize the Gmail client with credentials.
-        """
+        """Initialize the Gmail client with credentials."""
         self._email_address = email
         self._password = password
 

@@ -8,7 +8,7 @@ async def link(interaction: discord.Interaction, code: str):
 
     This command allows users to connect their Discord account with their Telegram account
     using a 6-digit verification code generated from the Telegram bot.
-    
+
     The function:
         1. Validates the format of the provided code (must be 6 digits)
         2. Checks if the code exists in the pending link requests

@@ -35,7 +35,7 @@ async def add(
         - User has a linked Telegram account
         - Date format and ensures it's not in the future
         - Amount is positive
-    
+
     On success, it stores the expense and sends a confirmation message.
     On failure, it sends an appropriate error message.
     """
@@ -78,6 +78,5 @@ async def add(
 
 
 async def setup(tree: app_commands.CommandTree):
-    """Register the add command with the command tree.
-    """
+    """Register the add command with the command tree."""
     tree.command(name="add", description="Add a new expenditure")(add)

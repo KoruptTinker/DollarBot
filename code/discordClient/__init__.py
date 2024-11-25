@@ -34,8 +34,7 @@ class DiscordClient(discord.Client):
         await self.tree.sync(guild=self._guild_id)
 
     async def load_commands(self):
-        """Load all command modules into the command tree.
-        """
+        """Load all command modules into the command tree."""
         await ping.setup(self.tree)
         await link.setup(self.tree)
         await history.setup(self.tree)
