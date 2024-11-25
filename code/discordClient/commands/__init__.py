@@ -5,3 +5,4 @@ from . import add
 from . import weekly
 from . import display
 from . import sendEmail
+from . import predict
