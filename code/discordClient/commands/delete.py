@@ -43,7 +43,9 @@ async def run(interaction: discord.Interaction, option: str, date: str = None):
         # Handle "date" option
         if option.lower() == "date" and date:
             try:
-                formatted_date = datetime.strptime(date, "%Y-%m-%d").strftime("%Y-%m-%d")
+                formatted_date = datetime.strptime(date, "%Y-%m-%d").strftime(
+                    "%Y-%m-%d"
+                )
                 deleted_count = helper.delete_spend_history(
                     telegram_chat_id, formatted_date
                 )
@@ -79,6 +81,7 @@ async def setup(tree: app_commands.CommandTree):
     """
     Sets up the `/delete` command in the Discord command tree.
     """
+
     @tree.command(name="delete", description="Delete your spending records.")
     async def delete_command(
         interaction: discord.Interaction,

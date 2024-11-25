@@ -6,6 +6,7 @@ from datetime import datetime
 from tabulate import tabulate
 import os
 
+
 async def display(interaction: discord.Interaction):
     try:
         user_details = helper.fetchUserFromDiscord(interaction.user.id)
@@ -17,7 +18,7 @@ async def display(interaction: discord.Interaction):
 
         chat_id = user_details["telegram_chat_id"]
         history = helper.getUserHistory(chat_id)
-        
+
         if history is None:
             await interaction.response.send_message(
                 "Oops! Looks like you do not have any spending records!"
@@ -40,13 +41,17 @@ async def display(interaction: discord.Interaction):
 
         # Format response message
         response = []
-        
+
         # Daily spending table
         if day_total_dict:
             day_table = [["Category", "Amount"]]
             for category, amount in day_total_dict.items():
                 day_table.append([str(category), f"$ {amount}"])
-            day_formatted = "**Daily Spending:**\n```\n" + tabulate(day_table, headers="firstrow", tablefmt="grid") + "\n```"
+            day_formatted = (
+                "**Daily Spending:**\n```\n"
+                + tabulate(day_table, headers="firstrow", tablefmt="grid")
+                + "\n```"
+            )
             response.append(day_formatted)
 
         # Monthly spending table
@@ -54,7 +59,11 @@ async def display(interaction: discord.Interaction):
             month_table = [["Category", "Amount"]]
             for category, amount in month_total_dict.items():
                 month_table.append([str(category), f"$ {amount}"])
-            month_formatted = "**Monthly Spending:**\n```\n" + tabulate(month_table, headers="firstrow", tablefmt="grid") + "\n```"
+            month_formatted = (
+                "**Monthly Spending:**\n```\n"
+                + tabulate(month_table, headers="firstrow", tablefmt="grid")
+                + "\n```"
+            )
             response.append(month_formatted)
 
         if not response:
@@ -76,9 +85,10 @@ async def display(interaction: discord.Interaction):
     except Exception as e:
         await interaction.response.send_message(f"Oops! {str(e)}")
 
+
 def calculate_spendings(queryResult):
     total_dict = {}
-    
+
     for row in queryResult:
         s = row.split(",")
         cat = s[1]
@@ -86,13 +96,14 @@ def calculate_spendings(queryResult):
             total_dict[cat] = round(total_dict[cat] + float(s[2]), 2)
         else:
             total_dict[cat] = float(s[2])
-            
+
     total_text = ""
     for key, value in total_dict.items():
         total_text += f"{key} ${value}\n"
     return total_text, total_dict
 
+
 async def setup(tree: app_commands.CommandTree):
-    tree.command(name="display", description="View spending statistics for today and this month")(
-        display
-    )
+    tree.command(
+        name="display", description="View spending statistics for today and this month"
+    )(display)
