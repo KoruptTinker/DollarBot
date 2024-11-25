@@ -1,6 +1,6 @@
 import discord
 from discord import app_commands
-from .commands import ping, link, history, add, weekly, display
+from .commands import ping, link, history, add, weekly, predict
 
 
 class DiscordClient(discord.Client):
@@ -22,7 +22,7 @@ class DiscordClient(discord.Client):
         await history.setup(self.tree)
         await add.setup(self.tree)
         await weekly.setup(self.tree)
-        await display.setup(self.tree)
+        await predict.setup(self.tree)
 
     async def on_ready(self):
         print(f"Logged in as {self.user}")
