@@ -4,3 +4,4 @@ from . import history
 from . import add
 from . import weekly
 from . import display
+from . import sendEmail

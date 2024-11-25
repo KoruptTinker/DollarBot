@@ -6,12 +6,11 @@ import helper
 import logging
 from gmail import GMailClient
 from config import Secrets
-import asyncio
 
 secrets = Secrets()
 emailClient = GMailClient(secrets.GmailAccount, secrets.GmailPassword)
 
-async def run(interaction: discord.Interaction):
+async def sendEmail(interaction: discord.Interaction, email: str):
     """
     Handles the email functionality as a slash command.
     """
@@ -23,42 +22,20 @@ async def run(interaction: discord.Interaction):
         
         user_id = interaction.user.id
         if user_id is None:
-            await interaction.response.send_message("You don't have your discord account linked to an active telegram account. Use /link command on telegram to learn more")
+            await interaction.followup.send("You don't have your discord account linked to an active telegram account. Use /link command on telegram to learn more")
             return
 
         # Ensure we get the correct telegram_chat_id
         user_details = helper.fetchUserFromDiscord(user_id)
         if not user_details or "telegram_chat_id" not in user_details:
-            await interaction.response.send_message("No linked Telegram account found.")
+            await interaction.followup.send("No linked Telegram account found.")
             return
 
         user_history = helper.getUserHistory(user_details["telegram_chat_id"])
         if not user_history:
-            await interaction.response.send_message("Sorry! No spending records found.")
+            await interaction.followup.send("Sorry! No spending records found.")
             return
 
-        # Ask for the email address
-        await interaction.followup.send("Please enter your email address:")
-
-        # Wait for the email response
-        def check(m):
-            
-            return m.author == interaction.user and m.channel == interaction.channel
-            # print(f"Message received :{m}from {m.author.id} Content : {m.content}") 
-
-        try:
-            email_message = await interaction.client.wait_for("message", check=check, timeout=60)
-            print(f"Message content: {email_message.content}")
-            print(f"Message type: {email_message.type}")
-    
-
-            
-        except asyncio.TimeoutError:
-            await interaction.followup.send("You took too long to respond. Please try again.")
-            return
-
-        email = email_message.content
-        print(f"Received email: {email}")  # Debugging line
         email = email.strip()
 
         # Validate email format
@@ -93,3 +70,6 @@ async def run(interaction: discord.Interaction):
     except Exception as ex:
         logging.error(str(ex), exc_info=True)
         await interaction.followup.send(f"An error occurred: {str(ex)}")
+
+async def setup(tree: app_commands.CommandTree):
+    tree.command(name="send_email", description="Send an email containing payments history in csv format")(sendEmail)
