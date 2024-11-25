@@ -39,15 +39,7 @@ async def budget(interaction: discord.Interaction, option: app_commands.Choice[s
             return
 
         if op.value == "update":
-            await interaction.followup.send("Update Budget")
-            helper.read_category_json()
-            markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
-            # options = helper.getBudgetTypes()
-            # markup.row_width = 2
-            # for c in options.values():
-            #     markup.add(c)
-            # msg = bot.reply_to(message, "Select Budget Type", reply_markup=markup)
-            # bot.register_next_step_handler(msg, post_type_selection, bot)
+            await budget_edit(interaction)
 
         elif op.value == "view":
             try:
@@ -68,10 +60,35 @@ async def budget(interaction: discord.Interaction, option: app_commands.Choice[s
                 await interaction.followup.send("An error occurred!" + str(e))
 
         elif op.value == "delete":
-            await interaction.followup.send("Delete Budget")
+            chat_id = helper.fetchUserFromDiscord(interaction.user.id)["telegram_chat_id"]
+            helper.resetBudget(chat_id)
+            await interaction.followup.send("Budget deleted!")
+
         elif op.value == "exit":
             return
 
+    except Exception as e:
+        await interaction.followup.send("Oops!" + str(e))
+
+@app_commands.describe(option="Select an option",)
+@app_commands.choices(option=BUDGET_TYPE)
+async def budget_edit(interaction: discord.Interaction, option: app_commands.Choice[str]):
+
+    # Defer the reply immediately to prevent timeout
+    await interaction.response.defer()
+
+    helper.read_category_json()
+    try:
+        chat_id = helper.fetchUserFromDiscord(interaction.user.id)["telegram_chat_id"]
+        op = option
+        options = helper.getBudgetOptions()
+        if op.value not in options.keys():
+            await interaction.followup.send("Invalid option selected!")
+            return
+        
+        if op.value == "category":
+            pass
+    
     except Exception as e:
         await interaction.followup.send("Oops!" + str(e))
 
