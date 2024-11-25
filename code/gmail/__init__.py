@@ -6,10 +6,18 @@ from email import encoders
 
 
 class GMailClient:
+    """A client for sending emails through Gmail's SMTP server.
+    
+    This class provides functionality to send emails with optional attachments
+    using Gmail's SMTP server. It handles the connection, authentication, and
+    message composition.
+    """
     _email_address: str = ""
     _password: str = ""
 
     def __init__(self, email: str = "", password: str = ""):
+        """Initialize the Gmail client with credentials.
+        """
         self._email_address = email
         self._password = password
 
@@ -20,6 +28,23 @@ class GMailClient:
         content: str = "",
         attachment: str = "",
     ):
+        """Send an email through Gmail's SMTP server.
+
+        Sends an email with optional attachment using the configured Gmail account.
+        Uses TLS encryption for secure communication.
+
+        Args:
+            to_email (str, optional): Recipient's email address. Defaults to empty string.
+            subject (str, optional): Email subject line. Defaults to empty string.
+            content (str, optional): Plain text content of email. Defaults to empty string.
+            attachment (str, optional): Path to file to attach. Defaults to empty string.
+
+        The function:
+            1. Creates a MIME multipart message
+            2. Attaches the text content and optional file
+            3. Establishes secure SMTP connection
+            4. Sends the email and closes the connection
+        """
         sender_address = self._email_address
         sender_pass = self._password
         receiver_address = to_email

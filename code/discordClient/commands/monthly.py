@@ -9,6 +9,21 @@ import plotly.io as pio
 
 
 async def monthly(interaction: discord.Interaction):
+    """Display monthly spending analysis with visualizations.
+
+    This command generates and displays various charts analyzing the user's monthly spending patterns.
+    It creates line charts, bar charts, and pie charts to visualize spending trends and category distributions.
+
+    The function:
+        1. Verifies user has a linked Telegram account
+        2. Retrieves user's spending history
+        3. Generates four visualization charts:
+           - Monthly spending trend line chart
+           - Category-wise spending trend line chart
+           - Monthly expenses bar chart
+           - Category distribution pie chart
+        4. Sends the charts as Discord attachments
+    """
     user_details = helper.fetchUserFromDiscord(interaction.user.id)
     if user_details is None:
         interaction.response.send_message(
@@ -89,6 +104,11 @@ def create_original_monthly_chart(df, userid):
 
 # Your Original Category Line Chart (No Changes)
 def create_category_monthly_chart(df, userid):
+    """Create a line chart showing total spending over time.
+
+    Returns:
+        str: Path to the generated chart image
+    """
     plt.figure(figsize=(12, 6))
     grouped_data = (
         df.groupby(["Year", "Month", "Category"]).agg({"Cost": "sum"}).reset_index()
@@ -116,6 +136,11 @@ def create_category_monthly_chart(df, userid):
 
 # New: Monthly Bar Chart
 def create_monthly_bar_chart(df, userid):
+    """Create a line chart showing spending trends by category.
+
+    Returns:
+        str: Path to the generated chart image
+    """
     grouped_data = df.groupby(["Year", "Month"]).agg({"Cost": "sum"}).reset_index()
     fig = px.bar(
         grouped_data,
@@ -133,6 +158,11 @@ def create_monthly_bar_chart(df, userid):
 
 # New: Category-wise Spending Pie Chart
 def create_category_pie_chart(df, userid):
+    """Create a grouped bar chart comparing monthly expenses across years.
+
+    Returns:
+        str: Path to the generated chart image
+    """
     category_data = df.groupby("Category").agg({"Cost": "sum"}).reset_index()
     fig = px.pie(
         category_data,

@@ -6,6 +6,21 @@ from tabulate import tabulate
 
 
 async def history(interaction: discord.Interaction):
+    """Display the complete spending history for a user.
+
+    This command retrieves and displays all historical spending records for a user
+    in a tabulated format. Records are sorted chronologically and include date,
+    category, and amount information.
+
+    The function:
+        1. Verifies user has a linked Telegram account
+        2. Retrieves complete spending history
+        3. Formats data into a table with date, category and amount columns
+        4. Displays results in a Discord-friendly grid format
+        
+    Records are filtered to only show transactions up to the current date.
+    If no records exist or an error occurs, appropriate error messages are shown.
+    """
     try:
         user_details = helper.fetchUserFromDiscord(interaction.user.id)
         if user_details is None:

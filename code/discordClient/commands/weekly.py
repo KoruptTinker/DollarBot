@@ -9,6 +9,21 @@ import plotly.io as pio
 
 
 async def weekly(interaction: discord.Interaction):
+    """Display weekly spending analysis with visualizations.
+
+    This command generates and displays various charts analyzing the user's weekly spending patterns.
+    It creates line charts, bar charts, and pie charts to visualize spending trends and category distributions.
+
+    The function:
+        1. Verifies user has a linked Telegram account
+        2. Retrieves user's spending history
+        3. Generates four visualization charts:
+           - Weekly spending trend line chart
+           - Category-wise weekly spending trend line chart
+           - Weekly expenses bar chart
+           - Category distribution pie chart
+        4. Sends the charts as Discord attachments
+    """
     user_details = helper.fetchUserFromDiscord(interaction.user.id)
     if user_details is None:
         interaction.response.send_message(
@@ -37,6 +52,17 @@ async def weekly(interaction: discord.Interaction):
 
 
 def create_chart_for_weekly_analysis(user_history, userid):
+    """Generate multiple visualization charts for weekly spending analysis.
+
+    Creates four different types of charts to analyze spending patterns:
+    - Total spending over time (line chart)
+    - Category-wise spending over time (line chart) 
+    - Weekly expenses comparison (bar chart)
+    - Category distribution (pie chart)
+
+    Returns:
+        list: Paths to generated chart image files
+    """
     result = []
 
     # Parse user history into a DataFrame
@@ -63,6 +89,11 @@ def create_chart_for_weekly_analysis(user_history, userid):
 
 
 def create_original_line_chart(df, userid):
+    """Create a line chart showing total weekly spending over time.
+
+    Returns:
+        str: Path to the generated chart image
+    """
     plt.figure(figsize=(10, 6))
     grouped_data = df.groupby(["Year", "Week"]).agg({"Cost": "sum"}).reset_index()
     plt.plot(grouped_data.index, grouped_data["Cost"], marker="o")
@@ -83,6 +114,11 @@ def create_original_line_chart(df, userid):
 
 # Your Original Category Line Chart (No Changes)
 def create_category_line_chart(df, userid):
+    """Create a line chart showing weekly spending trends by category.
+
+    Returns:
+        str: Path to the generated chart image
+    """
     plt.figure(figsize=(12, 6))
     grouped_data = (
         df.groupby(["Year", "Week", "Category"]).agg({"Cost": "sum"}).reset_index()
@@ -110,6 +146,11 @@ def create_category_line_chart(df, userid):
 
 # New Bar Chart for Weekly Expenses
 def create_bar_chart(df, userid):
+    """Create a grouped bar chart comparing weekly expenses across years.
+
+    Returns:
+        str: Path to the generated chart image
+    """
     grouped_data = df.groupby(["Year", "Week"]).agg({"Cost": "sum"}).reset_index()
     fig = px.bar(
         grouped_data,
@@ -126,6 +167,11 @@ def create_bar_chart(df, userid):
 
 # New Pie Chart for Category-wise Spending Distribution
 def create_pie_chart(df, userid):
+    """Create a donut chart showing distribution of spending across categories.
+
+    Returns:
+        str: Path to the generated chart image
+    """
     category_data = df.groupby("Category").agg({"Cost": "sum"}).reset_index()
     fig = px.pie(
         category_data,
