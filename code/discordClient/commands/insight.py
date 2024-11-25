@@ -65,7 +65,6 @@ async def insight(interaction: discord.Interaction):
         spend_total_str = (
             "```\n" + tabulate(table, headers="firstrow", tablefmt="grid") + "\n```"
         )
-        await interaction.response.send_message(spend_total_str)
 
         # Check if there are at least two months of data
         if len(monthly_spend) < 2:
@@ -75,9 +74,6 @@ async def insight(interaction: discord.Interaction):
 
         # Provide enhanced spending insights if there is enough data
         insights = generate_insights(monthly_spend, day_spend)
-        insights = (
-            "```\n" + tabulate(insights, headers="firstrow", tablefmt="grid") + "\n```"
-        )
         await interaction.response.send_message(insights)
 
     except Exception as e:
@@ -88,7 +84,7 @@ def generate_insights(monthly_spend, day_spend):
     """
     Generates enhanced spending insights based on the user's transaction data, including multi-month trends and averages.
     """
-    insights = "<b>Personalized Spending Insights</b>\n\n"
+    insights = "**Personalized Spending Insights**\n\n"
 
     # 1. Check weekend vs weekday spending
     weekend_spend = day_spend[5] + day_spend[6]  # Saturday and Sunday
@@ -109,9 +105,7 @@ def generate_insights(monthly_spend, day_spend):
         current_month = months[i]
         previous_month = months[i - 1]
 
-        insights += (
-            f"\n<b>Comparison between {current_month} and {previous_month}:</b>\n"
-        )
+        insights += f"\n**Comparison between {current_month} and {previous_month}:**\n"
 
         for category in monthly_spend[current_month]:
             current_month_spend = monthly_spend[current_month].get(category, 0)
@@ -138,7 +132,7 @@ def generate_insights(monthly_spend, day_spend):
     most_recent_month = months[-1]
     total_spent_recent = total_spend_per_month[most_recent_month]
 
-    insights += f"\n<b>Spending in {most_recent_month} by category:</b>\n"
+    insights += f"\n**Spending in {most_recent_month} by category:**\n"
     for category, amount in monthly_spend[most_recent_month].items():
         percentage_of_total = (amount / total_spent_recent) * 100
         insights += f"🔸 {category}: ${amount:.2f} ({percentage_of_total:.2f}% of total spending)\n"
