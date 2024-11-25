@@ -1,7 +1,17 @@
 import discord
 from discord import app_commands
 
-from .commands import ping, link, history, add, weekly, monthly, predict, sendEmail, delete
+from .commands import (
+    ping,
+    link,
+    history,
+    add,
+    weekly,
+    monthly,
+    predict,
+    sendEmail,
+    delete,
+)
 
 
 class DiscordClient(discord.Client):
