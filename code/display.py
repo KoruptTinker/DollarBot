@@ -103,6 +103,7 @@ def display_total(message, bot):
             queryResult = [
                 value for index, value in enumerate(history) if str(query) in value
             ]
+        print("this is queryResult: " + queryResult)
         total_text, total_dict = calculate_spendings(queryResult)
         monthly_budget = helper.getCategoryBudget(chat_id)
         print("Print Total Spending", total_text)
