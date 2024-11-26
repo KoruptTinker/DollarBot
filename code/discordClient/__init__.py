@@ -1,8 +1,5 @@
 import discord
 from discord import app_commands
-<<<<<<< HEAD
-from .commands import ping, link, history, add, weekly, monthly, budget
-=======
 
 from .commands import (
     ping,
@@ -14,8 +11,8 @@ from .commands import (
     predict,
     sendEmail,
     delete,
+    budget,
 )
->>>>>>> fce1599530e2bbec858a5d8fe00225ed75b70c15
 
 
 class DiscordClient(discord.Client):
