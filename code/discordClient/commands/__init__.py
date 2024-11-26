@@ -4,3 +4,7 @@ from . import history
 from . import add
 from . import weekly
 from . import budget
+from . import display
+from . import sendEmail
+from . import predict
+from . import delete
