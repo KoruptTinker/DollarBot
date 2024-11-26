@@ -84,7 +84,9 @@ async def setup(tree: app_commands.CommandTree):
 
     @tree.command(name="delete", description="Delete your spending records.")
     async def delete_command(
-        interaction: discord.Interaction, option: str, date: str = None,
+        interaction: discord.Interaction,
+        option: str,
+        date: str = None,
     ):
         await run(interaction, option, date)
 

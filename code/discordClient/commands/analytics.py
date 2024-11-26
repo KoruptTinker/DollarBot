@@ -15,10 +15,13 @@ OPTIONS = [
 ]
 
 
-@app_commands.describe(option="Select an option",)
+@app_commands.describe(
+    option="Select an option",
+)
 @app_commands.choices(option=OPTIONS)
 async def analytics(
-    interaction: discord.Interaction, option: app_commands.Choice[str],
+    interaction: discord.Interaction,
+    option: app_commands.Choice[str],
 ):
     # Defer the reply immediately to prevent timeout
     await interaction.response.defer()
