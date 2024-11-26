@@ -202,17 +202,6 @@ def read_category_json():
         print("---------NO CATEGORIES FOUND---------")
 
 
-def write_category_json(category_list):
-    """
-    write_json(category_list): Stores data into the datastore of the bot.
-    """
-    try:
-        with open("categories.json", "w", encoding="utf-8") as json_file:
-            json.dump(category_list, json_file, ensure_ascii=False, indent=4)
-    except FileNotFoundError:
-        print("Sorry, the data file could not be found.")
-
-
 def validate_entered_amount(amount_entered):
     """
     validate_entered_amount(amount_entered): Takes 1 argument, amount_entered.
