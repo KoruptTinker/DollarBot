@@ -25,9 +25,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import os
 from code import helper
 from code.helper import isCategoryBudgetByCategoryAvailable, throw_exception
-from mock import ANY
+from mock import ANY, Mock
 from telebot import types
 from mock.mock import patch
 import logging
@@ -429,10 +430,247 @@ def test_convert_currency_to_usd(from_currency, to_currency, amount, expected):
     assert result > expected * 0.5 and result < expected * 1.5
 
 
-def test_getCurrencies():
-    """Test that getCurrencies returns a list of available currencies including all specified ones."""
-    currencies = getCurrencies()
-    assert set(["USD", "CNY", "GBP", "EUR", "CAD", "JPY"]).issubset(currencies)
+@pytest.fixture
+def setup_teardown():
+    # Remove the file if it exists before each test
+    try:
+        os.remove("currencies.txt")
+    except FileNotFoundError:
+        pass
+    yield
+    # Create default currencies file after all tests
+    with open("currencies.txt", "w") as f:
+        f.write("USD,CNY,GBP,EUR,CAD,JPY")
+
+
+def test_getCurrencies_normal(setup_teardown):
+    with open("currencies.txt", "w") as f:
+        f.write("USD,CNY,GBP,EUR,CAD,JPY")
+
+    result = getCurrencies()
+    assert result == ["USD", "CNY", "GBP", "EUR", "CAD", "JPY"]
+
+
+def test_getCurrencies_file_not_found(setup_teardown):
+    result = getCurrencies()
+    assert result == []
+
+
+@pytest.mark.parametrize(
+    "input_duration, expected",
+    [
+        ("1", "1"),
+        ("123", "123"),
+        ("999999999999999", "999999999999999"),
+        ("123456789", "123456789"),
+    ],
+)
+def test_valid_durations(input_duration, expected):
+    assert helper.validate_entered_duration(input_duration) == expected
+
+
+@pytest.mark.parametrize(
+    "input_duration",
+    [
+        None,
+        "0",
+        "-1",
+        "abc",
+        "01",
+        "",
+        "000",
+        " 123",
+    ],
+)
+def test_invalid_durations(input_duration):
+    assert helper.validate_entered_duration(input_duration) == 0
+
+
+def test_none_input():
+    assert helper.validate_entered_duration(None) == 0
+
+
+def test_boundary_values():
+    # Test minimum valid value
+    assert helper.validate_entered_duration("1") == "1"
+
+    # Test maximum valid value (15 digits)
+    assert helper.validate_entered_duration("9" * 15) == "9" * 15
+
+
+def test_edge_cases():
+    # Test leading zeros
+    assert helper.validate_entered_duration("01234") == 0
+
+    # Test spaces
+    assert helper.validate_entered_duration(" 123 ") == 0
+
+
+def test_regex_pattern():
+    # Test that regex pattern correctly matches valid numbers
+    assert helper.validate_entered_duration("123456") == "123456"
+
+
+@pytest.mark.parametrize(
+    "whitespace_input",
+    [
+        " 123",
+        " 123 ",
+        "\t123",
+        "\n123\n",
+    ],
+)
+def test_whitespace_handling(whitespace_input):
+    assert helper.validate_entered_duration(whitespace_input) == 0
+
+
+def test_performance_large_numbers():
+    # Test with large numbers (but within 15 digits)
+    large_number = "123456789012345"
+    assert helper.validate_entered_duration(large_number) == large_number
+
+
+@pytest.fixture
+def mock_mongo_client():
+    return Mock()
+
+
+def test_update_spend_date(mock_mongo_client):
+    with patch("helper.mongoClient", mock_mongo_client):
+        spend_id = "123"
+        date = "2024-01-01"
+
+        # Configure mock
+        mock_mongo_client.update_spend_date_from_telegram.return_value = True
+
+        # Test
+        result = helper.updateUserSpend(spend_id, date=date)
+
+        # Assertions
+        assert result is True
+        mock_mongo_client.update_spend_category_from_telegram.assert_not_called()
+        mock_mongo_client.update_spend_amount_from_telegram.assert_not_called()
+
+
+def test_update_spend_category(mock_mongo_client):
+    with patch("helper.mongoClient", mock_mongo_client):
+        spend_id = "123"
+        category = "Food"
+
+        # Configure mock
+        mock_mongo_client.update_spend_category_from_telegram.return_value = True
+
+        # Test
+        result = helper.updateUserSpend(spend_id, category=category)
+
+        # Assertions
+        assert result is True
+        mock_mongo_client.update_spend_date_from_telegram.assert_not_called()
+        mock_mongo_client.update_spend_amount_from_telegram.assert_not_called()
+
+
+def test_update_spend_amount(mock_mongo_client):
+    with patch("helper.mongoClient", mock_mongo_client):
+        spend_id = "123"
+        amount = 100.50
+
+        # Configure mock
+        mock_mongo_client.update_spend_amount_from_telegram.return_value = True
+
+        # Test
+        result = helper.updateUserSpend(spend_id, amount=amount)
+
+        # Assertions
+        assert result is True
+        mock_mongo_client.update_spend_date_from_telegram.assert_not_called()
+        mock_mongo_client.update_spend_category_from_telegram.assert_not_called()
+
+
+def test_update_spend_no_parameters(mock_mongo_client):
+    with patch("helper.mongoClient", mock_mongo_client):
+        spend_id = "123"
+
+        # Test
+        result = helper.updateUserSpend(spend_id)
+
+        # Assertions
+        assert result is False
+        mock_mongo_client.update_spend_date_from_telegram.assert_not_called()
+        mock_mongo_client.update_spend_category_from_telegram.assert_not_called()
+        mock_mongo_client.update_spend_amount_from_telegram.assert_not_called()
+
+
+def test_update_spend_failed_operations(mock_mongo_client):
+    with patch("helper.mongoClient", mock_mongo_client):
+        spend_id = "123"
+
+        # Configure mocks to return False
+        mock_mongo_client.update_spend_date_from_telegram.return_value = False
+        mock_mongo_client.update_spend_category_from_telegram.return_value = False
+        mock_mongo_client.update_spend_amount_from_telegram.return_value = False
+
+        # Test each operation
+        assert helper.updateUserSpend(spend_id, category="Food") is True
+        assert helper.updateUserSpend(spend_id, amount=100.50) is True
+
+
+@pytest.mark.parametrize(
+    "spend_id,date,category,amount,expected",
+    [
+        ("123", "2024-01-01", None, None, True),
+        ("123", None, "Food", None, True),
+        ("123", None, None, 100.50, True),
+        ("123", None, None, None, False),
+        ("123", "2024-01-01", "Food", None, True),  # Should only update date
+        ("123", None, "Food", 100.50, True),  # Should only update category
+    ],
+)
+def test_update_spend_combinations(
+    mock_mongo_client, spend_id, date, category, amount, expected
+):
+    with patch("helper.mongoClient", mock_mongo_client):
+        # Configure mocks
+        mock_mongo_client.update_spend_date_from_telegram.return_value = True
+        mock_mongo_client.update_spend_category_from_telegram.return_value = True
+        mock_mongo_client.update_spend_amount_from_telegram.return_value = True
+
+        # Test
+        result = helper.updateUserSpend(spend_id, date, category, amount)
+
+        # Assertions
+        assert result == expected
+
+
+def test_update_spend_error_handling(mock_mongo_client):
+    with patch("helper.mongoClient", mock_mongo_client):
+        spend_id = "123"
+
+        # Configure mock to raise exception
+        mock_mongo_client.update_spend_date_from_telegram.side_effect = Exception(
+            "Database error"
+        )
+
+        # Test
+        result = helper.updateUserSpend(spend_id, date="2024-01-01")
+
+        # Assertions
+        assert result is True
+
+
+def test_getCurrencies_empty_file(setup_teardown):
+    with open("currencies.txt", "w") as f:
+        f.write("")
+
+    result = getCurrencies()
+    assert result == []
+
+
+def test_getCurrencies_whitespace_only(setup_teardown):
+    with open("currencies.txt", "w") as f:
+        f.write("  ,  ,  ")
+
+    result = getCurrencies()
+    assert result == []
 
 
 @pytest.mark.parametrize(
