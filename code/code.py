@@ -7,7 +7,6 @@ import helper
 import edit
 import history
 import pdf
-import display
 import estimate
 import delete
 import add
@@ -22,8 +21,6 @@ import sendEmail
 import add_recurring
 from datetime import datetime
 from telebot import types
-from helper import migrate_users
-from helper import migrate_data_entries
 import add_balance
 from config import Secrets
 from mongo import MongoDB

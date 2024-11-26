@@ -1,6 +1,21 @@
 import discord
 from discord import app_commands
-from .commands import ping, link, history, add, weekly, monthly
+
+from .commands import (
+    ping,
+    link,
+    history,
+    add,
+    weekly,
+    monthly,
+    predict,
+    sendEmail,
+    delete,
+    insight,
+    budget,
+    pdf,
+    analytics,
+)
 
 
 class DiscordClient(discord.Client):
@@ -40,7 +55,14 @@ class DiscordClient(discord.Client):
         await history.setup(self.tree)
         await add.setup(self.tree)
         await weekly.setup(self.tree)
+        await predict.setup(self.tree)
         await monthly.setup(self.tree)
+        await analytics.setup(self.tree)
+        await pdf.setup(self.tree)
+        await budget.setup(self.tree)
+        await sendEmail.setup(self.tree)
+        await delete.setup(self.tree)
+        await insight.setup(self.tree)
 
     async def on_ready(self):
         """Event handler that executes when the bot is ready.
