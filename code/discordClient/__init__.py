@@ -13,7 +13,7 @@ from .commands import (
     delete,
     budget,
     pdf,
-    analytics
+    analytics,
 )
 
 
