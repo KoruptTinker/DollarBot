@@ -545,30 +545,6 @@ def getSpendCategories():
     return spend_cat
 
 
-def deleteSpendCategories(category):
-    category_list = read_category_json()
-    if category_list is None:
-        return None
-    spend_cat = category_list["categories"].split(",")
-    spend_cat.remove(category)
-
-    result = ",".join(spend_cat)
-    category_list["categories"] = result
-    write_category_json(category_list)
-
-
-def addSpendCategories(category):
-    category_list = read_category_json()
-    if category_list is None:
-        return None
-    spend_cat = category_list["categories"].split(",")
-    spend_cat.append(category)
-    spend_cat = [category.strip() for category in spend_cat if category.strip()]
-    result = ",".join(spend_cat)
-    category_list["categories"] = result
-    write_category_json(category_list)
-
-
 def getSpendDisplayOptions():
     """
     getSpendDisplayOptions(): This functions returns the spend display options used in the bot. These are defined the same file.
@@ -667,56 +643,3 @@ def convert_currency(from_currency, to_currency, amount):
     except requests.RequestException as e:
         print(f"Error fetching exchange rate: {e}")
         return None
-
-
-# === Data migration in json file ===
-def migrate_users():
-    user_list = read_json()  # Load existing user data
-
-    for chat_id, user_data in user_list.items():
-        # Remove 'account', 'balance', 'balance_data', and 'reminder' keys if they exist
-        user_data.pop("account", None)
-        user_data.pop("balance", None)
-        user_data.pop("balance_data", None)
-        user_data.pop("reminder", None)
-
-        # Clean 'data' entries by removing records with "Checking Account" or "Saving Account"
-        if "data" in user_data:
-            user_data["data"] = [
-                record
-                for record in user_data["data"]
-                if "Checking Account" not in record and "Saving Account" not in record
-            ]
-
-    write_json(user_list)  # Save the updated data
-
-
-def migrate_data_entries():
-    user_list = read_json()  # Load existing user data
-
-    for chat_id, user_data in user_list.items():
-        if "data" in user_data:
-            updated_data = []
-            for record in user_data["data"]:
-                # Use regex to separate date, time, category, and amount
-                match = re.match(
-                    r"(\d{2}-\w{3}-\d{4})(?: \d{2}:\d{2})?,([A-Za-z]+),(\d+(\.\d+)?)",
-                    record,
-                )
-                if match:
-                    # Keep only date, category, and amount
-                    date, category, amount = (
-                        match.groups()[0],
-                        match.groups()[1],
-                        match.groups()[2],
-                    )
-                    updated_record = f"{date},{category},{amount}"
-                    updated_data.append(updated_record)
-                else:
-                    updated_data.append(
-                        record
-                    )  # Leave as-is if the format is unrecognized
-
-            user_data["data"] = updated_data  # Replace with updated data list
-
-    write_json(user_list)  # Save the modified data

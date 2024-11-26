@@ -24,7 +24,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-
+import os
 from code import helper
 from code.helper import isCategoryBudgetByCategoryAvailable, throw_exception
 from mock import ANY
@@ -428,12 +428,42 @@ def test_convert_currency_to_usd(from_currency, to_currency, amount, expected):
     result = convert_currency(from_currency, to_currency, amount)
     assert result > expected * 0.5 and result < expected * 1.5
 
+@pytest.fixture
+def setup_teardown():
+    # Remove the file if it exists before each test
+    try:
+        os.remove('currencies.txt')
+    except FileNotFoundError:
+        pass
+    yield
+    # Create default currencies file after all tests
+    with open('currencies.txt', 'w') as f:
+        f.write('USD,CNY,GBP,EUR,CAD,JPY')
 
-def test_getCurrencies():
-    """Test that getCurrencies returns a list of available currencies including all specified ones."""
-    currencies = getCurrencies()
-    assert set(["USD", "CNY", "GBP", "EUR", "CAD", "JPY"]).issubset(currencies)
+def test_getCurrencies_normal(setup_teardown):
+    with open('currencies.txt', 'w') as f:
+        f.write('USD,CNY,GBP,EUR,CAD,JPY')
+    
+    result = getCurrencies()
+    assert result == ['USD','CNY','GBP','EUR','CAD','JPY']
 
+def test_getCurrencies_file_not_found(setup_teardown):
+    result = getCurrencies()
+    assert result == []
+
+def test_getCurrencies_empty_file(setup_teardown):
+    with open('currencies.txt', 'w') as f:
+        f.write('')
+    
+    result = getCurrencies()
+    assert result == []
+
+def test_getCurrencies_whitespace_only(setup_teardown):
+    with open('currencies.txt', 'w') as f:
+        f.write('  ,  ,  ')
+    
+    result = getCurrencies()
+    assert result == []
 
 @pytest.mark.parametrize(
     "amount, currency, expected",
