@@ -26,7 +26,7 @@
 |The file LICENSE.md lists rules of usage for this repo| 3 | [see here](https://github.com/KoruptTinker/DollarBot/blob/main/LICENSE.md)|
 |The file CONTRIBUTING.md lists coding standards and lots of tips on how to extend the system without screwing things up; e.g. see example| 3 | [see here](https://github.com/KoruptTinker/DollarBot/blob/main/CONTRIBUTING.md)|
 |The file README.md contains all the following| 3 | |
-|Video| 3 | [Video Link](https://github.com/KoruptTinker/DollarTree/blob/docs/2024-11-26 16-43-47.mkv)|
+|Video| 3 | [Video Link](https://github.com/KoruptTinker/DollarTree/blob/docs/video.mkv)|
 |DOI badge: exists. To get a Digitial Object Indentifier, regiser the project at Zenodo.| 3 | Present on [readme.md](https://github.com/KoruptTinker/DollarBot/blob/main/README.md)|
 |Badges showing your style checkers| 3 | Present on [readme.md](https://github.com/KoruptTinker/DollarBot/blob/main/README.md)|
 |Badges showing your code formatters.| 3 | Present on [readme.md](https://github.com/KoruptTinker/DollarBot/blob/main/README.md)|
