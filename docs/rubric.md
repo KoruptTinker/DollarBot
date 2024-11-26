@@ -1,4 +1,4 @@
-|Notes|Assessment (Total : 255)|Evidence|
+|Notes|Assessment (Total : 258)|Evidence|
 |-----|---------|----------|
 |Workload is spread over the whole team (one team member is often Xtimes more productive than the others... but nevertheless, here is a track record that everyone is contributing a lot)| 3 | Everyone has committed and contributed equally. [Visible in Commit Tree](https://github.com/KoruptTinker/DollarBot/commits/main/)|
 |Number of commits| 3 | There were a lot of commits [Present in Commit Tree](https://github.com/KoruptTinker/DollarBot/commits/main/) |
@@ -85,7 +85,7 @@
 e.g. release announcements, publications, workshops, conference presentations| 0 | No |
 |Does your website state how many projects and users are associated with your project?| 0 | No |
 |Do you provide success stories on your website?| 0 | No |
-|Do you list your important partners and collaborators on your website?| 0 | No |
+|Do you list your important partners and collaborators on your website?| 3 | COllaborators present on [readme.md](https://github.com/KoruptTinker/DollarBot/blob/main/README.md) |
 |Do you list your project's publications on your website or link to a resource where these are available?| 0 | No |
 |Do you list third-party publications that refer to your software on your website or link to a resource where these are available? | 0 | No |
 |Can users subscribe to notifications to changes to your source code repository?| 3 | Yes |
