@@ -3,6 +3,7 @@ from . import link
 from . import history
 from . import add
 from . import weekly
+from . import pdf
 from . import budget
 from . import display
 from . import sendEmail

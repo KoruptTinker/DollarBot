@@ -12,6 +12,7 @@ from .commands import (
     sendEmail,
     delete,
     budget,
+    pdf,
 )
 
 
@@ -36,6 +37,7 @@ class DiscordClient(discord.Client):
         await weekly.setup(self.tree)
         await predict.setup(self.tree)
         await monthly.setup(self.tree)
+        await pdf.setup(self.tree)
         await budget.setup(self.tree)
         await sendEmail.setup(self.tree)
         await delete.setup(self.tree)
