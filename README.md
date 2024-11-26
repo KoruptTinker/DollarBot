@@ -31,7 +31,7 @@ And the best part? DollarBot is your financial sidekick, available exclusively o
 
 ## Demo Video
 
-<a href="https://www.youtube.com/watch?v=TtzeHElefbQ">https://www.youtube.com/watch?v=TtzeHElefbQ</a>
+<a href="https://www.youtube.com/watch?v=TtzeHElefbQ">https://github.com/KoruptTinker/DollarTree/blob/main/docs/video.mkv</a>
 
 
 ## :money_with_wings: About DollarBot

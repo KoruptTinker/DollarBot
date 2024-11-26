@@ -18,18 +18,18 @@
 For a detailed explanation of the code, follow the links below:
 
 <ol>
-    <li><a href="https://github.com/aditikilledar/dollar_bot_SE23/blob/main/docs/code.md">Main Code File</a></li>
+    <li><a href="https://github.com/KoruptTinker/DollarBot/blob/main/docs/code.md">Main Code File</a></li>
     <b> Features: </b>
-    <li><a href="https://github.com/aditikilledar/dollar_bot_SE23/blob/main/docs/add.md">Add</a></li>
-    <li><a href="https://github.com/aditikilledar/dollar_bot_SE23/blob/main/docs/budget_delete.md">Budget Delete</a></li>
-    <li><a href="https://github.com/aditikilledar/dollar_bot_SE23/blob/main/docs/budget_update.md">Budget Update</a></li>
-    <li><a href="https://github.com/aditikilledar/dollar_bot_SE23/blob/main/docs/budget_view.md">Budget View</a></li>
-    <li><a href="https://github.com/aditikilledar/dollar_bot_SE23/blob/main/docs/delete.md">Delete</a></li>
-    <li><a href="https://github.com/aditikilledar/dollar_bot_SE23/blob/main/docs/display.md">Display</a></li>
-    <li><a href="https://github.com/aditikilledar/dollar_bot_SE23/blob/main/docs/estimate.md">Estimate</a></li>
-    <li><a href="https://github.com/aditikilledar/dollar_bot_SE23/blob/main/docs/graphing.md">Graphing</a></li>
-    <li><a href="https://github.com/aditikilledar/dollar_bot_SE23/blob/main/docs/helper.md">Helper</a></li>
-    <li><a href="https://github.com/aditikilledar/dollar_bot_SE23/blob/main/docs/history.md">History</a></li>
+    <li><a href="https://github.com/KoruptTinker/DollarBot/blob/main/docs/add.md">Add</a></li>
+    <li><a href="https://github.com/KoruptTinker/DollarBot/blob/main/docs/budget_delete.md">Budget Delete</a></li>
+    <li><a href="https://github.com/KoruptTinker/DollarBot/blob/main/docs/budget_update.md">Budget Update</a></li>
+    <li><a href="https://github.com/KoruptTinker/DollarBot/blob/main/docs/budget_view.md">Budget View</a></li>
+    <li><a href="https://github.com/KoruptTinker/DollarBot/blob/main/docs/delete.md">Delete</a></li>
+    <li><a href="https://github.com/KoruptTinker/DollarBot/blob/main/docs/display.md">Display</a></li>
+    <li><a href="https://github.com/KoruptTinker/DollarBot/blob/main/docs/estimate.md">Estimate</a></li>
+    <li><a href="https://github.com/KoruptTinker/DollarBot/blob/main/docs/graphing.md">Graphing</a></li>
+    <li><a href="https://github.com/KoruptTinker/DollarBot/blob/main/docs/helper.md">Helper</a></li>
+    <li><a href="https://github.com/KoruptTinker/DollarBot/blob/main/docs/history.md">History</a></li>
   </ol>
 
 
@@ -53,14 +53,14 @@ coverage report
 
 ## License
 
-This project is licensed under the terms of the MIT license. Please check [License](https://github.com/usmanwardag/dollar_bot/blob/main/LICENSE) for more details.
+This project is licensed under the terms of the MIT license. Please check [License](https://github.com/KoruptTinker/DollarBot/blob/main/LICENSE) for more details.
 
 
 ## How to Contribute
 
-We would be happy to receive contributions! If you'd like to, please go through our [CONTRIBUTING.md](https://github.com/aditikilledar/dollar_bot_SE23/blob/main/CONTRIBUTING.md)
+We would be happy to receive contributions! If you'd like to, please go through our [CONTRIBUTING.md](https://github.com/KoruptTinker/DollarBot/blob/main/CONTRIBUTING.md)
 
-For any feedback, issues, or bug reports, please create an issue [here](https://github.com/aditikilledar/dollar_bot_SE23/issues/new/choose).
+For any feedback, issues, or bug reports, please create an issue [here](https://github.com/KoruptTinker/DollarBot/issues/new/choose).
 
 ## Future RoadMap
 
