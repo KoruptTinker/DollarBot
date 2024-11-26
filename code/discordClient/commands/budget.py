@@ -50,6 +50,7 @@ async def budget(interaction: discord.Interaction, option: app_commands.Choice[s
     except Exception as e:
         await interaction.followup.send(f"An error occurred: {str(e)}")
 
+
 class BudgetModal(Modal, title="Enter Budget Amount"):
     budget_amount = TextInput(
         label="Budget Amount",
