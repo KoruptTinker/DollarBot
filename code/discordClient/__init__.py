@@ -11,7 +11,7 @@ from .commands import (
     predict,
     sendEmail,
     delete,
-    insight
+    insight,
 )
 
 
