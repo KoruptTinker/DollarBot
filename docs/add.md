@@ -14,7 +14,7 @@ The user can also choose to add their own category and record an expense for tha
 The user has the option to repeat any previously recorded expense (recurring expenses such as rent, utilities, etc.)
 
 # Location of Code for this Feature
-The code that implements this feature can be found [here](https://github.com/vegechick510/DollarBot/blob/main/code/add.py)
+The code that implements this feature can be found [here](https://github.com/KoruptTinker/DollarBot/blob/main/code/add.py)
 
 # Code Description
 ## Functions

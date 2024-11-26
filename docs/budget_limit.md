@@ -2,7 +2,7 @@
 The budget_limit module contains all the functions required to implement the add/update/detele feature. In essence, all operations involved in addition/updating of a new budget limit for alert and deleting an existing budget limit are taken care of in this module and are implemented here. 
 
 # Location of Code for this Feature
-The code that implements this feature can be found [here](https://github.com/vegechick510/DollarBot/blob/main/code/budget_limit.py)
+The code that implements this feature can be found [here](https://github.com/KoruptTinker/DollarBot/blob/main/code/budget_limit.py)
 
 # Code Description
 ## Functions

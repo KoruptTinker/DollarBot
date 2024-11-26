@@ -4,7 +4,7 @@ This feature enables the user to see their expense in a graphical format to enab
 Currently, the /display & /analytics commands can display graphs. Use /analytics for better formats.
 
 # Location of Code for this Feature
-The code that implements this feature can be found [here](https://github.com/aditikilledar/dollar_bot_SE23/blob/main/code/graphing.py)
+The code that implements this feature can be found [here](https://github.com/KoruptTinker/DollarBot/blob/main/code/graphing.py)
 
 # Code Description
 ## Functions
