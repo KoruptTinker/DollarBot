@@ -1,38 +1,38 @@
 |Notes|Assessment (Total : 255)|Evidence|
 |-----|---------|----------|
-|Workload is spread over the whole team (one team member is often Xtimes more productive than the others... but nevertheless, here is a track record that everyone is contributing a lot)| 3 | Everyone has committed and contributed equally. [Visible in Commit Tree](https://github.com/KoruptTinker/DollarTree/commits/main)|
-|Number of commits| 3 | There were a lot of commits [Present in Commit Tree](https://github.com/KoruptTinker/DollarTree/commits/main) |
-|Number of commits: by different people| 3 | Everyone has committed in different areas. [Visible in Commit Tree](https://github.com/KoruptTinker/DollarTree/commits/main)|
-|Issues reports: there are **many**| 3 | [Issues](https://github.com/KoruptTinker/DollarTree/issues?q=is%3Aissue) |
-|Issues are being closed| 3 | [Closed Issues](https://github.com/KoruptTinker/DollarTree/issues?q=is%3Aissue+is%3Aclosed) |
-|Docs: doco generated, format not ugly | 3 | Documentation is present with all the blings! [GitHub Repository README.md](https://github.com/KoruptTinker/DollarTree#readme), [Docstrings](https://github.com/KoruptTinker/DollarBot/tree/main/docs) |
-|Docs: what: point descriptions of each class/function (in isolation) | 3 | Example in [GitHub Repository README.md](https://github.com/KoruptTinker/DollarBot/blob/main/code/discordClient/__init__.py)|
-|Docs: how: for common use cases X,Y,Z mini-tutorials showing worked examples on how to do X,Y,Z| 3 |INSTALL.md[Install.md](https://github.com/KoruptTinker/DollarTree/blob/main/INSTALL.md) has the instructions on how to execute|
-|Docs: why: docs tell a story, motivate the whole thing, deliver a punchline that makes you want to rush out and use the thing| 3 | Readme includes the story, punchline and would motivate anyone to rush out and use the thing [GitHub Repository README.md](https://github.com/KoruptTinker/DollarTree#readme)|
-|Docs: short video, animated, hosted on your repo. That convinces people why they want to work on your code.|  3| Animation video present in [GitHub Repository README.md](https://github.com/KoruptTinker/DollarTree#readme)|
+|Workload is spread over the whole team (one team member is often Xtimes more productive than the others... but nevertheless, here is a track record that everyone is contributing a lot)| 3 | Everyone has committed and contributed equally. [Visible in Commit Tree](https://github.com/KoruptTinker/DollarBot/commits/main/)|
+|Number of commits| 3 | There were a lot of commits [Present in Commit Tree](https://github.com/KoruptTinker/DollarBot/commits/main/) |
+|Number of commits: by different people| 3 | Everyone has committed in different areas. [Visible in Commit Tree](https://github.com/KoruptTinker/DollarBot/commits/main)|
+|Issues reports: there are **many**| 3 | [Issues](https://github.com/KoruptTinker/DollarBot/issues?q=is%3Aissue) |
+|Issues are being closed| 3 | [Closed Issues](https://github.com/KoruptTinker/DollarBot/issues?q=is%3Aissue+is%3Aclosed) |
+|Docs: doco generated, format not ugly | 3 | Documentation is present with all the blings! [Docs Directory](https://github.com/KoruptTinker/DollarBot/tree/main/docs)|
+|Docs: what: point descriptions of each class/function (in isolation) | 3 | Example in [Discord Class](https://github.com/KoruptTinker/DollarBot/blob/main/code/discordClient/__init__.py)|
+|Docs: how: for common use cases X,Y,Z mini-tutorials showing worked examples on how to do X,Y,Z| 3 |[Install.md](https://github.com/KoruptTinker/DollarTree/blob/main/INSTALL.md) has the instructions on how to Install, [Docs Directory](https://github.com/KoruptTinker/DollarBot/tree/main/docs) has the instructions on each command|
+|Docs: why: docs tell a story, motivate the whole thing, deliver a punchline that makes you want to rush out and use the thing| 3 | Readme includes the story, punchline and would motivate anyone to rush out and use the thing [Present in Readme.MD](https://github.com/KoruptTinker/DollarTree#readme)|
+|Docs: short video, animated, hosted on your repo. That convinces people why they want to work on your code.|  3| Animation video present in [Link to video present on the readme](https://github.com/KoruptTinker/DollarBot#readme), Direct [link](https://youtu.be/LA6wcQvQ5EI?si=Bt1UvPYJFnDnwnRN) to video|
 |Use of version control tools| 3 | Git was used by the team|
 |Test cases exist| 3 |Test cases are present in tests folder for each module [see here](https://github.com/KoruptTinker/DollarBot/tree/main/test)|
 |Test cases are routinely executed| 3 |Test cases are executed using Github Actions at every push, pull request, merge etc. [see here](https://github.com/KoruptTinker/DollarBot/actions/workflows/pytest.yml)|
 |Issues are discussed before they are closed| 3 |[Issue](https://github.com/KoruptTinker/DollarBot/issues/8)|
-|Chat channel: exists| 3 | Discord channel exists [See here](https://github.com/KoruptTinker/DollarTree/tree/main/images/slack.png)|
+|Chat channel: exists| 3 | Slack channel exists [See here](https://github.com/KoruptTinker/DollarBot/tree/main/images/slack.png)|
 |Test cases: a large proportion of the issues related to handling failing cases.| 3 | [Test Cases](https://github.com/KoruptTinker/DollarBot/tree/main/test)|
 |Evidence that the whole team is using the same tools: everyone can get to all tools and files| 3 | Everyone has contributed to different files|
 |Evidence that the whole team is using the same tools | 3 | |
 |Evidence that the whole team is using the same tools (e.g. tutor can ask anyone to share screen, they demonstrate the system running on their computer)| 3 | |
-|Evidence that the members of the team are working across multiple places in the code base| 3 | Team members have been found contributing in different area|
-|Short release cycles | 3 | Regular commits and releases have been made|
-|The file .gitignore lists what files should not be saved to the repo. See [examples](https://github.com/github/gitignore)| 3 | |
-|The file INSTALL.md lists how to install the code| 3 | |
-|The file LICENSE.md lists rules of usage for this repo| 3 | |
-|The file CONTRIBUTING.md lists coding standards and lots of tips on how to extend the system without screwing things up; e.g. see example| 3 | |
+|Evidence that the members of the team are working across multiple places in the code base| 3 | Can be validated from the pull requests section [see here](https://github.com/KoruptTinker/DollarBot/pulls?q=is%3Apr+is%3Aclosed)|
+|Short release cycles | 3 | Regular [commits](https://github.com/KoruptTinker/DollarBot/commits/main/) and releases have been made|
+|The file .gitignore lists what files should not be saved to the repo. See [examples](https://github.com/github/gitignore)| 3 | .gitignore present in repo. [see here](https://github.com/KoruptTinker/DollarBot/blob/main/.gitignore)|
+|The file INSTALL.md lists how to install the code| 3 | [see here](https://github.com/KoruptTinker/DollarBot/blob/main/INSTALL.md)|
+|The file LICENSE.md lists rules of usage for this repo| 3 | [see here](https://github.com/KoruptTinker/DollarBot/blob/main/LICENSE.md)|
+|The file CONTRIBUTING.md lists coding standards and lots of tips on how to extend the system without screwing things up; e.g. see example| 3 | [see here](https://github.com/KoruptTinker/DollarBot/blob/main/CONTRIBUTING.md)|
 |The file README.md contains all the following| 3 | |
 |Video| 3 | [Video Link](https://github.com/KoruptTinker/DollarTree/blob/rubrics/images/Video.mkv)|
-|DOI badge: exists. To get a Digitial Object Indentifier, regiser the project at Zenodo.| 3 | |
-|Badges showing your style checkers| 3 | |
-|Badges showing your code formatters.| 3 | |
-|Badges showing your syntax checkers.| 3 | |
-|Badges showing your code coverage tools| 3 | |
-|Badges showing any other Other automated analysis tools| 3 | |
+|DOI badge: exists. To get a Digitial Object Indentifier, regiser the project at Zenodo.| 3 | Present on [readme.md](https://github.com/KoruptTinker/DollarBot/blob/main/README.md)|
+|Badges showing your style checkers| 3 | Present on [readme.md](https://github.com/KoruptTinker/DollarBot/blob/main/README.md)|
+|Badges showing your code formatters.| 3 | Present on [readme.md](https://github.com/KoruptTinker/DollarBot/blob/main/README.md)|
+|Badges showing your syntax checkers.| 3 | Present on [readme.md](https://github.com/KoruptTinker/DollarBot/blob/main/README.md)|
+|Badges showing your code coverage tools| 3 | Present on [readme.md](https://github.com/KoruptTinker/DollarBot/blob/main/README.md)|
+|Badges showing any other Other automated analysis tools| 3 |Present on [readme.md](https://github.com/KoruptTinker/DollarBot/blob/main/README.md)|
 |Does your website and documentation provide a clear, high-level overview of your software?| 3 | Yes |
 |Does your website and documentation clearly describe the type of user who should use your software?| 3 | Yes |
 |Do you publish case studies to show how your software has been used by yourself and others?| 3 | Yes |
