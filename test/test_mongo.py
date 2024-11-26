@@ -3,25 +3,30 @@ from unittest.mock import Mock, patch, MagicMock
 from pymongo import MongoClient
 from code.mongo import MongoDB
 
+
 @pytest.fixture
 def mock_models():
-    with patch('code.mongo.UsersModel') as users_mock, \
-         patch('code.mongo.SpendsModel') as spends_mock, \
-         patch('code.mongo.BudgetsModel') as budgets_mock, \
-         patch('code.mongo.LinkCodesModel') as link_codes_mock:
+    with (
+        patch("code.mongo.UsersModel") as users_mock,
+        patch("code.mongo.SpendsModel") as spends_mock,
+        patch("code.mongo.BudgetsModel") as budgets_mock,
+        patch("code.mongo.LinkCodesModel") as link_codes_mock,
+    ):
         yield {
-            'users': users_mock,
-            'spends': spends_mock,
-            'budgets': budgets_mock,
-            'link_codes': link_codes_mock
+            "users": users_mock,
+            "spends": spends_mock,
+            "budgets": budgets_mock,
+            "link_codes": link_codes_mock,
         }
+
 
 @pytest.fixture
 def mongodb_instance(mock_models):
-    with patch('pymongo.MongoClient') as mock_client:
+    with patch("pymongo.MongoClient") as mock_client:
         instance = MongoDB("mongodb://test", "test_db")
         instance._client = mock_client.return_value
         yield instance
+
 
 class TestMongoDB:
     def test_singleton_pattern(self):
@@ -31,8 +36,8 @@ class TestMongoDB:
         assert db1._connection_url == "mongodb://test1"
         assert db1._db == "test_db1"
 
-    @patch('certifi.where')
-    @patch('pymongo.MongoClient')
+    @patch("certifi.where")
+    @patch("pymongo.MongoClient")
     def test_connection(self, mock_client, mock_certifi):
         mock_certifi.return_value = "cert_path"
         MongoDB("mongodb://test", "test_db")
@@ -54,7 +59,12 @@ class TestMongoDB:
 
     def test_spends_operations(self, mongodb_instance):
         # Test create_spends_from_telegram
-        assert mongodb_instance.create_spends_from_telegram("123", "2024-01-01", "food", 100) == True
+        assert (
+            mongodb_instance.create_spends_from_telegram(
+                "123", "2024-01-01", "food", 100
+            )
+            == True
+        )
         assert mongodb_instance.create_spends_from_telegram("", "", "", 0) == False
 
         # Test fetch_spends_from_telegram
