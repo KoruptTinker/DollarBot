@@ -7,8 +7,8 @@
 |Issues are being closed| 3 | [Closed Issues](https://github.com/KoruptTinker/DollarBot/issues?q=is%3Aissue+is%3Aclosed) |
 |Docs: doco generated, format not ugly | 3 | Documentation is present with all the blings! [Docs Directory](https://github.com/KoruptTinker/DollarBot/tree/main/docs)|
 |Docs: what: point descriptions of each class/function (in isolation) | 3 | Example in [Discord Class](https://github.com/KoruptTinker/DollarBot/blob/main/code/discordClient/__init__.py)|
-|Docs: how: for common use cases X,Y,Z mini-tutorials showing worked examples on how to do X,Y,Z| 3 |[Install.md](https://github.com/KoruptTinker/DollarTree/blob/main/INSTALL.md) has the instructions on how to Install, [Docs Directory](https://github.com/KoruptTinker/DollarBot/tree/main/docs) has the instructions on each command|
-|Docs: why: docs tell a story, motivate the whole thing, deliver a punchline that makes you want to rush out and use the thing| 3 | Readme includes the story, punchline and would motivate anyone to rush out and use the thing [Present in Readme.MD](https://github.com/KoruptTinker/DollarTree#readme)|
+|Docs: how: for common use cases X,Y,Z mini-tutorials showing worked examples on how to do X,Y,Z| 3 |[Install.md](https://github.com/KoruptTinker/DollarBot/blob/main/INSTALL.md) has the instructions on how to Install, [Docs Directory](https://github.com/KoruptTinker/DollarBot/tree/main/docs) has the instructions on each command|
+|Docs: why: docs tell a story, motivate the whole thing, deliver a punchline that makes you want to rush out and use the thing| 3 | Readme includes the story, punchline and would motivate anyone to rush out and use the thing [Present in Readme.MD](https://github.com/KoruptTinker/DollarBot#readme)|
 |Docs: short video, animated, hosted on your repo. That convinces people why they want to work on your code.|  3| Animation video present in [Link to video present on the readme](https://github.com/KoruptTinker/DollarBot#readme), Direct [link](https://youtu.be/LA6wcQvQ5EI?si=Bt1UvPYJFnDnwnRN) to video|
 |Use of version control tools| 3 | Git was used by the team|
 |Test cases exist| 3 |Test cases are present in tests folder for each module [see here](https://github.com/KoruptTinker/DollarBot/tree/main/test)|
@@ -26,7 +26,7 @@
 |The file LICENSE.md lists rules of usage for this repo| 3 | [see here](https://github.com/KoruptTinker/DollarBot/blob/main/LICENSE.md)|
 |The file CONTRIBUTING.md lists coding standards and lots of tips on how to extend the system without screwing things up; e.g. see example| 3 | [see here](https://github.com/KoruptTinker/DollarBot/blob/main/CONTRIBUTING.md)|
 |The file README.md contains all the following| 3 | |
-|Video| 3 | [Video Link](https://github.com/KoruptTinker/DollarTree/blob/main/docs/video.mkv)|
+|Video| 3 | [Video Link](https://github.com/KoruptTinker/DollarBot/blob/main/docs/video.mkv)|
 |DOI badge: exists. To get a Digitial Object Indentifier, regiser the project at Zenodo.| 3 | Present on [readme.md](https://github.com/KoruptTinker/DollarBot/blob/main/README.md)|
 |Badges showing your style checkers| 3 | Present on [readme.md](https://github.com/KoruptTinker/DollarBot/blob/main/README.md)|
 |Badges showing your code formatters.| 3 | Present on [readme.md](https://github.com/KoruptTinker/DollarBot/blob/main/README.md)|
